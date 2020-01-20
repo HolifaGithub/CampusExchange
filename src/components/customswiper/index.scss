@@ -1,0 +1,24 @@
+$screen-width:750px;
+$swiper-width:700px;
+$swiper-height:380px;
+$swiper-border-radius:30px;
+.swiper-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width:$screen-width;
+    height: $swiper-height;
+    .swiper{
+        width: $swiper-width;
+        height: $swiper-height;
+        .swiper-item{
+            border-radius: $swiper-border-radius;
+            .swiper-img{
+                width: $screen-width;
+                border-radius: $swiper-border-radius;
+            }
+        }
+    }
+}
+
+
