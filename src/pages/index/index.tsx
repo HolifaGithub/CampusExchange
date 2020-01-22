@@ -4,8 +4,8 @@ import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { dispatchFetchPageData } from '../../actions/fetchPageData'
 import './index.scss'
-import SearchBar from '../../components/search-bar'
-import CustomSwiper from '../../components/customswiper'
+import IndexHeader from '../../floors/floor-index-header'
+import IndexGrid from '../../floors/floor-index-grid'
 // #region 书写注意
 //
 // 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
@@ -22,7 +22,7 @@ type PageStateProps = {
     pageData: []
   }
 }
-
+   
 type PageDispatchProps = {
   dispatchFetchPageData: () => any
 }
@@ -69,15 +69,17 @@ class Index extends Component {
   // componentDidHide () { }
 
   config: Config = {
-    navigationBarTitleText: '校园换-首页'
+    navigationBarTitleText: '校园换-首页',
+    backgroundColor:'#C41A16',
+    enablePullDownRefresh:true,
   }
   render() {
     return (
       <View className='main'>
         {/* {this.props.fetchPageData.fetchPageDataStatus}
         {this.props.fetchPageData.pageData} */}
-        <SearchBar></SearchBar>
-        <CustomSwiper></CustomSwiper>
+        <IndexHeader></IndexHeader>
+        <IndexGrid></IndexGrid>
       </View>
     )
   }

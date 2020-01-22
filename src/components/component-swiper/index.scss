@@ -1,5 +1,5 @@
 $screen-width:750px;
-$swiper-width:700px;
+$swiper-width:750px;
 $swiper-height:380px;
 $swiper-border-radius:30px;
 .swiper-container{
@@ -12,10 +12,10 @@ $swiper-border-radius:30px;
         width: $swiper-width;
         height: $swiper-height;
         .swiper-item{
-            border-radius: $swiper-border-radius;
+            // border-radius: $swiper-border-radius;
             .swiper-img{
                 width: $screen-width;
-                border-radius: $swiper-border-radius;
+                // border-radius: $swiper-border-radius;
             }
         }
     }

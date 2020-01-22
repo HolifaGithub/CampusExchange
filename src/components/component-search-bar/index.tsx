@@ -1,6 +1,7 @@
 import Taro, { useState } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtSearchBar } from 'taro-ui'
+import './index.scss'
 
 function SearchBar() {
   const initValue = ''
