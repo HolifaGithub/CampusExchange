@@ -1,0 +1,94 @@
+$screen-width:750px;
+$base-color: #C41A16;
+$water-fall-item-width:355px;
+$water-fall-item-radius:10px;
+$water-fall-item-interval:10px;
+$water-fall-item-image-height:300px;
+$water-fall-item-title-height:80px;
+$water-fall-item-avater-image-size:30px;
+$water-fall-item-nick-name-width:160px;
+$water-fall-content-color:#666666;
+$water-fall-content-font-size:25px;
+
+.water-fall-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: $screen-width;
+  flex-wrap: wrap;
+  margin-top: $water-fall-item-interval;
+
+  .water-fall-item {
+    width: $water-fall-item-width;
+    border-radius: $water-fall-item-radius;
+    background-color: #ffffff;
+    margin-bottom: $water-fall-item-interval;
+    color: #333333;
+    text-align: start;
+
+    .water-fall-image {
+      width: $water-fall-item-width;
+      height: $water-fall-item-image-height;
+      border-top-left-radius: $water-fall-item-radius;
+      border-top-right-radius: $water-fall-item-radius;
+    }
+
+    .water-fall-title {
+      font-weight: bold;
+      height: $water-fall-item-title-height;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: $water-fall-item-radius;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      font-size: 30px;
+    }
+
+    .water-fall-content-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      position: relative;
+      padding: $water-fall-item-interval;
+
+      .water-fall-price {
+        width: $water-fall-item-width;
+        font-weight: bold;
+        color: $base-color;
+      }
+
+      .water-fall-avater-image {
+        width: $water-fall-item-avater-image-size;
+        height: $water-fall-item-avater-image-size;
+        border-radius: $water-fall-item-avater-image-size/2;
+      }
+
+      .water-fall-nick-name {
+        width: $water-fall-item-nick-name-width;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-left: $water-fall-item-interval;
+        color: $water-fall-content-color;
+        font-size: $water-fall-content-font-size;
+      }
+
+      .water-fall-view-container {
+        position: absolute;
+        right: $water-fall-item-interval;
+        bottom: $water-fall-item-interval;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: $water-fall-content-color;
+        font-size: $water-fall-content-font-size;
+
+        .water-fall-view-image {
+          width: $water-fall-item-avater-image-size;
+          height: $water-fall-item-avater-image-size;
+        }
+      }
+    }
+  }
+}

@@ -1,11 +1,12 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { ScrollView } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { dispatchFetchPageData } from '../../actions/fetchPageData'
 import './index.scss'
 import IndexHeader from '../../floors/floor-index-header'
 import IndexGrid from '../../floors/floor-index-grid'
+import IndexWaterFall from '../../floors/floor-index-waterfall'
 // #region 书写注意
 //
 // 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
@@ -37,6 +38,14 @@ interface Index {
   props: IProps;
 }
 
+type WaterFallDatasType = {
+  imageSrc: string,
+  avaterImageSrc: string,
+  nickName: string,
+  viewNumber: number,
+  price: number,
+  title:string
+}
 @connect(({ fetchPageData }) => ({
   fetchPageData
 }), (dispatch) => ({
@@ -74,13 +83,84 @@ class Index extends Component {
     enablePullDownRefresh:true,
   }
   render() {
+    const waterFallDatas:WaterFallDatasType[] = [
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      },
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      },
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      },
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      },
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      },
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      },
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      },
+      {
+        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName:'holifa',
+        viewNumber:65375,
+        price:3225.6,
+        title:"iphonex 256 95新 要的快来"
+      }
+ 
+    ]
     return (
-      <View className='main'>
+      <ScrollView 
+      className='index'
+      scrollY
+      >
         {/* {this.props.fetchPageData.fetchPageDataStatus}
         {this.props.fetchPageData.pageData} */}
         <IndexHeader></IndexHeader>
         <IndexGrid></IndexGrid>
-      </View>
+        <IndexWaterFall datas={waterFallDatas}></IndexWaterFall>
+      </ScrollView>
     )
   }
 }
