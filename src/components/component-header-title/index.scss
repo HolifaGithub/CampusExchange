@@ -1,0 +1,33 @@
+$header-title-font-size:36px;
+$base-color:#C41A16;
+$header-title-color:#ffffff;
+$header-title-width:750px;
+$header-title-height:70px;
+$header-title-margin:20px;
+$header-title-border-radius:10px;
+$header-title-image-width:100px;
+$header-title-image-height:$header-title-height;
+
+.header-title-conatiner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $base-color;
+  width: $header-title-width;
+  height: $header-title-height;
+  border-radius: $header-title-border-radius;
+  border-bottom: 1px solid $header-title-color;
+
+  .header-title-image {
+    width: $header-title-image-width;
+    height: $header-title-image-height;
+  }
+
+  .header-title {
+    font-size: $header-title-font-size;
+    font-weight: bold;
+    color: $header-title-color;
+    margin-left: $header-title-margin;
+    margin-right: $header-title-margin;
+  }
+}

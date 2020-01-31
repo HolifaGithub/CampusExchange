@@ -33,7 +33,8 @@ class App extends Component {
 
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      'pages/home/home'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -44,7 +45,7 @@ class App extends Component {
     tabBar: {
       list: [
         { pagePath: 'pages/index/index', text: "首页" }, 
-        { pagePath: 'pages/index/index', text: "首页" }
+        { pagePath: 'pages/home/home', text: "个人中心" }
       ],
       custom: true
     }
