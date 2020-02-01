@@ -1,8 +1,10 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-// import { connect } from '@tarojs/redux'
-import './home.scss'
+import { connect } from '@tarojs/redux'
+
+
+import './sort.scss'
 
 // #region 书写注意
 //
@@ -15,11 +17,16 @@ import './home.scss'
 // #endregion
 
 type PageStateProps = {
-
+  counter: {
+    num: number
+  }
 }
 
-type PageDispatchProps = {}
-
+type PageDispatchProps = {
+  add: () => void
+  dec: () => void
+  asyncAdd: () => any
+}
 
 type PageOwnProps = {}
 
@@ -27,11 +34,16 @@ type PageState = {}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
-interface Home {
+interface Sort {
   props: IProps;
 }
 
-class Home extends Component {
+@connect(({ }) => ({
+
+}), (dispatch) => ({
+
+}))
+class Sort extends Component {
 
   /**
  * 指定config的类型声明为: Taro.Config
@@ -41,9 +53,12 @@ class Home extends Component {
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
   config: Config = {
-    navigationBarTitleText: '个人中心'
+    navigationBarTitleText: '分类'
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props, nextProps)
+  }
 
   componentWillUnmount() { }
 
@@ -53,8 +68,8 @@ class Home extends Component {
 
   render() {
     return (
-      <View className='home'>
-        <Text>home</Text>
+      <View className='sort'>
+        <View><Text>Sort Page</Text></View>
       </View>
     )
   }
@@ -67,4 +82,4 @@ class Home extends Component {
 //
 // #endregion
 
-export default Home as ComponentClass<PageOwnProps, PageState>
+export default Sort as ComponentClass<PageOwnProps, PageState>

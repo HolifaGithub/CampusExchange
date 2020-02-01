@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 import fetchPageData from './fetchPageData'
-import switchTarbar from './switchTarBar'
+import switchTarBar from './switchTarBar'
 
 export default combineReducers({
   fetchPageData,
-  switchTarbar
+  switchTarBar
 })

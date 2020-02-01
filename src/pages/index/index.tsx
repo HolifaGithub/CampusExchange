@@ -1,5 +1,5 @@
 import { ComponentClass } from 'react'
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { PureComponent, Config } from '@tarojs/taro'
 import { ScrollView } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { dispatchFetchPageData } from '../../actions/fetchPageData'
@@ -53,7 +53,7 @@ type WaterFallDatasType = {
     dispatch(dispatchFetchPageData())
   }
 }))
-class Index extends Component {
+class Index extends PureComponent {
 
   /**
  * 指定config的类型声明为: Taro.Config

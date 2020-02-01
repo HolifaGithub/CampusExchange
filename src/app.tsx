@@ -34,7 +34,10 @@ class App extends Component {
   config: Config = {
     pages: [
       'pages/index/index',
-      'pages/home/home'
+      'pages/sort/sort',
+      'pages/release-goods/release-goods',
+      'pages/chat/chat',
+      'pages/person/person',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -44,8 +47,11 @@ class App extends Component {
     },
     tabBar: {
       list: [
-        { pagePath: 'pages/index/index', text: "首页" }, 
-        { pagePath: 'pages/home/home', text: "个人中心" }
+        { pagePath: 'pages/index/index', text: '首页' },
+        { pagePath: 'pages/sort/sort', text: '分类' },
+        { pagePath: 'pages/release-goods/release-goods', text: '发布商品' },
+        { pagePath: 'pages/chat/chat', text: "聊天" },
+        { pagePath: 'pages/person/person', text: "个人中心" },
       ],
       custom: true
     }
