@@ -1,7 +1,8 @@
 $screen-width:750px;
-$page-height:1336px;
+$page-height:1270px;
 .index{
     background-color: #eeeeee;
     width: $screen-width;
-    height: $page-height;
+    // height: $page-height;
+    height: 100%;
 }

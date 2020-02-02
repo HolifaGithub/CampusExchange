@@ -1,5 +1,6 @@
-import Taro from '@tarojs/taro'
+import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
+import Skeleton from 'taro-skeleton'
 import './index.scss'
 
 type datasType = {
@@ -17,28 +18,41 @@ interface Props {
 
 function Waterfall(props: Props) {
     const { datas } = props;
+    let [loading, setLoading] = useState(true)
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000)
+    }, [])
     return (
-        <View className='water-fall-container'>
-            {(datas && datas.length > 0) ? datas.map((data, index) => {
-                const { imageSrc, avaterImageSrc, nickName, viewNumber, price, title } = data
-                return (
-                    <View className='water-fall-item' key={new Date().toString() + index}>
-                        <Image className='water-fall-image' src={imageSrc}></Image>
-                        <View className='water-fall-title'><Text>{title}</Text></View>
-                        <View className='water-fall-content-container'>
-                            <View className='water-fall-price'><Text>&yen;{price}</Text></View>
-                            <Image className='water-fall-avater-image' src={avaterImageSrc}></Image>
-                            <View className='water-fall-nick-name'><Text>{nickName+nickName+nickName}</Text>
-                            </View>
-                            <View className='water-fall-view-container'>
-                                <Image src={imageSrc} className='water-fall-view-image'></Image>
-                                <View className='water-falll-view-number'><Text>{viewNumber}</Text></View>
+        <Skeleton
+            row={datas && datas.length > 0 ? datas.length : 2}
+            rowHeight={450}
+            animate
+            loading={loading}
+        >
+            <View className='water-fall-container'>
+                {(datas && datas.length > 0) ? datas.map((data, index) => {
+                    const { imageSrc, avaterImageSrc, nickName, viewNumber, price, title } = data
+                    return (
+                        <View className='water-fall-item' key={new Date().toString() + index}>
+                            <Image className='water-fall-image' src={imageSrc}></Image>
+                            <View className='water-fall-title'><Text>{title}</Text></View>
+                            <View className='water-fall-content-container'>
+                                <View className='water-fall-price'><Text>&yen;{price}</Text></View>
+                                <Image className='water-fall-avater-image' src={avaterImageSrc}></Image>
+                                <View className='water-fall-nick-name'><Text>{nickName + nickName + nickName}</Text>
+                                </View>
+                                <View className='water-fall-view-container'>
+                                    <Image src={imageSrc} className='water-fall-view-image'></Image>
+                                    <View className='water-falll-view-number'><Text>{viewNumber}</Text></View>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                )
-            }) : null}
-        </View >
+                    )
+                }) : null}
+            </View >
+        </Skeleton>
     )
 }
 

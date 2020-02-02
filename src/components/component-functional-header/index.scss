@@ -1,0 +1,39 @@
+$background-color:#ffffff;
+$base-color:#C41A16;
+$functional-header-height:140px;
+$functional-header-calendar-image-width:40px;
+$functional-header-calendar-image-height:40px;
+$functional-header-qrcode-image-width:35px;
+$functional-header-qrcode-image-height:35px;
+$interval:10px;
+.functional-header-container{
+    background-color:$background-color;
+    height: $functional-header-height;
+    color: $base-color;
+    .functional-header-content-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        height: 100px;
+        .functional-header-calendar-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .functional-header-calendar-image{
+                width: $functional-header-calendar-image-width;
+                height: $functional-header-calendar-image-width;
+                margin-right: $interval;             
+            }   
+        }
+        .functional-header-qrcode-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .functional-header-qrcode-image{
+                width: $functional-header-qrcode-image-width;
+                height: $functional-header-qrcode-image-height;
+            }
+        }     
+    }
+}

@@ -1,6 +1,6 @@
 import { ComponentClass } from 'react'
 import Taro, { PureComponent, Config } from '@tarojs/taro'
-import { ScrollView } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { dispatchFetchPageData } from '../../actions/fetchPageData'
 import './index.scss'
@@ -23,7 +23,7 @@ type PageStateProps = {
     pageData: []
   }
 }
-   
+
 type PageDispatchProps = {
   dispatchFetchPageData: () => any
 }
@@ -44,7 +44,7 @@ type WaterFallDatasType = {
   nickName: string,
   viewNumber: number,
   price: number,
-  title:string
+  title: string
 }
 @connect(({ fetchPageData }) => ({
   fetchPageData
@@ -79,88 +79,95 @@ class Index extends PureComponent {
 
   config: Config = {
     navigationBarTitleText: '校园换-首页',
-    backgroundColor:'#C41A16',
-    enablePullDownRefresh:true,
+    backgroundColor: '#C41A16',
+    enablePullDownRefresh: true,
+  }
+
+  onPullDownRefresh() {
+    console.log("onPullDownRefresh")
+    setTimeout(() => {
+      Taro.stopPullDownRefresh()
+    }, 1000);
+  }
+  onReachBottom() {
+    console.log("onReachBottom");
   }
   render() {
-    const waterFallDatas:WaterFallDatasType[] = [
+    const waterFallDatas: WaterFallDatasType[] = [
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       },
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       },
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       },
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       },
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       },
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       },
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       },
       {
-        imageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
-        avaterImageSrc:'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
-        nickName:'holifa',
-        viewNumber:65375,
-        price:3225.6,
-        title:"iphonex 256 95新 要的快来"
+        imageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner1.png',
+        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3000/img/banner2.png',
+        nickName: 'holifa',
+        viewNumber: 65375,
+        price: 3225.6,
+        title: "iphonex 256 95新 要的快来"
       }
- 
+
     ]
     return (
-      <ScrollView 
-      className='index'
-      scrollY
+      <View
+        className='index'
       >
-        {/* {this.props.fetchPageData.fetchPageDataStatus}
-        {this.props.fetchPageData.pageData} */}
         <IndexHeader></IndexHeader>
         <IndexGrid></IndexGrid>
         <IndexWaterFall datas={waterFallDatas}></IndexWaterFall>
-      </ScrollView>
+      </View>
     )
   }
 }

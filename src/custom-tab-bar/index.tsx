@@ -11,6 +11,7 @@ import {
   switchTabChat,
   switchTabPerson
 } from '../actions/switchTabBar'
+import Skeleton from 'taro-skeleton'
 import './index.scss'
 
 // #region 书写注意
@@ -73,11 +74,17 @@ class TabBar extends PureComponent {
  * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
-
+  state = {
+    loading: true
+  }
   // componentWillMount() {
 
   // }
-
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ loading: false })
+    }, 1000);
+  }
   // componentWillReceiveProps () {
   //   // console.log(this.props, nextProps)
   // }
@@ -91,91 +98,98 @@ class TabBar extends PureComponent {
   render() {
 
     return (
-      <AtTabBar
-        tabList={[
-          {
-            title: '首页',
-            image: `${CDNWebSite}/icon/tabbar/home.png`,
-            selectedImage: `${CDNWebSite}/icon/tabbar/home-selected.png`,
-          },
-          {
-            title: '分类',
-            image: `${CDNWebSite}/icon/tabbar/sort.png`,
-            selectedImage: `${CDNWebSite}/icon/tabbar/sort-selected.png`,
-          },
-          {
-            title: '发布',
-            image: `${CDNWebSite}/icon/tabbar/release-goods.png`,
-          },
-          {
-            title: '聊天',
-            image: `${CDNWebSite}/icon/tabbar/chat.png`,
-            selectedImage: `${CDNWebSite}/icon/tabbar/chat-selected.png`,
-            text: '100',
-            max: 99
-          },
-          {
-            title: '个人中心',
-            image: `${CDNWebSite}/icon/tabbar/person.png`,
-            selectedImage: `${CDNWebSite}/icon/tabbar/person-selected.png`,
-          }
-        ]}
-        onClick={(current) => {
-          switch (current) {
-            case 0: Taro.switchTab({
-              url: '/pages/index/index',
-              success: () => {
-                this.props.switchTabHome()
-              }
-            })
-              break
-            case 1: Taro.switchTab({
-              url: '/pages/sort/sort',
-              success: () => {
-                this.props.switchTabSort()
-              }
-            })
-              break
-            case 2: Taro.switchTab({
-              url: '/pages/release-goods/release-goods',
-              success: () => {
-                this.props.switchTabReleaseGoods()
-              }
-            })
-              break
-            case 3: Taro.switchTab({
-              url: '/pages/chat/chat',
-              success: () => {
-                this.props.switchTabChat()
-              }
-            })
-              break
-            case 4: Taro.switchTab({
-              url: '/pages/person/person',
-              success: () => {
-                this.props.switchTabPerson()
-              }
-            })
-              break
-            default: Taro.switchTab({
-              url: '/pages/index/index',
-              success: () => {
-                this.props.switchTabHome()
-              }
-            })
-              break
-          }
+      <Skeleton
+        row={1}
+        rowHeight={50}
+        animate
+        loading={this.state.loading}
+      >
+        <AtTabBar
+          tabList={[
+            {
+              title: '首页',
+              image: `${CDNWebSite}/icon/tabbar/home.png`,
+              selectedImage: `${CDNWebSite}/icon/tabbar/home-selected.png`,
+            },
+            {
+              title: '分类',
+              image: `${CDNWebSite}/icon/tabbar/sort.png`,
+              selectedImage: `${CDNWebSite}/icon/tabbar/sort-selected.png`,
+            },
+            {
+              title: '发布',
+              image: `${CDNWebSite}/icon/tabbar/release-goods.png`,
+            },
+            {
+              title: '聊天',
+              image: `${CDNWebSite}/icon/tabbar/chat.png`,
+              selectedImage: `${CDNWebSite}/icon/tabbar/chat-selected.png`,
+              text: '100',
+              max: 99
+            },
+            {
+              title: '个人中心',
+              image: `${CDNWebSite}/icon/tabbar/person.png`,
+              selectedImage: `${CDNWebSite}/icon/tabbar/person-selected.png`,
+            }
+          ]}
+          onClick={(current) => {
+            switch (current) {
+              case 0: Taro.switchTab({
+                url: '/pages/index/index',
+                success: () => {
+                  this.props.switchTabHome()
+                }
+              })
+                break
+              case 1: Taro.switchTab({
+                url: '/pages/sort/sort',
+                success: () => {
+                  this.props.switchTabSort()
+                }
+              })
+                break
+              case 2: Taro.switchTab({
+                url: '/pages/release-goods/release-goods',
+                success: () => {
+                  this.props.switchTabReleaseGoods()
+                }
+              })
+                break
+              case 3: Taro.switchTab({
+                url: '/pages/chat/chat',
+                success: () => {
+                  this.props.switchTabChat()
+                }
+              })
+                break
+              case 4: Taro.switchTab({
+                url: '/pages/person/person',
+                success: () => {
+                  this.props.switchTabPerson()
+                }
+              })
+                break
+              default: Taro.switchTab({
+                url: '/pages/index/index',
+                success: () => {
+                  this.props.switchTabHome()
+                }
+              })
+                break
+            }
 
-        }}
-        current={this.props.switchTarBar.current}
-        color='#FFFFFF'
-        selectedColor={tabBarSelectedColor}
-        backgroundColor={baseColor}
-        iconSize={22}
-        fontSize={13}
-        fixed
-        key={1}
-      />
+          }}
+          current={this.props.switchTarBar.current}
+          color='#FFFFFF'
+          selectedColor={tabBarSelectedColor}
+          backgroundColor={baseColor}
+          iconSize={22}
+          fontSize={13}
+          fixed
+          key={1}
+        />
+      </Skeleton>
     )
   }
 }
