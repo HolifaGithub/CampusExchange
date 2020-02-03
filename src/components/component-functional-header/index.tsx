@@ -24,7 +24,7 @@ function onClick() {
 
 function FunctionalHeader() {
   let [loading, setLoading] = useState(true)
-  let [location, setLocation] = useState('')
+  let [location, setLocation] = useState('请授权获取位置')
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
@@ -58,19 +58,19 @@ function FunctionalHeader() {
         </AtNoticebar>
         <View className='functional-header-content-container'>
           <View className='functional-header-location-container'>
-            <Image src={'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/location.png'}
+            <Image src={'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/location-white.png'}
               className='functional-header-location-image'
             ></Image>
             <Text>{location}</Text>
           </View>
           <View className='functional-header-calendar-container'>
-            <Image src={'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/calendar.png'}
+            <Image src={'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/calendar-white.png'}
               className='functional-header-calendar-image'
             ></Image>
             <Text>{getDate()}</Text>
           </View>
           <View className='functional-header-qrcode-container' onClick={onClick}>
-            <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/qr-code.png'
+            <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/qrcode-white.png'
               className='functional-header-qrcode-image'
             ></Image>
           </View>

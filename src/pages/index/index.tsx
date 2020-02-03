@@ -81,6 +81,8 @@ class Index extends PureComponent {
     navigationBarTitleText: '校园换-首页',
     backgroundColor: '#C41A16',
     enablePullDownRefresh: true,
+    navigationBarBackgroundColor:'#C41A16',
+    navigationBarTextStyle:'white'
   }
 
   onPullDownRefresh() {

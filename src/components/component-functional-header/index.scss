@@ -1,6 +1,5 @@
-$background-color:#ffffff;
-$base-color:#C41A16;
-$functional-header-height:140px;
+$font-color:#ffffff;
+$functional-header-height:150px;
 $functional-header-calendar-image-width:40px;
 $functional-header-calendar-image-height:40px;
 $functional-header-qrcode-image-width:60px;
@@ -9,9 +8,8 @@ $functional-header-location-image-width:38px;
 $functional-header-location-image-height:38px;
 $interval:10px;
 .functional-header-container{
-    background-color:$background-color;
     height: $functional-header-height;
-    color: $base-color;
+    color: $font-color;
     .functional-header-content-container{
         display: flex;
         flex-direction: row;
@@ -44,7 +42,7 @@ $interval:10px;
             align-items: center;
             border-right-width: 1px;
             border-right-style: solid;
-            border-right-color: $base-color;
+            border-right-color: $font-color;
             padding-right: 2*$interval;
             .functional-header-location-image{
                 width: $functional-header-location-image-width;

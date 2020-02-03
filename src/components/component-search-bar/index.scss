@@ -1,3 +1,38 @@
-.at-search-bar{
-    background-color: red;
+$search-bar-width:730px;
+$search-bar-height:60px;
+$search-bar-background-color:#eeeeee;
+$search-bar-border-radius:20px;
+$search-bar-margin-bottom:10px;
+$base-color:#C41A16;
+$search-bar-button-width:130px;
+.container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .search-bar-container{
+        background-color: $search-bar-background-color;
+        border-radius: $search-bar-border-radius;
+        width: $search-bar-width;
+        height: $search-bar-height;
+        text-align: center;
+        margin-bottom: $search-bar-margin-bottom;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .input-placeholder{
+        color: $base-color;
+    }
+    .search-bar-button{
+        width: $search-bar-button-width;
+        height: $search-bar-height;
+        color: $search-bar-background-color;
+        border-color: $search-bar-background-color;
+        position: relative;
+        top: -6px;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
