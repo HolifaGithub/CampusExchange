@@ -2,6 +2,7 @@ import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
+import SortVerticalTabs from '../../floors/floor-sort-vertical-tabs'
 
 
 import './sort.scss'
@@ -53,7 +54,7 @@ class Sort extends Component {
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
   config: Config = {
-    navigationBarTitleText: '分类'
+    navigationBarTitleText: '校园换-分类页'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,7 +70,7 @@ class Sort extends Component {
   render() {
     return (
       <View className='sort'>
-        <View><Text>Sort Page</Text></View>
+        <SortVerticalTabs/>
       </View>
     )
   }

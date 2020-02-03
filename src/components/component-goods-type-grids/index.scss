@@ -1,0 +1,35 @@
+$goods-type-grid-image-width:80px;
+$goods-type-grid-image-height:80px;
+$goods-type-grid-image-border-radius:$goods-type-grid-image-width/2;
+$goods-type-grids-title-font-size:32px;
+$goods-type-grid-name-font-size:28px;
+$goods-type-grids-title-margin-left:20px;
+$goods-type-grids-title-margin-bottom:20px;
+.goods-type-grids-conatiner{
+    .goods-type-grids-title{
+        font-size: $goods-type-grids-title-font-size;
+        margin-left:$goods-type-grids-title-margin-left ;
+        margin-bottom: $goods-type-grids-title-margin-bottom;
+    }
+    .goods-type-grid-container{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-items: center;
+        .goods-type-grid{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .goods-type-grid-image{
+                width: $goods-type-grid-image-width;
+                height: $goods-type-grid-image-height;
+                border-radius: $goods-type-grid-image-border-radius;
+            }
+            .goods-type-grid-name{
+                font-size: $goods-type-grid-name-font-size;
+            }
+        }
+    }
+}
