@@ -1,13 +1,22 @@
 import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { AtNoticebar } from 'taro-ui'
+import getLocation from '../../utils/getLocation'
 import Skeleton from 'taro-skeleton'
 import getDate from '../../utils/getDate'
+import isNullOrUndefined from '../../utils/isNullOrUndefined'
+import isStringLengthEqualZero from '../../utils/isStringLengthEqualZero'
 import './index.scss'
 
-function onClick (){
+interface LocationResult {
+  status: number,
+  message: string,
+  result: any,
+  request_id: string
+}
+function onClick() {
   Taro.scanCode({
-    success (res) {
+    success(res) {
       console.log(res)
     }
   })
@@ -15,14 +24,30 @@ function onClick (){
 
 function FunctionalHeader() {
   let [loading, setLoading] = useState(true)
+  let [location, setLocation] = useState('')
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 1000)
+    getLocation().then((res: LocationResult) => {
+      if (!isNullOrUndefined(res.result.address_component)) {
+        const address_component = res.result.address_component
+        if (!isNullOrUndefined(address_component)) {
+          const province = address_component.province
+          const city = address_component.city
+          const district = address_component.district
+          if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
+            setLocation(`${province}${city}${district}`)
+          }
+        }
+      }
+    }).catch(()=>{
+      setLocation('无法获取当前位置')
+    })
   }, [])
   return (
     <Skeleton
-      row={1}
+      row={2}
       rowHeight={50}
       animate
       loading={loading}
@@ -32,18 +57,23 @@ function FunctionalHeader() {
           校园换是一款大学生本校二手交易小程序，具有交易方便快捷，安全可靠，种类丰富的特点，欢迎大家使用！谢谢！
         </AtNoticebar>
         <View className='functional-header-content-container'>
+          <View className='functional-header-location-container'>
+            <Image src={'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/location.png'}
+              className='functional-header-location-image'
+            ></Image>
+            <Text>{location}</Text>
+          </View>
           <View className='functional-header-calendar-container'>
             <Image src={'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/calendar.png'}
               className='functional-header-calendar-image'
             ></Image>
             <Text>{getDate()}</Text>
-            </View>
-            <View className='functional-header-qrcode-container' onClick={onClick}>
-              <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/qr-code.png'
+          </View>
+          <View className='functional-header-qrcode-container' onClick={onClick}>
+            <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/qr-code.png'
               className='functional-header-qrcode-image'
-              ></Image>
-              <Text>扫码</Text>
-            </View>
+            ></Image>
+          </View>
         </View>
       </View>
     </Skeleton>

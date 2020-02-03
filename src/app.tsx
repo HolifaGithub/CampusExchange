@@ -55,6 +55,11 @@ class App extends Component {
         { pagePath: 'pages/person/person', text: "个人中心" },
       ],
       custom: true
+    },
+    permission:{
+      'scope.userLocation': {
+        desc: '校园换需要获取您的位置信息用于小程序位置接口的效果展示。'
+      }
     }
   }
 
