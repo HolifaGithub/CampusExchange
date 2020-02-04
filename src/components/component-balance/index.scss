@@ -1,0 +1,31 @@
+$balance-container-width:700px;
+$balance-container-height:200px;
+$border-radius:50px;
+$balance-container-background-color:#ffffff;
+$balance-image-width:60px;
+$balance-image-height:$balance-image-width;
+$balance-font-weight:600;
+$balance-color:#C41A16;
+$balance-font-size:33px;
+$interval:20px;
+.balance-conatiner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $balance-container-width;
+    height: $balance-container-height;
+    background-color:$balance-container-background-color;
+    border-radius: $border-radius;
+    background-color: $balance-container-background-color;
+    // float: left;
+    .balance-image{
+        width: $balance-image-width;
+        height: $balance-image-height;
+    }
+    .balance{
+        font-size: $balance-font-size;
+        font-weight: $balance-font-weight;
+        color: $balance-color;
+        margin-left: $interval;
+    }
+}

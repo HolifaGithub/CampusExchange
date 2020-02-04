@@ -1,0 +1,43 @@
+$user-info-container-height:290px;
+$user-info-container-background-color:#C41A16;
+$user-info-container-padding-left:600px;
+$icon-width:60px;
+$icon-height:50px;
+$icon-margin-right:30px;
+$avatar-width:130px;
+$avatar-height:$avatar-width;
+$avatar-border-radius:$avatar-width/2;
+$nick-name-color:#ffffff;
+$nick-name-font-weight:600;
+$nick-name-font-size:38px;
+$interval:30px;
+.user-info-conatiner{
+    height: $user-info-container-height;
+    background-color: $user-info-container-background-color;
+    .user-info-functional{
+        display: flex;
+        padding-left:$user-info-container-padding-left;
+        .setting-image,.qr-code-image{
+            width: $icon-width;
+            height: $icon-height;
+            margin-right: $icon-margin-right;
+        }
+    }
+    .user-info{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        .avatar{
+            width: $avatar-width;
+            height: $avatar-height;
+            border-radius: $avatar-border-radius;
+            margin-left: $interval;
+        }
+        .nick-name{
+            color: $nick-name-color;
+            font-size: $nick-name-font-size;
+            font-weight: $nick-name-font-weight;
+            margin-left: $interval;
+        }
+    }
+}

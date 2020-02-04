@@ -1,6 +1,7 @@
 import { ComponentClass } from 'react'
 import Taro, { PureComponent, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import PersonUserInfo from '../../floors/floor-person-user-info'
 // import { connect } from '@tarojs/redux'
 import './person.scss'
 
@@ -41,7 +42,11 @@ class Person extends PureComponent {
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
   config: Config = {
-    navigationBarTitleText: '个人中心'
+    navigationBarTitleText: '个人中心',
+    // enablePullDownRefresh: true,
+    navigationBarBackgroundColor:'#C41A16',
+    navigationBarTextStyle:'white',
+   
   }
 
 
@@ -54,7 +59,7 @@ class Person extends PureComponent {
   render() {
     return (
       <View className='person'>
-        <Text>Person Page</Text>
+        <PersonUserInfo/>
       </View>
     )
   }
