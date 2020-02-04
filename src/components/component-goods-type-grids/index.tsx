@@ -4,8 +4,19 @@ import { View, Text, Image } from '@tarojs/components'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 
-function GoodsTypeGrids(props) {
-    // const { title, goodsType } = props
+interface Props {
+    datas: {
+        phoneTypeTitle: string;
+        trademark: string;
+        datas: {
+            name: string;
+            imageSrc: string;
+            jumpUrl: string;
+        }[];
+    }[];
+}
+
+function GoodsTypeGrids(props: Props) {
     let [loading, setLoading] = useState(true)
     useEffect(() => {
         setTimeout(() => {
@@ -19,21 +30,55 @@ function GoodsTypeGrids(props) {
             animate
             loading={loading}
         >
-            <View className='goods-type-grids-conatiner'>
-                <View className='goods-type-grids-title'>
-                    <Text >苹果手机</Text>
-                </View>
-                <View className='goods-type-grid-container'>
-                    <View className='goods-type-grid'>
-                        <Image
-                            src='https://img12.360buyimg.com/jdphoto/s72x72_jfs/t6160/14/2008729947/2754/7d512a86/595c3aeeNa89ddf71.png' className='goods-type-grid-image'>
-                        </Image>
-                        <Text className='goods-type-grid-name'>iphone 11</Text>
-                    </View>
-                </View>
+            <View>
+                {props.datas && props.datas.length > 0 ? props.datas.map((data, index) => {
+                    const { phoneTypeTitle, trademark, datas } = data
+                    return (
+                        <View className='goods-type-grids-main-conatiner' key={new Date().toString()+index}>
+                            <View className='goods-type-grids-title-container'>
+                                <Image
+                                    src={trademark}
+                                    className='goods-type-grids-title-trademark'>
+                                </Image>
+                                <View className='goods-type-grids-title'>
+                                    <Text >{phoneTypeTitle}</Text>
+                                </View>
+                            </View>
+                            <View className='goods-type-grids-container'>
+                                {datas && datas.length > 0 ? datas.map((data2, index2) => {
+                                    const { name, imageSrc } = data2
+                                    return (
+                                        <View className='goods-type-grid' key={new Date().toString() + index2}>
+                                            <Image
+                                                src={imageSrc}
+                                                className='goods-type-grid-image'>
+                                            </Image>
+                                            <Text className='goods-type-grid-name'>{name}</Text>
+                                        </View>
+                                    )
+                                }) : null
+                                }
+                            </View>
+                        </View>
+                    )
+                }) : null}
             </View>
         </Skeleton>
     )
 }
-
+GoodsTypeGrids.defaultProps = {
+    datas: [
+        {
+            phoneTypeTitle: '',
+            trademark: '',
+            datas: [
+                {
+                    name: '',
+                    imageSrc: '',
+                    jumpUrl: ''
+                }
+            ]
+        }
+    ]
+}
 export default Taro.memo(GoodsTypeGrids)

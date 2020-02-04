@@ -5,9 +5,26 @@ import { AtTabs, AtTabsPane } from 'taro-ui'
 import GoodsTypeGrids from '../../components/component-goods-type-grids'
 import './index.scss'
 
-function SortVerticalTabs() {
-    const tabHeight = '700px';
+interface Props {
+    datas: {
+        type: string;
+        typedatas: {
+            phoneTypeTitle: string;
+            trademark: string;
+            datas: {
+                name: string;
+                imageSrc: string;
+                jumpUrl:string;
+            }[];
+        }[];
+    }[]
+}
+
+function SortVerticalTabs(props: Props) {
+    const tabHeight = '1700px';
     const [current, setCurrent] = useState(0)
+    const { datas } = props
+    const { type, typedatas } = datas[0]
     return (
         <View className='sort-vertical-tabs-container'>
             <SearchBar></SearchBar>
@@ -18,7 +35,7 @@ function SortVerticalTabs() {
                 height={tabHeight}
                 tabDirection='vertical'
                 tabList={[
-                    { title: '手机' },
+                    { title: type },
                     { title: '电脑' },
                     { title: '书籍' },
                     { title: '食品' },
@@ -36,7 +53,7 @@ function SortVerticalTabs() {
                 onClick={(current) => { setCurrent(current) }}>
                 <AtTabsPane tabDirection='vertical' current={current} index={0}>
                     <View style='font-size:18px;text-align:start;height:400px;'>
-                       <GoodsTypeGrids></GoodsTypeGrids>
+                        <GoodsTypeGrids datas={typedatas}></GoodsTypeGrids>
                     </View>
                 </AtTabsPane>
                 <AtTabsPane tabDirection='vertical' current={current} index={1}>
@@ -75,6 +92,22 @@ function SortVerticalTabs() {
             </AtTabs>
         </View>
     )
+}
+SortVerticalTabs.defaultProps = {
+    datas: [
+        {
+            type: '',
+            typedatas: [{
+                phoneTypeTitle: '',
+                trademark: '',
+                datas: [{
+                    name: '',
+                    imageSrc: '',
+                    jumpUrl:''
+                }]
+            }]
+        }
+    ]
 }
 
 export default Taro.memo(SortVerticalTabs)

@@ -1,17 +1,39 @@
-$goods-type-grid-image-width:80px;
+$goods-type-grid-image-width:70px;
 $goods-type-grid-image-height:80px;
 $goods-type-grid-image-border-radius:$goods-type-grid-image-width/2;
-$goods-type-grids-title-font-size:32px;
+$goods-type-grids-title-font-size:33px;
 $goods-type-grid-name-font-size:28px;
-$goods-type-grids-title-margin-left:20px;
-$goods-type-grids-title-margin-bottom:20px;
-.goods-type-grids-conatiner{
-    .goods-type-grids-title{
-        font-size: $goods-type-grids-title-font-size;
-        margin-left:$goods-type-grids-title-margin-left ;
-        margin-bottom: $goods-type-grids-title-margin-bottom;
+$goods-type-grid-name-color:#888;
+$margin-left:20px;
+$margin-bottom:20px;
+$goods-type-grids-title-trademark-width:60px;
+$goods-type-grids-title-trademark-height:60px;
+$goods-type-grids-title-trademark-border-radius:10px;
+$goods-type-grid-name-width:$goods-type-grid-image-width*1.8;
+$goods-type-grid-name-height:$goods-type-grid-image-height;
+.goods-type-grids-main-conatiner{
+    .goods-type-grids-title-container{
+        display: flex;
+        justify-content: start;
+        align-items: center; 
+        background-color: #eeeeee;
+        margin-bottom: $margin-bottom;
+        .goods-type-grids-title{
+            font-size: $goods-type-grids-title-font-size;
+            margin-left:$margin-left ;
+            align-self: center;
+            color: #C41A16;
+        }
+        .goods-type-grids-title-trademark{
+            
+            margin-left:$margin-left ;
+            width: $goods-type-grids-title-trademark-width;
+            height: $goods-type-grids-title-trademark-height;
+            border-radius: $goods-type-grids-title-trademark-border-radius;
+        }
     }
-    .goods-type-grid-container{
+
+    .goods-type-grids-container{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -22,13 +44,21 @@ $goods-type-grids-title-margin-bottom:20px;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin-left:$margin-left ;
             .goods-type-grid-image{
                 width: $goods-type-grid-image-width;
                 height: $goods-type-grid-image-height;
-                border-radius: $goods-type-grid-image-border-radius;
+                // border-radius: $goods-type-grid-image-border-radius;
+                background-color: #eeeeee;
             }
             .goods-type-grid-name{
+                width: $goods-type-grid-name-width;
+                height: $goods-type-grid-name-height;
                 font-size: $goods-type-grid-name-font-size;
+                color: $goods-type-grid-name-color;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: center;
             }
         }
     }
