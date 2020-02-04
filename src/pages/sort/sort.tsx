@@ -221,6 +221,181 @@ class Sort extends Component {
                 jumpUrl:''
               }
             ]
+          },
+          {
+            phoneTypeTitle: "华为",
+            trademark: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/huawei/huawei-trademark.png',
+            datas: [
+              {
+                name: 'Mate30 pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/huawei/HUAWEI%20Mate%2030%20Pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'Mate30',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/huawei/HUAWEI%20Mate%2030.png',
+                jumpUrl:''
+              },
+              {
+                name: 'Mate20 pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/huawei/HUAWEI%20Mate%2020%20Pro.png',
+                jumpUrl:''
+              }, {
+                name: 'Mate20',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/huawei/HUAWEI%20Mate%2020.png',
+                jumpUrl:''
+              },
+              {
+                name: 'Nove6 se',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/huawei/HUAWEI%20nova%206%20SE.png',
+                jumpUrl:''
+              },
+              {
+                name: '畅享10S',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/huawei/%E5%8D%8E%E4%B8%BA%E7%95%85%E4%BA%AB%2010S.png',
+                jumpUrl:''
+              }
+            ]
+          },
+          {
+            phoneTypeTitle: "OPPO",
+            trademark: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/oppo-trademark.png',
+            datas: [
+              {
+                name: 'R17 Pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/R17%20Pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'R17',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/R17.png',
+                jumpUrl:''
+              },
+              {
+                name: 'Reno3',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/Reno%203.png',
+                jumpUrl:''
+              }, {
+                name: 'Reno3 pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/Reno3%20pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'find x',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/find%20x.png',
+                jumpUrl:''
+              },
+              {
+                name: 'oppo ace',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/oppo%20ace.png',
+                jumpUrl:''
+              },
+              {
+                name: '	oppo k5',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/oppo%20k5.png',
+                jumpUrl:''
+              }
+            ]
+          },
+          {
+            phoneTypeTitle: "ViVO",
+            trademark: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/vivo-trademark.png',
+            datas: [
+              {
+                name: '	iqoo neo',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo%20neo.png',
+                jumpUrl:''
+              },
+              {
+                name: 'iqoo pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo%20pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'iqoo',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo.png',
+                jumpUrl:''
+              }, {
+                name: 'nex',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/nex.png',
+                jumpUrl:''
+              },
+              {
+                name: 'nex2',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/nex2%20double.png',
+                jumpUrl:''
+              },
+              {
+                name: 'nex3 pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/nex3%20pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'x27 pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x27%20pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'x27',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x27.png',
+                jumpUrl:''
+              },
+              {
+                name: 'x30 pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x30%20pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'x30',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x30.png',
+                jumpUrl:''
+              }
+            ]
+          },
+          {
+            phoneTypeTitle: "魅族",
+            trademark: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu-trademark.png',
+            datas: [
+              {
+                name: 'meizu16 T',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu%2016T.png',
+                jumpUrl:''
+              },
+              {
+                name: 'meizu16th',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu%2016th.png',
+                jumpUrl:''
+              },
+              {
+                name: 'meizu x8',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu%20x8.png',
+                jumpUrl:''
+              }, {
+                name: 'meizu16 xs',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16%20xs.png',
+                jumpUrl:''
+              },
+              {
+                name: 'meizu16s pro',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16s%20pro.png',
+                jumpUrl:''
+              },
+              {
+                name: 'meizu16s',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16s.png',
+                jumpUrl:''
+              },
+              {
+                name: 'meizu16th plus',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16th%20plus.png',
+                jumpUrl:''
+              },
+              {
+                name: 'meizu16x',
+                imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16x.png',
+                jumpUrl:''
+              }
+            ]
           }
         ]
       }

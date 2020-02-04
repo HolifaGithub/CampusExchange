@@ -1,7 +1,7 @@
 import Taro, { useState } from '@tarojs/taro'
 import SearchBar from '../../components/component-search-bar'
 import { View } from '@tarojs/components'
-import { AtTabs, AtTabsPane } from 'taro-ui'
+import { AtTabs, AtTabsPane,AtNoticebar } from 'taro-ui'
 import GoodsTypeGrids from '../../components/component-goods-type-grids'
 import './index.scss'
 
@@ -14,7 +14,7 @@ interface Props {
             datas: {
                 name: string;
                 imageSrc: string;
-                jumpUrl:string;
+                jumpUrl: string;
             }[];
         }[];
     }[]
@@ -28,6 +28,9 @@ function SortVerticalTabs(props: Props) {
     return (
         <View className='sort-vertical-tabs-container'>
             <SearchBar></SearchBar>
+            <AtNoticebar icon='volume-plus' marquee>
+                注意：分类栏仅展示常见类型或热门机型，如果没有想要的类型，请通过上方搜索栏或点击更多进行分类查找！
+            </AtNoticebar>
             <View className='blank'></View>
             <AtTabs
                 current={current}
@@ -103,7 +106,7 @@ SortVerticalTabs.defaultProps = {
                 datas: [{
                     name: '',
                     imageSrc: '',
-                    jumpUrl:''
+                    jumpUrl: ''
                 }]
             }]
         }
