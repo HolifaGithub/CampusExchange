@@ -21,7 +21,7 @@ interface Props {
 }
 
 function SortVerticalTabs(props: Props) {
-    const tabHeight = '1700px';
+    const tabHeight = '2550px';
     const [current, setCurrent] = useState(0)
     const { datas } = props
     const { type, typedatas } = datas[0]

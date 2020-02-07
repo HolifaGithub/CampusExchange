@@ -1,5 +1,5 @@
-$goods-type-grid-image-width:70px;
-$goods-type-grid-image-height:80px;
+$goods-type-grid-image-width:90px;
+$goods-type-grid-image-height:100px;
 $goods-type-grid-image-border-radius:$goods-type-grid-image-width/2;
 $goods-type-grids-title-font-size:33px;
 $goods-type-grid-name-font-size:28px;
@@ -11,7 +11,7 @@ $goods-type-grids-title-trademark-height:60px;
 $goods-type-grids-title-trademark-border-radius:10px;
 $goods-type-grid-name-width:$goods-type-grid-image-width*1.8;
 $goods-type-grid-name-height:$goods-type-grid-image-height;
-.goods-type-grids-main-conatiner{
+.goods-type-grids-main-container{
     .goods-type-grids-title-container{
         display: flex;
         justify-content: center;
@@ -22,7 +22,7 @@ $goods-type-grid-name-height:$goods-type-grid-image-height;
             font-size: $goods-type-grids-title-font-size;
             margin-left:$margin-left ;
             align-self: center;
-            color:#ffffff;
+            color:#888;
         }
         .goods-type-grids-title-trademark{
             

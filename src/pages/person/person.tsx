@@ -46,7 +46,7 @@ class Person extends PureComponent {
     // enablePullDownRefresh: true,
     navigationBarBackgroundColor:'#C41A16',
     navigationBarTextStyle:'white',
-   
+    backgroundColor:'#eeeeee'
   }
 
 

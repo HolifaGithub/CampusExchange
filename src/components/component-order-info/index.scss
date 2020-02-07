@@ -1,0 +1,52 @@
+$order-info-container-width:720px;
+$order-info-container-height:300px;
+$order-info-container-background-color:#ffffff;
+$border-radius:30px;
+$top:-80px;
+$base-color:#C41A16;
+$header-title-font-size:34px;
+$header-title-height:100px;
+$header-title-padding-left:30px;
+$order-info-content-height:$order-info-container-height - $header-title-height;
+$icon-width:60px;
+$icon-height:$icon-width;
+$icon-margin-bottom:20px;
+.order-info-container{
+    width: $order-info-container-width;
+    height: $order-info-container-height;
+    background-color:$order-info-container-background-color;
+    margin: 0 auto;
+    border-radius: $border-radius;
+    position: relative;
+    top: $top;
+    .order-info-header-title{
+        color: $base-color;
+        font-size: $header-title-font-size;
+        border-bottom-color: #eee;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        height: $header-title-height;
+        line-height: $header-title-height;
+        padding-left: $header-title-padding-left;
+        font-weight: bold;
+    }
+    .order-info-content{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height:$order-info-content-height;
+        .order-info-one{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            color: $base-color;
+            font-size: 24px;
+            .icon{
+                width: $icon-width;
+                height: $icon-height;
+                margin-bottom: $icon-margin-bottom;
+            }
+        }
+    }
+}

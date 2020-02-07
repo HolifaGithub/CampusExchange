@@ -1,4 +1,4 @@
-$user-info-container-height:290px;
+$user-info-container-height:310px;
 $user-info-container-background-color:#C41A16;
 $user-info-container-padding-left:600px;
 $icon-width:60px;
@@ -11,7 +11,7 @@ $nick-name-color:#ffffff;
 $nick-name-font-weight:600;
 $nick-name-font-size:38px;
 $interval:30px;
-.user-info-conatiner{
+.user-info-container{
     height: $user-info-container-height;
     background-color: $user-info-container-background-color;
     .user-info-functional{

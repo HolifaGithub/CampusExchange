@@ -19,7 +19,7 @@ function UserInfo() {
       animate
       loading={loading}
     >
-      <View className='user-info-conatiner'>
+      <View className='user-info-container'>
         <View className='user-info-functional'>
           <Image src={`${CDNWebSite}/icon/user-info/setting.png`} className='setting-image'></Image>
           <Image src={`${CDNWebSite}/icon/user-info/qr-code.png`} className='qr-code-image'></Image>

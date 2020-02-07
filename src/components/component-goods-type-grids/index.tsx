@@ -34,7 +34,7 @@ function GoodsTypeGrids(props: Props) {
                 {props.datas && props.datas.length > 0 ? props.datas.map((data, index) => {
                     const { phoneTypeTitle, trademark, datas } = data
                     return (
-                        <View className='goods-type-grids-main-conatiner' key={new Date().toString()+index}>
+                        <View className='goods-type-grids-main-container' key={new Date().toString()+index}>
                             <View className='goods-type-grids-title-container'>
                                 <Image
                                     src={trademark}

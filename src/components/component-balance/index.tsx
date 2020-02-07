@@ -19,9 +19,11 @@ function Balance() {
             animate
             loading={loading}
         >
-            <View className='balance-conatiner'>
-                <Image src={`${CDNWebSite}/icon/user-info/balance.png`} className='balance-image'></Image>
-                <Text className='balance'>余额:{balance}元</Text>
+            <View className='balance-container'>
+                <View className='balance-content-container'>
+                    <Image src={`${CDNWebSite}/icon/user-info/balance.png`} className='balance-image'></Image>
+                    <Text className='balance'>余额:{balance}元</Text>
+                </View>
             </View>
         </Skeleton>
     )

@@ -18,7 +18,7 @@ function HeaderTitle() {
       animate
       loading={loading}
     >
-      <View className='header-title-conatiner'>
+      <View className='header-title-container'>
         <Image src={`${CDNWebSite}/icon/header-title/wing-left.png`} className='header-title-image'></Image>
         <Text className='header-title'>猜你喜欢</Text>
         <Image src={`${CDNWebSite}/icon/header-title/wing-right.png`} className='header-title-image'></Image>

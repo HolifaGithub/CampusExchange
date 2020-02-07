@@ -1,0 +1,37 @@
+$bar-width:750px;
+$bar-height:100px;
+$bar-background-color:#fff;
+$interval:20px;
+$icon-width:60px;
+$icon-height:$icon-width;
+$font-size:30px;
+$base-color:#C41A16;
+$top:-60px;
+.get-info-bars-container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: $top;
+    .get-info-bar-container{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        width: $bar-width;
+        height: $bar-height;
+        margin-bottom: $interval;
+        font-size: $font-size;
+        color: $base-color;
+        position: relative;
+        background-color: $bar-background-color;
+        .icon{
+            width: $icon-width;
+            height: $icon-height;
+            margin-right: $interval;
+            margin-left: $interval;
+        }
+        .arrow{
+            position: absolute;
+            right: 0;
+        }
+    }
+}
