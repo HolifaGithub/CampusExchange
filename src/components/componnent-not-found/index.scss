@@ -1,0 +1,33 @@
+$not-found-conatiner-width:750px;
+$not-found-conatiner-height:1560px;
+$text-top:420px;
+$text-left:70px;
+$say-top:530px;
+$say-left:190px;
+$font-color:#CB5239;
+$font-size:60px;
+.not-found-conatiner{
+    width: $not-found-conatiner-width;
+    height: $not-found-conatiner-height;
+    position: relative;
+    .icon{
+        width: $not-found-conatiner-width;
+        height: $not-found-conatiner-height;
+    }
+    .text{
+        position: absolute;
+        top: $text-top;
+        left: $text-left;
+    }
+    .say{
+        position: absolute;
+        top: $say-top;
+        left: $say-left;
+    }
+    .text,.say{
+        font-size: $font-size;
+        color: $font-color;
+        font-weight: bold;
+        font-family: KaiTi;
+    }
+}

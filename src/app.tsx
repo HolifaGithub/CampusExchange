@@ -38,6 +38,7 @@ class App extends Component {
       'pages/release-goods/release-goods',
       'pages/chat/chat',
       'pages/person/person',
+      'pages/not-found/not-found',
     ],
     window: {
       backgroundTextStyle: 'light',

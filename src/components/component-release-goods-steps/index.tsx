@@ -310,7 +310,7 @@ function ReleaseGoodsSteps() {
             onClick={ ()=>{
               setIsRelease(true)
               setTimeout(() => {
-                Taro.switchTab({url:'/pages/index/index'})
+                Taro.navigateTo({url:'/pages/not-found/not-found'})
               }, 1000);
             }}
           >发布</AtButton>
