@@ -2,6 +2,7 @@ import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
+import ReleaseGoodsStepsContainer from '../../floors/floor-release-goods-steps-container'
 import './release-goods.scss'
 
 // #region 书写注意
@@ -47,7 +48,7 @@ class ReleaseGoods extends Component {
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
   config: Config = {
-    navigationBarTitleText: '发布商品页'
+    navigationBarTitleText: '校园换-发布商品页'
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,7 +64,7 @@ class ReleaseGoods extends Component {
   render() {
     return (
       <View className='release-goods'>
-        <View><Text>Release Goods Page</Text></View>
+        <ReleaseGoodsStepsContainer/>
       </View>
     )
   }

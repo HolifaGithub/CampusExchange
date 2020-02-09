@@ -1,0 +1,94 @@
+$release-goods-steps-width:750px;
+$release-goods-steps-height:1300px;
+$step-margin-top:20px;
+$base-color:#C41A16;
+$step-text-font-color:#fff;
+$step-text-font-size:32px;
+$step-text-width:730px;
+$step-text-height:80px;
+$step-text-padding-left:20px;
+$step-text-border-radius:20px;
+$icon-width:50px;
+$icon-height:$icon-width;
+$icon-right:20px;
+$nameInput-margin-top:20px;
+$nameInput-margin-bottom:120px;
+$base-color:#C41A16;
+$mode-text-margin:30px;
+$mode-text-font-size:30px;
+.release-goods-steps{
+    width:$release-goods-steps-width ;
+    height: $release-goods-steps-height;
+    .step-1{
+        margin-top: $step-margin-top;
+        .step-1-text{
+            margin-top: $step-margin-top;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background-color:$base-color;
+            font-size: $step-text-font-size;
+            color: $step-text-font-color;
+            width: $step-text-width;
+            height: $step-text-height;
+            line-height: $step-text-height;
+            padding-left: $step-text-padding-left;
+            border-radius: $step-text-border-radius;
+            .icon{
+                width: $icon-width;
+                height: $icon-height;
+                position: absolute;
+                right: $icon-right;
+            }
+        }
+        .name-input{
+            margin-top: $nameInput-margin-top;
+            margin-bottom: $nameInput-margin-bottom;
+        }
+    }
+    .step-2{
+        .step-2-text{
+            margin-top: $step-margin-top;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background-color:$base-color;
+            font-size: $step-text-font-size;
+            color: $step-text-font-color;
+            width: $step-text-width;
+            height: $step-text-height;
+            line-height: $step-text-height;
+            padding-left: $step-text-padding-left;
+            border-radius: $step-text-border-radius;
+        }
+        .icon{
+            width: $icon-width;
+            height: $icon-height;
+            position: absolute;
+            right: $icon-right;
+        }
+    }
+    .step-3{
+        .step-3-text{
+            margin-top: $step-margin-top;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background-color:$base-color;
+            font-size: $step-text-font-size;
+            color: $step-text-font-color;
+            width: $step-text-width;
+            height: $step-text-height;
+            line-height: $step-text-height;
+            padding-left: $step-text-padding-left;
+            border-radius: $step-text-border-radius;
+        }
+    }
+    .mode-text{
+        color:$base-color;
+        margin-top: $mode-text-margin;
+        margin-bottom: $mode-text-margin;
+        margin-left: $mode-text-margin;
+        font-size: $mode-text-font-size;
+    }
+}
