@@ -49,7 +49,6 @@ class NotFound extends Component {
    */
     config: Config = {
     navigationBarTitleText: '404 Not Found',
-    navigationBarBackgroundColor:'#D6533C'
   }
 
   componentWillReceiveProps (nextProps) {

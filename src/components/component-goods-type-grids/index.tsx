@@ -6,12 +6,11 @@ import './index.scss'
 
 interface Props {
     datas: {
-        phoneTypeTitle: string;
+        typeTwo: string;
         trademark: string;
-        datas: {
-            name: string;
+        typeTwoDatas: {
+            typeThree: string;
             imageSrc: string;
-            jumpUrl: string;
         }[];
     }[];
 }
@@ -32,28 +31,28 @@ function GoodsTypeGrids(props: Props) {
         >
             <View>
                 {props.datas && props.datas.length > 0 ? props.datas.map((data, index) => {
-                    const { phoneTypeTitle, trademark, datas } = data
+                    const { typeTwo, trademark, typeTwoDatas } = data
                     return (
-                        <View className='goods-type-grids-main-container' key={new Date().toString()+index}>
+                        <View className='goods-type-grids-main-container' key={new Date().toString() + index}>
                             <View className='goods-type-grids-title-container'>
-                                <Image
+                                {trademark && trademark.length > 0 ? <Image
                                     src={trademark}
                                     className='goods-type-grids-title-trademark'>
-                                </Image>
+                                </Image> : null}
                                 <View className='goods-type-grids-title'>
-                                    <Text >{phoneTypeTitle}</Text>
+                                    <Text >{typeTwo}</Text>
                                 </View>
                             </View>
                             <View className='goods-type-grids-container'>
-                                {datas && datas.length > 0 ? datas.map((data2, index2) => {
-                                    const { name, imageSrc } = data2
+                                {typeTwoDatas && typeTwoDatas.length > 0 ? typeTwoDatas.map((data2, index2) => {
+                                    const { typeThree, imageSrc } = data2
                                     return (
                                         <View className='goods-type-grid' key={new Date().toString() + index2}>
                                             <Image
                                                 src={imageSrc}
                                                 className='goods-type-grid-image'>
                                             </Image>
-                                            <Text className='goods-type-grid-name'>{name}</Text>
+                                            <Text className='goods-type-grid-name'>{typeThree}</Text>
                                         </View>
                                     )
                                 }) : null
@@ -69,13 +68,12 @@ function GoodsTypeGrids(props: Props) {
 GoodsTypeGrids.defaultProps = {
     datas: [
         {
-            phoneTypeTitle: '',
+            typeTwo: '',
             trademark: '',
-            datas: [
+            typeTwoDatas: [
                 {
-                    name: '',
+                    typeThree: '',
                     imageSrc: '',
-                    jumpUrl: ''
                 }
             ]
         }
