@@ -16,6 +16,11 @@ $nameInput-margin-bottom:120px;
 $base-color:#C41A16;
 $mode-text-margin:30px;
 $mode-text-font-size:30px;
+$tip-font-size:26px;
+$tip-color:#DE8C17;
+$tip-background-color:#FCF6ED;
+$tip-width:750px;
+$tip-height:80px;
 .release-goods-steps{
     width:$release-goods-steps-width ;
     height: $release-goods-steps-height;
@@ -39,6 +44,21 @@ $mode-text-font-size:30px;
                 height: $icon-height;
                 position: absolute;
                 right: $icon-right;
+            }
+        }
+        .custom-type-three{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .tip{
+                font-size: $tip-font-size;
+                color:$tip-color;
+                width: $tip-width;
+                height: $tip-height;
+                background-color: $tip-background-color;
+                text-align: center;
+                line-height: $tip-height;
+                border-radius: $step-text-border-radius;
             }
         }
         .name-input{

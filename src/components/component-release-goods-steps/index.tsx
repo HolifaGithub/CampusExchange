@@ -1,10 +1,50 @@
-import Taro, { useState, useEffect } from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
-import { AtSteps, AtRadio, AtImagePicker, AtTextarea, AtInput, AtButton, AtInputNumber,AtToast } from 'taro-ui'
+import Taro, { useState, useEffect, useReducer } from '@tarojs/taro'
+import { View, Text, Image, Button } from '@tarojs/components'
+import { AtSteps, AtRadio, AtImagePicker, AtTextarea, AtInput, AtButton, AtInputNumber, AtToast } from 'taro-ui'
+import goodsTypeGridsDatas from '../../static-name/goods-sort'
+import mapNewAndOldDegree from '../../static-name/new-and-old-degree'
 import { CDNWebSite } from '../../static-name/web-site'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
+interface TypeAtRadioOptionsList {
+  label: string;
+  value: string;
+}
+interface TypeTwoDatas {
+  typeThree: string;
+  imageSrc: string;
+}
+interface TypeTwo {
+  typeTwo: string;
+  trademark: string;
+  typeTwoDatas: TypeTwoDatas[];
+}
+interface InitState {
+  typeOneList: TypeAtRadioOptionsList[];
+  typeTwoList: TypeAtRadioOptionsList[];
+  tyoeThreeList: TypeAtRadioOptionsList[];
+  typeOneDatas: TypeTwo[]
+}
 
+
+const TYPE_ONE_LIST_PUSH_OPTIONS = 'TYPE_ONE_LIST_PUSH_OPTIONS'
+const TYPE_TWO_LIST_PUSH_OPTIONS = 'TYPE_TWO_LIST_PUSH_OPTIONS'
+const TYPE_THREE_LIST_PUSH_OPTIONS = 'TYPE_THREE_LIST_PUSH_OPTIONS'
+const RECORD_TYPE_ONE_DATAS = 'RECORD_TYPE_ONE_DATAS'
+function reducer(state, action) {
+  switch (action.type) {
+    case TYPE_ONE_LIST_PUSH_OPTIONS:
+      return Object.assign(state, { typeOneList: action.data })
+    case TYPE_TWO_LIST_PUSH_OPTIONS:
+      return Object.assign(state, { typeTwoList: action.data })
+    case TYPE_THREE_LIST_PUSH_OPTIONS:
+      return Object.assign(state, { typeThreeList: action.data })
+    case RECORD_TYPE_ONE_DATAS:
+      return Object.assign(state, { typeOneDatas: action.data })
+    default:
+      return state
+  }
+}
 function ReleaseGoodsSteps() {
   let [loading, setLoading] = useState(true)
   let [current, setCurrent] = useState(0)
@@ -12,22 +52,39 @@ function ReleaseGoodsSteps() {
   let [isSelectedTypeOne, setIsSelectedTypeOne] = useState(false)
   let [typeTwo, setTypeTwo] = useState('')
   let [isSelectedTypeTwo, setIsSelectedTypeTwo] = useState(false)
+  let [typeThree, setTypeThree] = useState('')
+  let [isSelectedTypeThree, setIsSelectedTypeThree] = useState(false)
+  let [customTypeThree, setCustomTypeThree] = useState(false)
   let [nameInput, setNameInput] = useState('')
   let [goodsNumber, setGoodsNumber] = useState(1)
-  let [newAndOldDegree, setNewAndOldDegree] = useState('100')
+  let [newAndOldDegree, setNewAndOldDegree] = useState('')
   let [isSelectedDegree, setIsSelectedDegree] = useState(false)
-  let [mode, setMode] = useState('directSale')
+  let [mode, setMode] = useState('')
   let [payForMePrice, setPayForMePrice] = useState(0)
   let [wantExchangeGoods, setWantExchangeGoods] = useState('')
   let [objectOfPayment, setObjectOfPayment] = useState('payForMe')
   let [payForOtherPrice, setPayForOtherPrice] = useState(0)
   let [describe, setDescribe] = useState('')
   let [files, setFiles] = useState([])
-  let [isRelease,setIsRelease]=useState(false)
+  let [isRelease, setIsRelease] = useState(false)
+  const initState: InitState = {
+    typeOneList: [],
+    typeTwoList: [],
+    tyoeThreeList: [],
+    typeOneDatas: []
+  }
+  const [state, dispatch] = useReducer(reducer, initState);
+  let _typeOneList: TypeAtRadioOptionsList[] = []
+  let _typeTwoList: TypeAtRadioOptionsList[] = []
+  let _typeThreeList: TypeAtRadioOptionsList[] = []
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 1000)
+    for (let i of goodsTypeGridsDatas) {
+      _typeOneList.push({ label: i.typeOne, value: i.typeOne })
+    }
+    dispatch({ type: TYPE_ONE_LIST_PUSH_OPTIONS, data: _typeOneList })
   }, [])
   const items = [
     {
@@ -37,28 +94,13 @@ function ReleaseGoodsSteps() {
     },
     {
       'title': '步骤二',
-      'desc': '请您填写物品的数量、价格以及交易形式'
+      'desc': '请您填写物品的数量、新旧、价格以及交易形式'
     },
     {
       'title': '步骤三',
       'desc': '请您上传物品的图片以及描述信息',
     }
   ]
-  const mapNewAndOldDegree = {
-    100: '全新',
-    99: '99新',
-    98: '98新',
-    95: '95新',
-    90: '90新',
-    85: '85新',
-    80: '80新',
-    75: '75新',
-    70: '70新',
-    60: '60新',
-    50: '半新',
-    30: '很旧',
-    10: '伊拉克'
-  }
   return (
     <Skeleton
       row={1}
@@ -76,64 +118,96 @@ function ReleaseGoodsSteps() {
           <View className='step-1-text' onClick={() => {
             setIsSelectedTypeOne(!isSelectedTypeOne)
           }}>
-            <Text>1.请选择物品的一级分类：</Text>
+            <Text>1.请选择物品的一级分类：{typeOne}</Text>
             {isSelectedTypeOne ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
           </View>
           {isSelectedTypeOne ? null :
             <AtRadio
-              options={[
-                { label: '手机', value: 'option1' },
-                { label: '电脑', value: 'option2' },
-                { label: '书籍', value: 'option3' },
-                { label: '食品', value: 'option4' },
-                { label: '数码家电', value: 'option5' },
-                { label: '运动户外', value: 'option6' },
-                { label: '服饰鞋靴', value: 'option7' },
-                { label: '美妆个护', value: 'option8' },
-                { label: '箱包礼品', value: 'option9' },
-                { label: '宿舍用品', value: 'option10' },
-                { label: '学习文具', value: 'option11' },
-                { label: '医疗药品', value: 'option12' },
-                { label: '虚拟物品', value: 'option13' },
-              ]}
+              options={state.typeOneList}
               value={typeOne}
               onClick={(value) => {
                 setTypeOne(value)
                 setIsSelectedTypeOne(true)
+                for (let i of goodsTypeGridsDatas) {
+                  if (i.typeOne === value) {
+                    for (let j = 0; j < i.typeOneDatas.length; j++) {
+                      _typeTwoList.push({
+                        label: i.typeOneDatas[j].typeTwo,
+                        value: i.typeOneDatas[j].typeTwo
+                      })
+                    }
+                    dispatch({ type: RECORD_TYPE_ONE_DATAS, data: i.typeOneDatas })
+                  }
+                }
+                dispatch({
+                  type: TYPE_TWO_LIST_PUSH_OPTIONS,
+                  data: _typeTwoList
+                })
               }}
             />}
 
           <View className='step-1-text' onClick={() => {
             setIsSelectedTypeTwo(!isSelectedTypeTwo)
           }}>
-            <Text>2.请选择物品的二级分类：</Text>
+            <Text>2.请选择物品的二级分类：{typeTwo}</Text>
             {isSelectedTypeTwo ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
           </View>
           {isSelectedTypeTwo ? null : <AtRadio
-            options={[
-              { label: '手机', value: 'option1' },
-              { label: '电脑', value: 'option2' },
-              { label: '书籍', value: 'option3' },
-              { label: '食品', value: 'option4' },
-              { label: '数码家电', value: 'option5' },
-              { label: '运动户外', value: 'option6' },
-              { label: '服饰鞋靴', value: 'option7' },
-              { label: '美妆个护', value: 'option8' },
-              { label: '箱包礼品', value: 'option9' },
-              { label: '宿舍用品', value: 'option10' },
-              { label: '学习文具', value: 'option11' },
-              { label: '医疗药品', value: 'option12' },
-              { label: '虚拟物品', value: 'option13' },
-            ]}
+            options={state.typeTwoList}
             value={typeTwo}
             onClick={(value) => {
               setTypeTwo(value)
               setIsSelectedTypeTwo(true)
+              for (let i of state.typeOneDatas) {
+                if (i.typeTwo === value) {
+                  for (let j = 0; j < i.typeTwoDatas.length; j++) {
+                    _typeThreeList.push({
+                      label: i.typeTwoDatas[j].typeThree,
+                      value: i.typeTwoDatas[j].typeThree
+                    })
+                  }
+                }
+              }
+              dispatch({
+                type: TYPE_THREE_LIST_PUSH_OPTIONS,
+                data: _typeThreeList
+              })
             }}
           />}
 
+          <View className='step-1-text' onClick={() => {
+            setIsSelectedTypeThree(!isSelectedTypeThree)
+          }}>
+            <Text>3.请选择物品的三级分类：{typeThree}</Text>
+            {isSelectedTypeThree ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
+          </View>
+          {isSelectedTypeThree ? null : (
+            <View>
+              {!customTypeThree ? <AtRadio
+                options={state.typeThreeList}
+                value={typeThree}
+                onClick={(value) => {
+                  setTypeThree(value)
+                  setIsSelectedTypeThree(true)
+                }}
+              /> : null}
+              <View className='custom-type-three'>
+                {!customTypeThree ? <View className='tip' onClick={() => { setCustomTypeThree(true) }}>没有想要的?点击我自定义分类!</View> : null}
+                {customTypeThree ? <AtInput placeholder='在此输入物品的三级分类名'
+                  type='string'
+                  name='typeThreeInput'
+                  value={typeThree}
+                  onChange={(value) => {
+                    setTypeThree(value)
+                  }}
+                  autoFocus
+                ></AtInput> : null}
+              </View>
+            </View>
+          )}
+
           <View className='step-1-text'>
-            <Text>3.请输入物品的名称以及型号：</Text>
+            <Text>4.请输入物品的具体名称以及型号信息：</Text>
           </View>
           <View className='name-input'>
             <AtInput placeholder='在此输入物品的名称以及型号'
@@ -148,13 +222,14 @@ function ReleaseGoodsSteps() {
           </View>
           <AtButton
             circle
-            type='secondary'
+            type='primary'
             onClick={() => { setCurrent(current + 1) }}
+            full
           >下一步</AtButton>
         </View> : null}
         {current === 1 ? <View className='step-2'>
           <View className='step-2-text'>
-            <Text>4.请选择物品的数量：</Text>
+            <Text>5.请选择物品的数量：</Text>
             <AtInputNumber
               type='number'
               min={1}
@@ -168,7 +243,7 @@ function ReleaseGoodsSteps() {
           <View className='step-2-text' onClick={() => {
             setIsSelectedDegree(!isSelectedDegree)
           }}>
-            <Text>5.请选择物品的新旧程度：{mapNewAndOldDegree[newAndOldDegree]}</Text>
+            <Text>6.请选择物品的新旧程度：{mapNewAndOldDegree[newAndOldDegree]}</Text>
             {isSelectedDegree ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
           </View>
           {isSelectedDegree ? null :
@@ -196,7 +271,7 @@ function ReleaseGoodsSteps() {
             />}
 
           <View className='step-2-text'>
-            <Text>6.请选择物品的交易方式：</Text>
+            <Text>7.请选择物品的交易方式：</Text>
           </View>
           <AtRadio
             options={[
@@ -218,7 +293,6 @@ function ReleaseGoodsSteps() {
               onChange={(value) => {
                 setPayForMePrice(value)
               }}
-              autoFocus
             ></AtInput>
           </View> : null}
 
@@ -231,7 +305,6 @@ function ReleaseGoodsSteps() {
               onChange={(value) => {
                 setWantExchangeGoods(value)
               }}
-              autoFocus
             ></AtInput>
           </View> : null}
 
@@ -244,7 +317,6 @@ function ReleaseGoodsSteps() {
               onChange={(value) => {
                 setWantExchangeGoods(value)
               }}
-              autoFocus
             ></AtInput>
             <View className='mode-text'>换了上面物品后要补的差价是(元)：</View>
             <AtRadio
@@ -265,7 +337,6 @@ function ReleaseGoodsSteps() {
               onChange={(value) => {
                 setPayForMePrice(value)
               }}
-              autoFocus
             ></AtInput> : null}
             {objectOfPayment === 'payForOther' ? <AtInput placeholder='在此输入差价'
               type='digit'
@@ -275,18 +346,17 @@ function ReleaseGoodsSteps() {
               onChange={(value) => {
                 setPayForOtherPrice(value)
               }}
-              autoFocus
             ></AtInput> : null}
           </View> : null}
           <AtButton
             circle
-            type='secondary'
+            type='primary'
             onClick={() => { setCurrent(current + 1) }}
           >下一步</AtButton>
         </View> : null}
         {current === 2 ? <View className='step-3'>
           <View className='step-3-text'>
-            <Text>7.请填写您发布的物品的详细描述：</Text>
+            <Text>8.请填写您发布的物品的详细描述：</Text>
           </View>
           <AtTextarea
             value={describe}
@@ -296,7 +366,7 @@ function ReleaseGoodsSteps() {
             height={300}
           />
           <View className='step-3-text'>
-            <Text>8.请选择您发布的物品的照片：</Text>
+            <Text>9.请选择您发布的物品的照片：</Text>
           </View>
           <AtImagePicker
             files={files}
@@ -307,15 +377,15 @@ function ReleaseGoodsSteps() {
           <AtButton
             circle
             type='secondary'
-            onClick={ ()=>{
+            onClick={() => {
               setIsRelease(true)
               setTimeout(() => {
-                Taro.navigateTo({url:'/pages/not-found/not-found'})
+                Taro.navigateTo({ url: '/pages/not-found/not-found' })
               }, 1000);
             }}
           >发布</AtButton>
         </View> : null}
-        <AtToast isOpened={isRelease} text="发布成功！"  status='success' duration={1000}></AtToast>
+        <AtToast isOpened={isRelease} text="发布成功！" status='success' duration={1000}></AtToast>
       </View>
     </Skeleton>
   )
