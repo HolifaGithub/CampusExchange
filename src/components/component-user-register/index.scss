@@ -1,0 +1,25 @@
+$container-height:1500px;
+$container-background-color:#C41A16;
+$location-color:#fff;
+$location-padding-top:20px;
+$location-padding-left:$location-padding-top;
+$icon-width:60px;
+$icon-height:$icon-width;
+$icon-margin-right:10px;
+.user-register-conatiner{
+    height: $container-height;
+    background-color: $container-background-color;
+    .location{
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        color: $location-color;
+        padding-top: $location-padding-top;
+        padding-left: $location-padding-left;
+        .icon{
+            width: $icon-width;
+            height: $icon-height;
+            margin-right: $icon-margin-right;
+        }
+    }
+}

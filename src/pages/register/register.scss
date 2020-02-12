@@ -1,0 +1,8 @@
+$register-height:1500px;
+$register-width:750px;
+$register-background-color:#eee;
+.register{
+    width: $register-width;
+    height: $register-height;
+    background-color: $register-background-color;
+}
