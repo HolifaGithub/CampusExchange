@@ -5,10 +5,13 @@ import CustomSwiper from '../../components/component-swiper'
 import { View, } from '@tarojs/components'
 import './index.scss'
 
-function IndexHeader() {
+interface Props{
+    location:string;
+}
+function IndexHeader(props:Props) {
     return (
         <View className='index-header-container'>
-            <FunctionalHeader></FunctionalHeader>
+            <FunctionalHeader location={props.location}></FunctionalHeader>
             <SearchBar></SearchBar>
             <CustomSwiper></CustomSwiper>
         </View>

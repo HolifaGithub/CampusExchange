@@ -7,6 +7,12 @@ import './index.scss'
 import IndexHeader from '../../floors/floor-index-header'
 import IndexGrid from '../../floors/floor-index-grid'
 import IndexWaterFall from '../../floors/floor-index-waterfall'
+import { AtToast } from "taro-ui"
+import getLocation from '../../utils/getLocation'
+import isNullOrUndefined from '../../utils/isNullOrUndefined'
+import isStringLengthEqualZero from '../../utils/isStringLengthEqualZero'
+import { switchTabPerson } from '../../actions/switchTabBar'
+import { authorized, notAuthorized } from '../../actions/checkIsAuthorized'
 // #region 书写注意
 //
 // 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
@@ -19,13 +25,22 @@ import IndexWaterFall from '../../floors/floor-index-waterfall'
 
 type PageStateProps = {
   fetchPageData: {
-    fetchPageDataStatus: string
-    pageData: []
+    fetchPageDataStatus: string;
+    pageData: [];
+  },
+  switchTarBar: {
+    current: number;
+  },
+  checkIsAuthorized:{
+    isAuthorized:boolean;
   }
 }
 
 type PageDispatchProps = {
-  dispatchFetchPageData: () => any
+  dispatchFetchPageData: () => any;
+  switchTabPerson: () => any;
+  dispatchAuthorized:()=>any;
+  dispatchNotAuthorized:()=>any;
 }
 
 type PageOwnProps = {}
@@ -46,11 +61,28 @@ type WaterFallDatasType = {
   price: number,
   title: string
 }
-@connect(({ fetchPageData }) => ({
-  fetchPageData
+interface LocationResult {
+  status: number,
+  message: string,
+  result: any,
+  request_id: string
+}
+@connect(({ fetchPageData, switchTarBar,checkIsAuthorized }) => ({
+  fetchPageData,
+  switchTarBar,
+  checkIsAuthorized
 }), (dispatch) => ({
   dispatchFetchPageData() {
     dispatch(dispatchFetchPageData())
+  },
+  switchTabPerson() {
+    dispatch(switchTabPerson())
+  },
+  dispatchAuthorized(){
+    dispatch(authorized())
+  },
+  dispatchNotAuthorized(){
+    dispatch(notAuthorized())
   }
 }))
 class Index extends PureComponent {
@@ -62,11 +94,48 @@ class Index extends PureComponent {
  * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
-
+  state = {
+    location: ''
+  }
   componentWillMount() {
     this.props.dispatchFetchPageData();
   }
 
+  componentDidMount() {
+    getLocation().then((res: LocationResult) => {
+      if (!isNullOrUndefined(res.result.address_component)) {
+        const address_component = res.result.address_component
+        if (!isNullOrUndefined(address_component)) {
+          const province = address_component.province
+          const city = address_component.city
+          const district = address_component.district
+          if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
+            this.setState({ location: `${province}${city}${district}` })
+          }
+          Taro.getSetting({
+            success: (res) => {
+              if (res.authSetting["scope.userInfo"] === true) {
+                this.props.dispatchAuthorized()
+              } else {
+                this.props.dispatchNotAuthorized()
+                setTimeout(() => {
+                  Taro.switchTab({
+                    url: '/pages/person/person',
+                    success: () => {
+                      this.props.switchTabPerson()
+                    }
+                  })
+                }, 1000)           
+              }
+            }
+          })
+        }
+      }
+    }).catch(() => {
+      this.setState({ location: '无法获取当前位置' })
+    })
+
+  }
   // componentWillReceiveProps () {
   //   // console.log(this.props, nextProps)
   // }
@@ -81,8 +150,8 @@ class Index extends PureComponent {
     navigationBarTitleText: '校园换-首页',
     backgroundColor: '#C41A16',
     enablePullDownRefresh: true,
-    navigationBarBackgroundColor:'#C41A16',
-    navigationBarTextStyle:'white'
+    navigationBarBackgroundColor: '#C41A16',
+    navigationBarTextStyle: 'white'
   }
 
   onPullDownRefresh() {
@@ -166,9 +235,10 @@ class Index extends PureComponent {
       <View
         className='index'
       >
-        <IndexHeader></IndexHeader>
+        <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
         <IndexWaterFall datas={waterFallDatas}></IndexWaterFall>
+        <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading'></AtToast>
       </View>
     )
   }

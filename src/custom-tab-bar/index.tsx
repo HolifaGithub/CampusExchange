@@ -1,7 +1,8 @@
 import { ComponentClass } from 'react'
 import Taro, { PureComponent } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import { AtTabBar } from 'taro-ui'
+import { AtTabBar, AtToast } from 'taro-ui'
 import { CDNWebSite } from '../static-name/web-site'
 import { baseColor, tabBarSelectedColor } from '../static-name/xiaoyuanhuan-color'
 import {
@@ -11,6 +12,7 @@ import {
   switchTabChat,
   switchTabPerson
 } from '../actions/switchTabBar'
+import { authorized, notAuthorized } from '../actions/checkIsAuthorized'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 
@@ -27,15 +29,20 @@ import './index.scss'
 type PageStateProps = {
   switchTarBar: {
     current: number
+  },
+  checkIsAuthorized: {
+    isAuthorized: boolean;
   }
 }
 
 type PageDispatchProps = {
-  switchTabHome: () => any,
-  switchTabSort: () => any,
-  switchTabReleaseGoods: () => any,
-  switchTabChat: () => any,
-  switchTabPerson: () => any,
+  switchTabHome: () => any;
+  switchTabSort: () => any;
+  switchTabReleaseGoods: () => any;
+  switchTabChat: () => any;
+  switchTabPerson: () => any;
+  dispatchAuthorized: () => any;
+  dispatchNotAuthorized: () => any;
 }
 
 type PageOwnProps = {}
@@ -49,8 +56,9 @@ interface TabBar {
 }
 
 
-@connect(({ switchTarBar }) => ({
-  switchTarBar
+@connect(({ switchTarBar, checkIsAuthorized }) => ({
+  switchTarBar,
+  checkIsAuthorized
 }), (dispatch) => ({
   switchTabHome() {
     dispatch(switchTabHome())
@@ -62,6 +70,12 @@ interface TabBar {
     dispatch(switchTabChat())
   }, switchTabPerson() {
     dispatch(switchTabPerson())
+  },
+  dispatchAuthorized() {
+    dispatch(authorized())
+  },
+  dispatchNotAuthorized() {
+    dispatch(notAuthorized())
   }
 
 }))
@@ -75,7 +89,7 @@ class TabBar extends PureComponent {
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
   state = {
-    loading: true
+    loading: true,
   }
   // componentWillMount() {
 
@@ -104,91 +118,110 @@ class TabBar extends PureComponent {
         animate
         loading={this.state.loading}
       >
-        <AtTabBar
-          tabList={[
-            {
-              title: '首页',
-              image: `${CDNWebSite}/icon/tabbar/home.png`,
-              selectedImage: `${CDNWebSite}/icon/tabbar/home-selected.png`,
-            },
-            {
-              title: '分类',
-              image: `${CDNWebSite}/icon/tabbar/sort.png`,
-              selectedImage: `${CDNWebSite}/icon/tabbar/sort-selected.png`,
-            },
-            {
-              title: '发布',
-              image: `${CDNWebSite}/icon/tabbar/release-goods.png`,
-            },
-            {
-              title: '聊天',
-              image: `${CDNWebSite}/icon/tabbar/chat.png`,
-              selectedImage: `${CDNWebSite}/icon/tabbar/chat-selected.png`,
-              text: '100',
-              max: 99
-            },
-            {
-              title: '个人中心',
-              image: `${CDNWebSite}/icon/tabbar/person.png`,
-              selectedImage: `${CDNWebSite}/icon/tabbar/person-selected.png`,
-            }
-          ]}
-          onClick={(current) => {
-            switch (current) {
-              case 0: Taro.switchTab({
-                url: '/pages/index/index',
-                success: () => {
-                  this.props.switchTabHome()
+        <View>
+          <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading'></AtToast>
+          <AtTabBar
+            tabList={[
+              {
+                title: '首页',
+                image: `${CDNWebSite}/icon/tabbar/home.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar/home-selected.png`,
+              },
+              {
+                title: '分类',
+                image: `${CDNWebSite}/icon/tabbar/sort.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar/sort-selected.png`,
+              },
+              {
+                title: '发布',
+                image: `${CDNWebSite}/icon/tabbar/release-goods.png`,
+              },
+              {
+                title: '聊天',
+                image: `${CDNWebSite}/icon/tabbar/chat.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar/chat-selected.png`,
+                text: '100',
+                max: 99
+              },
+              {
+                title: '个人中心',
+                image: `${CDNWebSite}/icon/tabbar/person.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar/person-selected.png`,
+              }
+            ]}
+            onClick={(current) => {
+              Taro.getSetting({
+                success: (res) => {
+                  if (res.authSetting["scope.userInfo"] === true) {
+                    this.props.dispatchAuthorized()
+                    switch (current) {
+                      case 0: Taro.switchTab({
+                        url: '/pages/index/index',
+                        success: () => {
+                          this.props.switchTabHome()
+                        }
+                      })
+                        break
+                      case 1: Taro.switchTab({
+                        url: '/pages/sort/sort',
+                        success: () => {
+                          this.props.switchTabSort()
+                        }
+                      })
+                        break
+                      case 2: Taro.switchTab({
+                        url: '/pages/release-goods/release-goods',
+                        success: () => {
+                          this.props.switchTabReleaseGoods()
+                        }
+                      })
+                        break
+                      case 3: Taro.switchTab({
+                        url: '/pages/chat/chat',
+                        success: () => {
+                          this.props.switchTabChat()
+                        }
+                      })
+                        break
+                      case 4: Taro.switchTab({
+                        url: '/pages/person/person',
+                        success: () => {
+                          this.props.switchTabPerson()
+                        }
+                      })
+                        break
+                      default: Taro.switchTab({
+                        url: '/pages/index/index',
+                        success: () => {
+                          this.props.switchTabHome()
+                        }
+                      })
+                        break
+                    }
+                  } else {
+                    this.props.dispatchNotAuthorized()
+                    setTimeout(() => {
+                      Taro.switchTab({
+                        url: '/pages/person/person',
+                        success: () => {
+                          this.props.switchTabPerson()
+                        }
+                      })
+                    }, 1000)
+                  }
                 }
               })
-                break
-              case 1: Taro.switchTab({
-                url: '/pages/sort/sort',
-                success: () => {
-                  this.props.switchTabSort()
-                }
-              })
-                break
-              case 2: Taro.switchTab({
-                url: '/pages/release-goods/release-goods',
-                success: () => {
-                  this.props.switchTabReleaseGoods()
-                }
-              })
-                break
-              case 3: Taro.switchTab({
-                url: '/pages/chat/chat',
-                success: () => {
-                  this.props.switchTabChat()
-                }
-              })
-                break
-              case 4: Taro.switchTab({
-                url: '/pages/person/person',
-                success: () => {
-                  this.props.switchTabPerson()
-                }
-              })
-                break
-              default: Taro.switchTab({
-                url: '/pages/index/index',
-                success: () => {
-                  this.props.switchTabHome()
-                }
-              })
-                break
-            }
-
-          }}
-          current={this.props.switchTarBar.current}
-          color='#FFFFFF'
-          selectedColor={tabBarSelectedColor}
-          backgroundColor={baseColor}
-          iconSize={22}
-          fontSize={13}
-          fixed
-          key={1}
-        />
+            }}
+            current={this.props.switchTarBar.current}
+            color='#FFFFFF'
+            selectedColor={tabBarSelectedColor}
+            backgroundColor={baseColor}
+            iconSize={22}
+            fontSize={13}
+            fixed
+            key={1}
+          />
+        </View>
       </Skeleton>
     )
   }
