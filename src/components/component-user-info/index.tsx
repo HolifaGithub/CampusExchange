@@ -46,11 +46,7 @@ function checkIsAuthorized(dispatch) {
 function checkIsNeedRegister(dispatch) {
   dispatch({type:IS_NEW_USER})
 }
-function handleConfirm(){
-  Taro.navigateTo({
-    url: '/pages/register/register'
-  })
-}
+
 function UserInfo() {
   const initState: InitState = {
     loading: true,
@@ -102,7 +98,12 @@ function UserInfo() {
             isOpened
             title='系统检测到您为新用户'
             confirmText='进去填写'
-            onConfirm={handleConfirm}
+            onConfirm={()=>{
+              dispatch({type:NOT_NEW_USER})
+              Taro.navigateTo({
+                url: '/pages/register/register'
+              })
+            }}
             content='Hello！新用户，欢迎来到校园换，现在需要填写一些关于您的详细信息，谢谢您的配合！'
           /> : null}
         </View>

@@ -1,11 +1,26 @@
 $container-height:1500px;
-$container-background-color:#C41A16;
+$container-background-color:#eee;
 $location-color:#fff;
 $location-padding-top:20px;
+$location-background-color:#C41A16;
 $location-padding-left:$location-padding-top;
-$icon-width:60px;
+$location-margin-bottom:10px;
+$location-border-radius:10px;
+$icon-width:40px;
 $icon-height:$icon-width;
 $icon-margin-right:10px;
+$title-color:#fff;
+$title-background-color:#C41A16;
+$title-padding-left:20px;
+$title-height:60px;
+$title-radius:10px;
+$step-margin:20px;
+$base-color:#C41A16;
+$picker-title-margin-left:10px;
+$picker-background-color:#fff;
+$picker-color:#777;
+$picker-width:580px;
+$picker-height:80px;
 .user-register-conatiner{
     height: $container-height;
     background-color: $container-background-color;
@@ -16,10 +31,43 @@ $icon-margin-right:10px;
         color: $location-color;
         padding-top: $location-padding-top;
         padding-left: $location-padding-left;
+        background-color: $location-background-color;
+        border-bottom-left-radius: $location-border-radius;
+        border-bottom-right-radius: $location-border-radius;
+        margin-bottom: $location-margin-bottom;
         .icon{
             width: $icon-width;
             height: $icon-height;
             margin-right: $icon-margin-right;
         }
     }
+ .register-content{
+     .title{
+        color: $title-color;
+        background-color: $title-background-color;
+        padding-left: $title-padding-left;
+        height: $title-height;
+        border-radius: $title-radius;
+        line-height: $title-height;
+     }
+     .step{
+         margin-bottom: $step-margin;       
+         .picker-container{
+             display:flex;
+             justify-content:start;
+             align-items:center;
+             .picker-title{
+                color:$base-color;
+                margin-left:$picker-title-margin-left;
+             }
+             .picker{
+                 width:$picker-width;
+                 height:$picker-height;
+                 background-color:$picker-background-color;
+                 color:$picker-color;
+                 line-height:$picker-height;
+             }
+         }
+     }
+ }
 }
