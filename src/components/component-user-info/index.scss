@@ -4,13 +4,14 @@ $user-info-container-padding-left:600px;
 $icon-width:60px;
 $icon-height:50px;
 $icon-margin-right:30px;
-$avatar-width:130px;
+$avatar-width:140px;
 $avatar-height:$avatar-width;
 $avatar-border-radius:$avatar-width/2;
 $nick-name-color:#ffffff;
 $nick-name-font-weight:600;
-$nick-name-font-size:38px;
+$nick-name-font-size:50px;
 $interval:30px;
+$login-and-register-left:-130px;
 .user-info-container{
     height: $user-info-container-height;
     background-color: $user-info-container-background-color;
@@ -38,6 +39,10 @@ $interval:30px;
             font-size: $nick-name-font-size;
             font-weight: $nick-name-font-weight;
             margin-left: $interval;
+        }
+        .login-and-register{
+            position: relative;
+            left: $login-and-register-left;
         }
     }
 }
