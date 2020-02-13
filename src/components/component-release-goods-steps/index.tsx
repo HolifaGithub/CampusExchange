@@ -22,7 +22,7 @@ interface TypeTwo {
 interface InitState {
   typeOneList: TypeAtRadioOptionsList[];
   typeTwoList: TypeAtRadioOptionsList[];
-  tyoeThreeList: TypeAtRadioOptionsList[];
+  typeThreeList: TypeAtRadioOptionsList[];
   typeOneDatas: TypeTwo[],
   loading: boolean;
   current: number;
@@ -73,93 +73,93 @@ const SET_DESCRIBE = 'SET_DESCRIBE'
 const SET_FILES = 'SET_FILES'
 const RELEASED = 'RELEASED'
 const RESET = 'RESET'
-function reducer(state, action) {
+
+const initState: InitState = {
+  typeOneList: [],
+  typeTwoList: [],
+  typeThreeList: [],
+  typeOneDatas: [],
+  loading: true,
+  current: 0,
+  typeOne: '',
+  isSelectedTypeOne: false,
+  typeTwo: '',
+  isSelectedTypeTwo: false,
+  typeThree: '',
+  isSelectedTypeThree: false,
+  isCustomTypeThree: false,
+  nameInput: '',
+  goodsNumber: 1,
+  newAndOldDegree: '',
+  isSelectedDegree: false,
+  mode: '',
+  payForMePrice: 0,
+  wantExchangeGoods: '',
+  objectOfPayment: 'payForMe',
+  payForOtherPrice: 0,
+  describe: '',
+  files: [],
+  isRelease: false,
+}
+function reducer(state=initState, action) {
   switch (action.type) {
     case TYPE_ONE_LIST_PUSH_OPTIONS:
-      return Object.assign(state, { typeOneList: action.data })
+      return Object.assign({}, state, { typeOneList: action.data })
     case TYPE_TWO_LIST_PUSH_OPTIONS:
-      return Object.assign(state, { typeTwoList: action.data })
+      return Object.assign({}, state, { typeTwoList: action.data })
     case TYPE_THREE_LIST_PUSH_OPTIONS:
-      return Object.assign(state, { typeThreeList: action.data })
+      return Object.assign({}, state, { typeThreeList: action.data })
     case RECORD_TYPE_ONE_DATAS:
-      return Object.assign(state, { typeOneDatas: action.data })
+      return Object.assign({}, state, { typeOneDatas: action.data })
     case LOADING_SUCCESS:
-      return Object.assign(state, { loading: false })
+      return Object.assign({}, state, { loading: false })
     case SET_CURRENT:
-      return Object.assign(state, { current: action.data })
+      return Object.assign({}, state, { current: action.data })
     case SET_TYPE_ONE:
-      return Object.assign(state, { typeOne: action.data })
+      return Object.assign({}, state, { typeOne: action.data })
     case SELECTED_TYPE_ONE:
-      return Object.assign(state, { isSelectedTypeOne: action.data })
+      return Object.assign({}, state, { isSelectedTypeOne: action.data })
     case SET_TYPE_TWO:
-      return Object.assign(state, { typeTwo: action.data })
+      return Object.assign({}, state, { typeTwo: action.data })
     case SELECTED_TYPE_TWO:
-      return Object.assign(state, { isSelectedTypeTwo: action.data })
+      return Object.assign({}, state, { isSelectedTypeTwo: action.data })
     case SET_TYPE_THREE:
-      return Object.assign(state, { typeThree: action.data })
+      return Object.assign({}, state, { typeThree: action.data })
     case SELECTED_TYPE_THREE:
-      return Object.assign(state, { isSelectedTypeThree: action.data })
+      return Object.assign({}, state, { isSelectedTypeThree: action.data })
     case CUSTOM_TYPE_THREE:
-      return Object.assign(state, { isCustomTypeThree: true })
+      return Object.assign({}, state, { isCustomTypeThree: true })
     case SET_NAME_INPUT:
-      return Object.assign(state, { nameInput: action.data })
+      return Object.assign({}, state, { nameInput: action.data })
     case SET_GOODS_NUMBER:
-      return Object.assign(state, { goodsNumber: action.data })
+      return Object.assign({}, state, { goodsNumber: action.data })
     case SET_NEW_AND_OLD_DEGREE:
-      return Object.assign(state, { newAndOldDegree: action.data })
+      return Object.assign({}, state, { newAndOldDegree: action.data })
     case SELECTED_DEGREE:
-      return Object.assign(state, { isSelectedDegree: action.data })
+      return Object.assign({}, state, { isSelectedDegree: action.data })
     case SET_MODE:
-      return Object.assign(state, { mode: action.data })
+      return Object.assign({}, state, { mode: action.data })
     case SET_PAY_FOR_ME_PRICE:
-      return Object.assign(state, { payForMePrice: action.data })
+      return Object.assign({}, state, { payForMePrice: action.data })
     case SET_WANT_EXCHANGE_GOODS:
-      return Object.assign(state, { wantExchangeGoods: action.data })
+      return Object.assign({}, state, { wantExchangeGoods: action.data })
     case SET_OBJECT_OF_PAYMENT:
       return Object.assign(state, { objectOfPayment: action.data })
     case SET_PAY_FOR_OTHER_PRICE:
-      return Object.assign(state, { payForOtherPrice: action.data })
+      return Object.assign({}, state, { payForOtherPrice: action.data })
     case SET_DESCRIBE:
-      return Object.assign(state, { describe: action.data })
+      return Object.assign({}, state, { describe: action.data })
     case SET_FILES:
-      return Object.assign(state, { files: action.data })
+      return Object.assign({}, state, { files: action.data })
     case RELEASED:
-      return Object.assign(state, { isRelease: true })
+      return Object.assign({}, state, { isRelease: true })
     case RESET:
-      return Object.assign(state, action.data,{loading:false,isRelease: true})
+      return Object.assign({},initState,{loading:false,isRelease:false})
     default:
       return state
   }
 }
 function ReleaseGoodsSteps() {
-  const initState: InitState = {
-    typeOneList: [],
-    typeTwoList: [],
-    tyoeThreeList: [],
-    typeOneDatas: [],
-    loading: true,
-    current: 0,
-    typeOne: '',
-    isSelectedTypeOne: false,
-    typeTwo: '',
-    isSelectedTypeTwo: false,
-    typeThree: '',
-    isSelectedTypeThree: false,
-    isCustomTypeThree: false,
-    nameInput: '',
-    goodsNumber: 1,
-    newAndOldDegree: '',
-    isSelectedDegree: false,
-    mode: '',
-    payForMePrice: 0,
-    wantExchangeGoods: '',
-    objectOfPayment: 'payForMe',
-    payForOtherPrice: 0,
-    describe: '',
-    files: [],
-    isRelease: false,
-  }
-  const cloneInitState=JSON.parse(JSON.stringify(initState))
   const [state, dispatch] = useReducer(reducer, initState);
   let _typeOneList: TypeAtRadioOptionsList[] = []
   let _typeTwoList: TypeAtRadioOptionsList[] = []
@@ -172,7 +172,7 @@ function ReleaseGoodsSteps() {
       _typeOneList.push({ label: i.typeOne, value: i.typeOne })
     }
     dispatch({ type: TYPE_ONE_LIST_PUSH_OPTIONS, data: _typeOneList })
-  }, [])
+  }, [_typeOneList])
   const items = [
     {
       'title': '步骤一',
@@ -304,7 +304,6 @@ function ReleaseGoodsSteps() {
               onChange={(value) => {
                 dispatch({ type: SET_NAME_INPUT, data: value })
               }}
-              autoFocus
             ></AtInput>
           </View>
           <AtButton
@@ -466,9 +465,10 @@ function ReleaseGoodsSteps() {
             type='secondary'
             onClick={() => {
               dispatch({ type: RELEASED })
-              console.log(state)
-              // dispatch({type:RESET,data:cloneInitState})
-              // console.log(state)
+              setTimeout(()=>{
+                dispatch({type: RESET})
+                Taro.pageScrollTo({scrollTop:0,duration:1000})
+              },1000)   
               // setTimeout(() => {
               //   Taro.navigateTo({ url: '/pages/not-found/not-found' })
               // }, 1000);

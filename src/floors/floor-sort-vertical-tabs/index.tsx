@@ -43,7 +43,10 @@ function SortVerticalTabs(props: Props) {
                 height={tabHeight}
                 tabDirection='vertical'
                 tabList={tabList}
-                onClick={(current) => { setCurrent(current) }}>
+                onClick={(current) => { 
+                    setCurrent(current) 
+                    Taro.pageScrollTo({scrollTop:0,duration:1000})
+                    }}>
                 {datas && datas.length > 0 ? datas.map((data, index) => {
                     const { typeOneDatas } = data
                     return (
