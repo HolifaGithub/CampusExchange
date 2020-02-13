@@ -133,6 +133,23 @@ class Index extends PureComponent {
       }
     }).catch(() => {
       this.setState({ location: '无法获取当前位置' })
+      Taro.getSetting({
+        success: (res) => {
+          if (res.authSetting["scope.userInfo"] === true) {
+            this.props.dispatchAuthorized()
+          } else {
+            this.props.dispatchNotAuthorized()
+            setTimeout(() => {
+              Taro.switchTab({
+                url: '/pages/person/person',
+                success: () => {
+                  this.props.switchTabPerson()
+                }
+              })
+            }, 1000)           
+          }
+        }
+      })
     })
 
   }

@@ -23,14 +23,56 @@ interface InitState {
   typeOneList: TypeAtRadioOptionsList[];
   typeTwoList: TypeAtRadioOptionsList[];
   tyoeThreeList: TypeAtRadioOptionsList[];
-  typeOneDatas: TypeTwo[]
+  typeOneDatas: TypeTwo[],
+  loading: boolean;
+  current: number;
+  typeOne: string;
+  isSelectedTypeOne: boolean;
+  typeTwo: string;
+  isSelectedTypeTwo: boolean;
+  typeThree: string;
+  isSelectedTypeThree: boolean;
+  isCustomTypeThree: boolean;
+  nameInput: string;
+  goodsNumber: number;
+  newAndOldDegree: string;
+  isSelectedDegree: boolean;
+  mode: string;
+  payForMePrice: number;
+  wantExchangeGoods: string;
+  objectOfPayment: string;
+  payForOtherPrice: number;
+  describe: string;
+  files: Array<any>;
+  isRelease: boolean;
 }
-
 
 const TYPE_ONE_LIST_PUSH_OPTIONS = 'TYPE_ONE_LIST_PUSH_OPTIONS'
 const TYPE_TWO_LIST_PUSH_OPTIONS = 'TYPE_TWO_LIST_PUSH_OPTIONS'
 const TYPE_THREE_LIST_PUSH_OPTIONS = 'TYPE_THREE_LIST_PUSH_OPTIONS'
 const RECORD_TYPE_ONE_DATAS = 'RECORD_TYPE_ONE_DATAS'
+const LOADING_SUCCESS = 'LOADING_SUCCESS'
+const SET_CURRENT = 'SET_CURRENT'
+const SET_TYPE_ONE = 'SET_TYPE_ONE'
+const SELECTED_TYPE_ONE = 'SELECTED_TYPE_ONE'
+const SET_TYPE_TWO = 'SET_TYPE_TWO'
+const SELECTED_TYPE_TWO = 'SELECTED_TYPE_TWO'
+const SET_TYPE_THREE = 'SET_TYPE_THREE'
+const SELECTED_TYPE_THREE = 'SELECTED_TYPE_THREE'
+const CUSTOM_TYPE_THREE = 'CUSTOM_TYPE_THREE'
+const SET_NAME_INPUT = 'SET_NAME_INPUT'
+const SET_GOODS_NUMBER = 'SET_GOODS_NUMBER'
+const SET_NEW_AND_OLD_DEGREE = 'SET_NEW_AND_OLD_DEGREE'
+const SELECTED_DEGREE = 'SELECTED_DEGREE'
+const SET_MODE = 'SET_MODE'
+const SET_PAY_FOR_ME_PRICE = 'SET_PAY_FOR_ME_PRICE'
+const SET_WANT_EXCHANGE_GOODS = 'SET_WANT_EXCHANGE_GOODS'
+const SET_OBJECT_OF_PAYMENT = 'SET_OBJECT_OF_PAYMENT'
+const SET_PAY_FOR_OTHER_PRICE = 'SET_PAY_FOR_OTHER_PRICE'
+const SET_DESCRIBE = 'SET_DESCRIBE'
+const SET_FILES = 'SET_FILES'
+const RELEASED = 'RELEASED'
+const RESET = 'RESET'
 function reducer(state, action) {
   switch (action.type) {
     case TYPE_ONE_LIST_PUSH_OPTIONS:
@@ -41,45 +83,90 @@ function reducer(state, action) {
       return Object.assign(state, { typeThreeList: action.data })
     case RECORD_TYPE_ONE_DATAS:
       return Object.assign(state, { typeOneDatas: action.data })
+    case LOADING_SUCCESS:
+      return Object.assign(state, { loading: false })
+    case SET_CURRENT:
+      return Object.assign(state, { current: action.data })
+    case SET_TYPE_ONE:
+      return Object.assign(state, { typeOne: action.data })
+    case SELECTED_TYPE_ONE:
+      return Object.assign(state, { isSelectedTypeOne: action.data })
+    case SET_TYPE_TWO:
+      return Object.assign(state, { typeTwo: action.data })
+    case SELECTED_TYPE_TWO:
+      return Object.assign(state, { isSelectedTypeTwo: action.data })
+    case SET_TYPE_THREE:
+      return Object.assign(state, { typeThree: action.data })
+    case SELECTED_TYPE_THREE:
+      return Object.assign(state, { isSelectedTypeThree: action.data })
+    case CUSTOM_TYPE_THREE:
+      return Object.assign(state, { isCustomTypeThree: true })
+    case SET_NAME_INPUT:
+      return Object.assign(state, { nameInput: action.data })
+    case SET_GOODS_NUMBER:
+      return Object.assign(state, { goodsNumber: action.data })
+    case SET_NEW_AND_OLD_DEGREE:
+      return Object.assign(state, { newAndOldDegree: action.data })
+    case SELECTED_DEGREE:
+      return Object.assign(state, { isSelectedDegree: action.data })
+    case SET_MODE:
+      return Object.assign(state, { mode: action.data })
+    case SET_PAY_FOR_ME_PRICE:
+      return Object.assign(state, { payForMePrice: action.data })
+    case SET_WANT_EXCHANGE_GOODS:
+      return Object.assign(state, { wantExchangeGoods: action.data })
+    case SET_OBJECT_OF_PAYMENT:
+      return Object.assign(state, { objectOfPayment: action.data })
+    case SET_PAY_FOR_OTHER_PRICE:
+      return Object.assign(state, { payForOtherPrice: action.data })
+    case SET_DESCRIBE:
+      return Object.assign(state, { describe: action.data })
+    case SET_FILES:
+      return Object.assign(state, { files: action.data })
+    case RELEASED:
+      return Object.assign(state, { isRelease: true })
+    case RESET:
+      return Object.assign(state, action.data,{loading:false,isRelease: true})
     default:
       return state
   }
 }
 function ReleaseGoodsSteps() {
-  let [loading, setLoading] = useState(true)
-  let [current, setCurrent] = useState(0)
-  let [typeOne, setTypeOne] = useState('')
-  let [isSelectedTypeOne, setIsSelectedTypeOne] = useState(false)
-  let [typeTwo, setTypeTwo] = useState('')
-  let [isSelectedTypeTwo, setIsSelectedTypeTwo] = useState(false)
-  let [typeThree, setTypeThree] = useState('')
-  let [isSelectedTypeThree, setIsSelectedTypeThree] = useState(false)
-  let [customTypeThree, setCustomTypeThree] = useState(false)
-  let [nameInput, setNameInput] = useState('')
-  let [goodsNumber, setGoodsNumber] = useState(1)
-  let [newAndOldDegree, setNewAndOldDegree] = useState('')
-  let [isSelectedDegree, setIsSelectedDegree] = useState(false)
-  let [mode, setMode] = useState('')
-  let [payForMePrice, setPayForMePrice] = useState(0)
-  let [wantExchangeGoods, setWantExchangeGoods] = useState('')
-  let [objectOfPayment, setObjectOfPayment] = useState('payForMe')
-  let [payForOtherPrice, setPayForOtherPrice] = useState(0)
-  let [describe, setDescribe] = useState('')
-  let [files, setFiles] = useState([])
-  let [isRelease, setIsRelease] = useState(false)
   const initState: InitState = {
     typeOneList: [],
     typeTwoList: [],
     tyoeThreeList: [],
-    typeOneDatas: []
+    typeOneDatas: [],
+    loading: true,
+    current: 0,
+    typeOne: '',
+    isSelectedTypeOne: false,
+    typeTwo: '',
+    isSelectedTypeTwo: false,
+    typeThree: '',
+    isSelectedTypeThree: false,
+    isCustomTypeThree: false,
+    nameInput: '',
+    goodsNumber: 1,
+    newAndOldDegree: '',
+    isSelectedDegree: false,
+    mode: '',
+    payForMePrice: 0,
+    wantExchangeGoods: '',
+    objectOfPayment: 'payForMe',
+    payForOtherPrice: 0,
+    describe: '',
+    files: [],
+    isRelease: false,
   }
+  const cloneInitState=JSON.parse(JSON.stringify(initState))
   const [state, dispatch] = useReducer(reducer, initState);
   let _typeOneList: TypeAtRadioOptionsList[] = []
   let _typeTwoList: TypeAtRadioOptionsList[] = []
   let _typeThreeList: TypeAtRadioOptionsList[] = []
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false)
+      dispatch({ type: LOADING_SUCCESS })
     }, 1000)
     for (let i of goodsTypeGridsDatas) {
       _typeOneList.push({ label: i.typeOne, value: i.typeOne })
@@ -106,28 +193,28 @@ function ReleaseGoodsSteps() {
       row={1}
       rowHeight={60}
       animate
-      loading={loading}
+      loading={state.loading}
     >
       <View className='release-goods-steps'>
         <AtSteps
           items={items}
-          current={current}
-          onChange={(current) => { setCurrent(current) }}
+          current={state.current}
+          onChange={(current) => { dispatch({ type: SET_CURRENT, data: current }) }}
         />
-        {current === 0 ? <View className='step-1'>
+        {state.current === 0 ? <View className='step-1'>
           <View className='step-1-text' onClick={() => {
-            setIsSelectedTypeOne(!isSelectedTypeOne)
+            dispatch({ type: SELECTED_TYPE_ONE, data: !state.isSelectedTypeOne })
           }}>
-            <Text>1.请选择物品的一级分类：{typeOne}</Text>
-            {isSelectedTypeOne ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
+            <Text>1.请选择物品的一级分类：{state.typeOne}</Text>
+            {state.isSelectedTypeOne ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
           </View>
-          {isSelectedTypeOne ? null :
+          {state.isSelectedTypeOne ? null :
             <AtRadio
               options={state.typeOneList}
-              value={typeOne}
+              value={state.typeOne}
               onClick={(value) => {
-                setTypeOne(value)
-                setIsSelectedTypeOne(true)
+                dispatch({ type: SET_TYPE_ONE, data: value })
+                dispatch({ type: SELECTED_TYPE_ONE, data: true })
                 for (let i of goodsTypeGridsDatas) {
                   if (i.typeOne === value) {
                     for (let j = 0; j < i.typeOneDatas.length; j++) {
@@ -147,17 +234,17 @@ function ReleaseGoodsSteps() {
             />}
 
           <View className='step-1-text' onClick={() => {
-            setIsSelectedTypeTwo(!isSelectedTypeTwo)
+            dispatch({ type: SELECTED_TYPE_TWO, data: !state.isSelectedTypeTwo })
           }}>
-            <Text>2.请选择物品的二级分类：{typeTwo}</Text>
-            {isSelectedTypeTwo ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
+            <Text>2.请选择物品的二级分类：{state.typeTwo}</Text>
+            {state.isSelectedTypeTwo ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
           </View>
-          {isSelectedTypeTwo ? null : <AtRadio
+          {state.isSelectedTypeTwo ? null : <AtRadio
             options={state.typeTwoList}
-            value={typeTwo}
+            value={state.typeTwo}
             onClick={(value) => {
-              setTypeTwo(value)
-              setIsSelectedTypeTwo(true)
+              dispatch({ type: SET_TYPE_TWO, data: value })
+              dispatch({ type: SELECTED_TYPE_TWO, data: true })
               for (let i of state.typeOneDatas) {
                 if (i.typeTwo === value) {
                   for (let j = 0; j < i.typeTwoDatas.length; j++) {
@@ -176,29 +263,29 @@ function ReleaseGoodsSteps() {
           />}
 
           <View className='step-1-text' onClick={() => {
-            setIsSelectedTypeThree(!isSelectedTypeThree)
+            dispatch({ type: SELECTED_TYPE_THREE, data: !state.isSelectedTypeThree })
           }}>
-            <Text>3.请选择物品的三级分类：{typeThree}</Text>
-            {isSelectedTypeThree ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
+            <Text>3.请选择物品的三级分类：{state.typeThree}</Text>
+            {state.isSelectedTypeThree ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
           </View>
-          {isSelectedTypeThree ? null : (
+          {state.isSelectedTypeThree ? null : (
             <View>
-              {!customTypeThree ? <AtRadio
+              {!state.isCustomTypeThree ? <AtRadio
                 options={state.typeThreeList}
-                value={typeThree}
+                value={state.typeThree}
                 onClick={(value) => {
-                  setTypeThree(value)
-                  setIsSelectedTypeThree(true)
+                  dispatch({ type: SET_TYPE_THREE, data: value })
+                  dispatch({ type: SELECTED_TYPE_THREE, data: true })
                 }}
               /> : null}
               <View className='custom-type-three'>
-                {!customTypeThree ? <View className='tip' onClick={() => { setCustomTypeThree(true) }}>没有想要的?点击我自定义分类!</View> : null}
-                {customTypeThree ? <AtInput placeholder='在此输入物品的三级分类名'
+                {!state.isCustomTypeThree ? <View className='tip' onClick={() => { dispatch({ type: CUSTOM_TYPE_THREE }) }}>没有想要的?点击我自定义分类!</View> : null}
+                {state.isCustomTypeThree ? <AtInput placeholder='在此输入物品的三级分类名'
                   type='string'
                   name='typeThreeInput'
-                  value={typeThree}
+                  value={state.typeThree}
                   onChange={(value) => {
-                    setTypeThree(value)
+                    dispatch({ type: SET_TYPE_THREE, data: value })
                   }}
                   autoFocus
                 ></AtInput> : null}
@@ -213,9 +300,9 @@ function ReleaseGoodsSteps() {
             <AtInput placeholder='在此输入物品的名称以及型号'
               type='string'
               name='nameInput'
-              value={nameInput}
+              value={state.nameInput}
               onChange={(value) => {
-                setNameInput(value)
+                dispatch({ type: SET_NAME_INPUT, data: value })
               }}
               autoFocus
             ></AtInput>
@@ -223,11 +310,11 @@ function ReleaseGoodsSteps() {
           <AtButton
             circle
             type='primary'
-            onClick={() => { setCurrent(current + 1) }}
+            onClick={() => { dispatch({ type: SET_CURRENT, data: state.current + 1 }) }}
             full
           >下一步</AtButton>
         </View> : null}
-        {current === 1 ? <View className='step-2'>
+        {state.current === 1 ? <View className='step-2'>
           <View className='step-2-text'>
             <Text>5.请选择物品的数量：</Text>
             <AtInputNumber
@@ -235,18 +322,18 @@ function ReleaseGoodsSteps() {
               min={1}
               max={99}
               step={1}
-              value={goodsNumber}
-              onChange={(value) => { setGoodsNumber(value) }}
+              value={state.goodsNumber}
+              onChange={(value) => { dispatch({ type: SET_GOODS_NUMBER, data: value }) }}
             />
           </View>
 
           <View className='step-2-text' onClick={() => {
-            setIsSelectedDegree(!isSelectedDegree)
+            dispatch({ type: SELECTED_DEGREE, data: !state.isSelectedDegree })
           }}>
-            <Text>6.请选择物品的新旧程度：{mapNewAndOldDegree[newAndOldDegree]}</Text>
-            {isSelectedDegree ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
+            <Text>6.请选择物品的新旧程度：{mapNewAndOldDegree[state.newAndOldDegree]}</Text>
+            {state.isSelectedDegree ? <Image src={`${CDNWebSite}/icon/release-goods-steps/top-arrow.png`} className='icon'></Image> : <Image src={`${CDNWebSite}/icon/release-goods-steps/bottom-arrow.png`} className='icon'></Image>}
           </View>
-          {isSelectedDegree ? null :
+          {state.isSelectedDegree ? null :
             <AtRadio
               options={[
                 { label: '全新', value: '100' },
@@ -263,10 +350,10 @@ function ReleaseGoodsSteps() {
                 { label: '很旧', value: '30' },
                 { label: '伊拉克', value: '10' },
               ]}
-              value={newAndOldDegree}
+              value={state.newAndOldDegree}
               onClick={(value) => {
-                setNewAndOldDegree(value)
-                setIsSelectedDegree(true)
+                dispatch({ type: SET_NEW_AND_OLD_DEGREE, data: value })
+                dispatch({ type: SELECTED_DEGREE, data: true })
               }}
             />}
 
@@ -279,43 +366,43 @@ function ReleaseGoodsSteps() {
               { label: '等价换', value: 'directExchange' },
               { label: '差价换', value: 'priceDifference' },
             ]}
-            value={mode}
+            value={state.mode}
             onClick={(mode) => {
-              setMode(mode)
+              dispatch({ type: SET_MODE, data: mode })
             }}
           />
-          {mode === 'directSale' ? <View className='direct-sale'>
+          {state.mode === 'directSale' ? <View className='direct-sale'>
             <View className='mode-text'>您想要卖的价格是(元)：</View>
             <AtInput placeholder='在此输入您想要卖的价格'
               type='digit'
               name='parForMePrice'
-              value={payForMePrice}
+              value={state.payForMePrice}
               onChange={(value) => {
-                setPayForMePrice(value)
+                dispatch({ type: SET_PAY_FOR_ME_PRICE, data: value })
               }}
             ></AtInput>
           </View> : null}
 
-          {mode === 'directExchange' ? <View className='direct-exchange'>
+          {state.mode === 'directExchange' ? <View className='direct-exchange'>
             <View className='mode-text'>您想要换的物品是：</View>
             <AtInput placeholder='在此输入您想要换的物品的名称'
               type='string'
               name='wantExchangeGoods'
-              value={wantExchangeGoods}
+              value={state.wantExchangeGoods}
               onChange={(value) => {
-                setWantExchangeGoods(value)
+                dispatch({ type: SET_WANT_EXCHANGE_GOODS, data: value })
               }}
             ></AtInput>
           </View> : null}
 
-          {mode === 'priceDifference' ? <View className='priceDifference'>
+          {state.mode === 'priceDifference' ? <View className='priceDifference'>
             <View className='mode-text'>您想要差价换的物品是：</View>
             <AtInput placeholder='在此输入您想要换的物品的名称'
               type='string'
               name='wantExchangeGoods'
-              value={wantExchangeGoods}
+              value={state.wantExchangeGoods}
               onChange={(value) => {
-                setWantExchangeGoods(value)
+                dispatch({ type: SET_WANT_EXCHANGE_GOODS, data: value })
               }}
             ></AtInput>
             <View className='mode-text'>换了上面物品后要补的差价是(元)：</View>
@@ -324,43 +411,43 @@ function ReleaseGoodsSteps() {
                 { label: 'TA向我支付', value: 'payForMe' },
                 { label: '我向TA支付', value: 'payForOther' },
               ]}
-              value={objectOfPayment}
+              value={state.objectOfPayment}
               onClick={(value) => {
-                setObjectOfPayment(value)
+                dispatch({ type: SET_OBJECT_OF_PAYMENT, data: value })
               }}
             />
-            {objectOfPayment === 'payForMe' ? <AtInput placeholder='在此输入差价'
+            {state.objectOfPayment === 'payForMe' ? <AtInput placeholder='在此输入差价'
               type='digit'
               name='parForMePrice'
-              value={payForMePrice}
+              value={state.payForMePrice}
               title='差价:'
               onChange={(value) => {
-                setPayForMePrice(value)
+                dispatch({ type: SET_PAY_FOR_ME_PRICE, data: value })
               }}
             ></AtInput> : null}
-            {objectOfPayment === 'payForOther' ? <AtInput placeholder='在此输入差价'
+            {state.objectOfPayment === 'payForOther' ? <AtInput placeholder='在此输入差价'
               type='digit'
               name='payForOtherPrice'
-              value={payForOtherPrice}
+              value={state.payForOtherPrice}
               title='需要补的差价'
               onChange={(value) => {
-                setPayForOtherPrice(value)
+                dispatch({ type: SET_PAY_FOR_OTHER_PRICE, data: value })
               }}
             ></AtInput> : null}
           </View> : null}
           <AtButton
             circle
             type='primary'
-            onClick={() => { setCurrent(current + 1) }}
+            onClick={() => { dispatch({ type: SET_CURRENT, data: state.current + 1 }) }}
           >下一步</AtButton>
         </View> : null}
-        {current === 2 ? <View className='step-3'>
+        {state.current === 2 ? <View className='step-3'>
           <View className='step-3-text'>
             <Text>8.请填写您发布的物品的详细描述：</Text>
           </View>
           <AtTextarea
-            value={describe}
-            onChange={(event: any) => { setDescribe(event.target.value) }}
+            value={state.describe}
+            onChange={(event: any) => { dispatch({ type: SET_DESCRIBE, data: event.target.value }) }}
             maxLength={200}
             placeholder='请您输入对物品的详细描述！'
             height={300}
@@ -369,23 +456,26 @@ function ReleaseGoodsSteps() {
             <Text>9.请选择您发布的物品的照片：</Text>
           </View>
           <AtImagePicker
-            files={files}
+            files={state.files}
             onChange={(files: any) => {
-              setFiles(files)
+              dispatch({ type: SET_FILES, data: files })
             }}
           />
           <AtButton
             circle
             type='secondary'
             onClick={() => {
-              setIsRelease(true)
-              setTimeout(() => {
-                Taro.navigateTo({ url: '/pages/not-found/not-found' })
-              }, 1000);
+              dispatch({ type: RELEASED })
+              console.log(state)
+              // dispatch({type:RESET,data:cloneInitState})
+              // console.log(state)
+              // setTimeout(() => {
+              //   Taro.navigateTo({ url: '/pages/not-found/not-found' })
+              // }, 1000);
             }}
           >发布</AtButton>
         </View> : null}
-        <AtToast isOpened={isRelease} text="发布成功！" status='success' duration={1000}></AtToast>
+        <AtToast isOpened={state.isRelease} text="发布成功！" status='success' duration={1000}></AtToast>
       </View>
     </Skeleton>
   )

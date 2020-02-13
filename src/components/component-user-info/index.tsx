@@ -13,8 +13,8 @@ interface InitState {
 const LOADING_COMPLETE = 'LOADING_COMPLETE'
 const AUTHORIZED = 'AUTHORIZED'
 const NOT_AUTHORIZED = 'NOT_AUTHORIZED'
-const IS_NEW_USER='IS_NEW_USER'
-const NOT_NEW_USER='NOT_NEW_USER'
+const IS_NEW_USER = 'IS_NEW_USER'
+const NOT_NEW_USER = 'NOT_NEW_USER'
 function reducer(state, action) {
   switch (action.type) {
     case LOADING_COMPLETE:
@@ -24,9 +24,9 @@ function reducer(state, action) {
     case NOT_AUTHORIZED:
       return Object.assign(state, { isAuthorized: false })
     case IS_NEW_USER:
-      return Object.assign(state,{isNewUser:true})
+      return Object.assign(state, { isNewUser: true })
     case NOT_NEW_USER:
-      return Object.assign(state,{isNewUser:false})
+      return Object.assign(state, { isNewUser: false })
     default:
       return state
   }
@@ -44,7 +44,7 @@ function checkIsAuthorized(dispatch) {
   })
 }
 function checkIsNeedRegister(dispatch) {
-  dispatch({type:IS_NEW_USER})
+  dispatch({ type: IS_NEW_USER })
 }
 
 function UserInfo() {
@@ -83,13 +83,15 @@ function UserInfo() {
             openType='getUserInfo'
             onGetUserInfo={(res) => {
               console.log(res.detail)
-              Taro.login({
-                success(res) {
-                  console.log(res)
-                  checkIsAuthorized(dispatch)
-                  checkIsNeedRegister(dispatch)
-                }
-              })
+              if (res.detail.errMsg === 'getUserInfo:ok') {
+                Taro.login({
+                  success(res) {
+                    console.log(res)
+                    checkIsAuthorized(dispatch)
+                    checkIsNeedRegister(dispatch)
+                  }
+                })
+              }
             }
             }
             className='login-and-register'
@@ -98,8 +100,8 @@ function UserInfo() {
             isOpened
             title='系统检测到您为新用户'
             confirmText='进去填写'
-            onConfirm={()=>{
-              dispatch({type:NOT_NEW_USER})
+            onConfirm={() => {
+              dispatch({ type: NOT_NEW_USER })
               Taro.navigateTo({
                 url: '/pages/register/register'
               })
