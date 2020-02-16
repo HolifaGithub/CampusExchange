@@ -3,7 +3,8 @@ import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
 import { View, Text, Image, Button, OpenData } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
 import Skeleton from 'taro-skeleton'
-import './index.scss'
+import {server,port} from '../../static-name/server'
+import './index.scss' 
 
 interface InitState {
   loading: boolean;
@@ -47,6 +48,16 @@ function checkIsNeedRegister(dispatch) {
   dispatch({ type: IS_NEW_USER })
 }
 
+function checkSessionEffective(dispatch){
+  Taro.checkSession({
+    success(){
+      dispatch({type:AUTHORIZED})
+    },
+    fail(){
+      dispatch({type:NOT_AUTHORIZED})
+    }
+  });
+}
 function UserInfo() {
   const initState: InitState = {
     loading: true,
@@ -57,8 +68,9 @@ function UserInfo() {
   useEffect(() => {
     setTimeout(() => {
       dispatch({ type: LOADING_COMPLETE })
-    }, 1000)
+    }, 200)
     checkIsAuthorized(dispatch)
+    checkSessionEffective(dispatch)
   }, [])
   return (
     <Skeleton
@@ -81,13 +93,25 @@ function UserInfo() {
           {!state.isAuthorized ? null : <OpenData type='userNickName' className='nick-name'></OpenData>}
           {state.isAuthorized ? null : <Button type='warn'
             openType='getUserInfo'
-            onGetUserInfo={(res) => {
-              console.log(res.detail)
-              if (res.detail.errMsg === 'getUserInfo:ok') {
+            onGetUserInfo={(userInfoResult) => {
+              if (userInfoResult.detail.errMsg === 'getUserInfo:ok') {
                 Taro.login({
-                  success(res) {
-                    console.log(res)
+                  success(loginResult) {
                     checkIsAuthorized(dispatch)
+                    Taro.request({
+                      url:`http://${server}:${port}/login`,
+                      method:'POST',
+                      data:{
+                        code:loginResult.code,
+                        rawData:userInfoResult.detail.rawData,
+                        signature:userInfoResult.detail.signature,
+                        encryptedData:userInfoResult.detail.encryptedData,
+                        iv:userInfoResult.detail.iv
+                      },
+                      success(res){
+                        console.log(res)
+                      }
+                    })
                     checkIsNeedRegister(dispatch)
                   }
                 })

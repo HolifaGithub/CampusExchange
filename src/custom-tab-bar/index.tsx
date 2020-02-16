@@ -97,7 +97,7 @@ class TabBar extends PureComponent {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ loading: false })
-    }, 1000);
+    }, 200);
   }
   // componentWillReceiveProps () {
   //   // console.log(this.props, nextProps)
@@ -119,7 +119,7 @@ class TabBar extends PureComponent {
         loading={this.state.loading}
       >
         <View>
-          <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading'></AtToast>
+          <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
           <AtTabBar
             tabList={[
               {
@@ -207,7 +207,7 @@ class TabBar extends PureComponent {
                           this.props.switchTabPerson()
                         }
                       })
-                    }, 1000)
+                    }, 200)
                   }
                 }
               })
