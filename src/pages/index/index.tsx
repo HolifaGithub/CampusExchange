@@ -31,16 +31,16 @@ type PageStateProps = {
   switchTarBar: {
     current: number;
   },
-  checkIsAuthorized:{
-    isAuthorized:boolean;
+  checkIsAuthorized: {
+    isAuthorized: boolean;
   }
 }
 
 type PageDispatchProps = {
   dispatchFetchPageData: () => any;
   switchTabPerson: () => any;
-  dispatchAuthorized:()=>any;
-  dispatchNotAuthorized:()=>any;
+  dispatchAuthorized: () => any;
+  dispatchNotAuthorized: () => any;
 }
 
 type PageOwnProps = {}
@@ -67,7 +67,7 @@ interface LocationResult {
   result: any,
   request_id: string
 }
-@connect(({ fetchPageData, switchTarBar,checkIsAuthorized }) => ({
+@connect(({ fetchPageData, switchTarBar, checkIsAuthorized }) => ({
   fetchPageData,
   switchTarBar,
   checkIsAuthorized
@@ -78,10 +78,10 @@ interface LocationResult {
   switchTabPerson() {
     dispatch(switchTabPerson())
   },
-  dispatchAuthorized(){
+  dispatchAuthorized() {
     dispatch(authorized())
   },
-  dispatchNotAuthorized(){
+  dispatchNotAuthorized() {
     dispatch(notAuthorized())
   }
 }))
@@ -112,42 +112,40 @@ class Index extends PureComponent {
           if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
             this.setState({ location: `${province}${city}${district}` })
           }
-          Taro.getSetting({
-            success: (res) => {
-              if (res.authSetting["scope.userInfo"] === true) {
-                this.props.dispatchAuthorized()
-              } else {
-                this.props.dispatchNotAuthorized()
-                setTimeout(() => {
-                  Taro.switchTab({
-                    url: '/pages/person/person',
-                    success: () => {
-                      this.props.switchTabPerson()
-                    }
-                  })
-                }, 1000)           
-              }
+          Taro.checkSession({
+            success: () => {
+              this.props.dispatchAuthorized()
+            },
+            fail: () => {
+              this.props.dispatchNotAuthorized()
+              setTimeout(() => {
+                Taro.switchTab({
+                  url: '/pages/person/person',
+                  success: () => {
+                    this.props.switchTabPerson()
+                  }
+                })
+              }, 200)
             }
           })
         }
       }
     }).catch(() => {
       this.setState({ location: '无法获取当前位置' })
-      Taro.getSetting({
-        success: (res) => {
-          if (res.authSetting["scope.userInfo"] === true) {
-            this.props.dispatchAuthorized()
-          } else {
-            this.props.dispatchNotAuthorized()
-            setTimeout(() => {
-              Taro.switchTab({
-                url: '/pages/person/person',
-                success: () => {
-                  this.props.switchTabPerson()
-                }
-              })
-            }, 1000)           
-          }
+      Taro.checkSession({
+        success: () => {
+          this.props.dispatchAuthorized()
+        },
+        fail: () => {
+          this.props.dispatchNotAuthorized()
+          setTimeout(() => {
+            Taro.switchTab({
+              url: '/pages/person/person',
+              success: () => {
+                this.props.switchTabPerson()
+              }
+            })
+          }, 200)
         }
       })
     })
@@ -255,7 +253,7 @@ class Index extends PureComponent {
         <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
         <IndexWaterFall datas={waterFallDatas}></IndexWaterFall>
-        <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading'></AtToast>
+        <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
       </View>
     )
   }

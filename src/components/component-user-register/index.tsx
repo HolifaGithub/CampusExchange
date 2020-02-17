@@ -2,6 +2,7 @@ import Taro, { useReducer } from '@tarojs/taro'
 import { View, Text, Image, OpenData, Picker } from '@tarojs/components'
 import { AtNoticebar, AtInput, AtForm, AtButton, AtToast } from 'taro-ui'
 import { CDNWebSite } from '../../static-name/web-site'
+import { server, port } from '../../static-name/server'
 import './index.scss'
 
 interface InitState {
@@ -13,12 +14,12 @@ interface InitState {
   gradeList: string[];
   grade: string;
   collage: string;
-  class: string;
+  userClass: string;
   name: string;
   idCard: string;
   phone: string;
   address: string;
-  isSubmited:boolean;
+  isSubmited: boolean;
 }
 const SET_SELECTED_SCHOOL = 'SET_SELECTED_SCHOOL'
 const SET_STUDENT_ID = 'SET_STUDENT_ID'
@@ -31,30 +32,33 @@ const SET_IDCARD = 'SET_IDCARD'
 const SET_PHONE = 'SET_PHONE'
 const SET_ADDRESS = 'SET_ADDRESS'
 const SUBMITED = 'SUBMITED'
+const NOT_SUBMITED = 'NOT_SUBMITED'
 function reducer(state, action) {
   switch (action.type) {
     case SET_SELECTED_SCHOOL:
-      return Object.assign(state, { selectedSchool: action.data })
+      return Object.assign({}, state, { selectedSchool: action.data })
     case SET_STUDENT_ID:
-      return Object.assign(state, { studentId: action.data })
+      return Object.assign({}, state, { studentId: action.data })
     case SET_EDUCATION:
-      return Object.assign(state, { education: action.data })
+      return Object.assign({}, state, { education: action.data })
     case SET_GRADE:
-      return Object.assign(state, { grade: action.data })
+      return Object.assign({}, state, { grade: action.data })
     case SET_COLLAGE:
-      return Object.assign(state, { collage: action.data })
+      return Object.assign({}, state, { collage: action.data })
     case SET_CLASS:
-      return Object.assign(state, { class: action.data })
+      return Object.assign({}, state, { userClass: action.data })
     case SET_NAME:
-      return Object.assign(state, { name: action.data })
+      return Object.assign({}, state, { name: action.data })
     case SET_IDCARD:
-      return Object.assign(state, { id: action.data })
+      return Object.assign({}, state, { idCard: action.data })
     case SET_PHONE:
-      return Object.assign(state, { phone: action.data })
+      return Object.assign({}, state, { phone: action.data })
     case SET_ADDRESS:
-      return Object.assign(state, { address: action.data })
+      return Object.assign({}, state, { address: action.data })
     case SUBMITED:
-      return Object.assign(state, { isSubmited: true })
+      return Object.assign({}, state, { isSubmited: true })
+    case NOT_SUBMITED:
+      return Object.assign({}, state, { isSubmited: false })
     default:
       return state
   }
@@ -69,12 +73,12 @@ function UserRegister() {
     gradeList: ['大一', '大二', '大三', '大四'],
     grade: '请点我选择年级',
     collage: '',
-    class: '',
+    userClass: '',
     name: '',
     idCard: '',
     phone: '',
     address: '',
-    isSubmited:false,
+    isSubmited: false,
   }
   const [state, dispatch] = useReducer(reducer, initState)
   return (
@@ -158,10 +162,10 @@ function UserRegister() {
         <View className='step'>
           <View className='title'>6.请输入您的专业及班级名称:</View>
           <AtInput
-            name='class'
+            name='userClass'
             type='text'
             placeholder='请在此输入您的班级名称'
-            value={state.class}
+            value={state.userClass}
             onChange={(value) => {
               dispatch({ type: SET_CLASS, data: value })
             }}
@@ -185,7 +189,7 @@ function UserRegister() {
           <View className='title'>8.请输入您的身份证:</View>
           <AtInput
             name='idcard'
-            type='idcard'
+            type='text'
             placeholder='请在此输入您的身份证'
             value={state.idCard}
             onChange={(value) => {
@@ -222,14 +226,44 @@ function UserRegister() {
       </View>
       <View className='submit'>
         <AtButton type='primary' full onClick={() => {
-          console.log(state)
-          dispatch({type:SUBMITED})
-          setTimeout(() => {
-            Taro.navigateBack()
-          }, 1000);
+          Taro.login({
+            success(loginResult) {
+              if (loginResult.code) {
+                Taro.request({
+                  url: `http://${server}:${port}/register`,
+                  method: 'POST',
+                  data: {
+                    code: loginResult.code,
+                    selectedSchool: state.selectedSchool,
+                    studentId: state.studentId,
+                    education: state.education,
+                    grade: state.grade,
+                    collage: state.collage,
+                    userClass: state.userClass,
+                    name: state.name,
+                    idCard: state.idCard,
+                    phone: state.phone,
+                    address: state.address
+                  },
+                  success(res) {
+                    if (res.statusCode === 200 && res.data.status === 'success') {
+                      dispatch({ type: SUBMITED })
+                      setTimeout(() => {
+                        Taro.navigateBack()
+                      }, 1000);
+                    }
+                  },
+                  fail() {
+                    dispatch({ type: NOT_SUBMITED })
+                  }
+                })
+              }
+            }
+          })
+
         }}>确认无误，提交以上信息注册!</AtButton>
       </View>
-      <AtToast isOpened={state.isSubmited} text="提交成功！" status='success' duration={1000}></AtToast>
+      <AtToast isOpened={state.isSubmited} text={state.isSubmited ? '提交成功！' : '提交失败！请重新提交！'} status={state.isSubmited ? 'success' : 'error'} duration={1000}></AtToast>
     </View>
   )
 }

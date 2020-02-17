@@ -150,9 +150,8 @@ class TabBar extends PureComponent {
               }
             ]}
             onClick={(current) => {
-              Taro.getSetting({
-                success: (res) => {
-                  if (res.authSetting["scope.userInfo"] === true) {
+              Taro.checkSession({
+                success: () => {
                     this.props.dispatchAuthorized()
                     switch (current) {
                       case 0: Taro.switchTab({
@@ -198,17 +197,17 @@ class TabBar extends PureComponent {
                       })
                         break
                     }
-                  } else {
-                    this.props.dispatchNotAuthorized()
-                    setTimeout(() => {
-                      Taro.switchTab({
-                        url: '/pages/person/person',
-                        success: () => {
-                          this.props.switchTabPerson()
-                        }
-                      })
-                    }, 200)
-                  }
+                },
+                fail:()=>{
+                  this.props.dispatchNotAuthorized()
+                  setTimeout(() => {
+                    Taro.switchTab({
+                      url: '/pages/person/person',
+                      success: () => {
+                        this.props.switchTabPerson()
+                      }
+                    })
+                  }, 200)
                 }
               })
             }}
