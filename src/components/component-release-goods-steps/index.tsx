@@ -4,6 +4,7 @@ import { AtSteps, AtRadio, AtImagePicker, AtTextarea, AtInput, AtButton, AtInput
 import goodsTypeGridsDatas from '../../static-name/goods-sort'
 import mapNewAndOldDegree from '../../static-name/new-and-old-degree'
 import { CDNWebSite } from '../../static-name/web-site'
+import { server, port } from '../../static-name/server'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 interface TypeAtRadioOptionsList {
@@ -464,6 +465,33 @@ function ReleaseGoodsSteps() {
             circle
             type='secondary'
             onClick={() => {
+              console.log(state)
+              // Taro.request({
+              //   url:`http://${server}:${port}/releasegoods`,
+              //   method:'POST',
+              //   data:{
+              //     typeOne:state.typeOne,
+              //     typeTwo:state.typeTwo,
+              //     typeThree:state.typeThree,
+              //     nameInput:state.nameInput,
+              //     goodsNumber:state.goodsNumber,
+              //     newAndOldDegree:state.newAndOldDegree,
+              //     mode:state.mode,
+              //     objectOfPayment:state.objectOfPayment,
+              //     payForMePrice:state.payForMePrice,
+              //     payForOtherPrice:state.payForOtherPrice,
+              //     wantExchangeGoods:state.wantExchangeGoods,
+              //     describe:state.describe,
+              //   }
+              // })
+              Taro.uploadFile({
+                url:`http://${server}:${port}/releasegoodspics`,
+                filePath:state.files[0].url,
+                name:'pic1',
+                header: { 
+                  'Content-Type': 'multipart/form-data',
+                }
+              })
               dispatch({ type: RELEASED })
               setTimeout(()=>{
                 dispatch({type: RESET})
