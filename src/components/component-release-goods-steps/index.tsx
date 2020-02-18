@@ -5,6 +5,7 @@ import goodsTypeGridsDatas from '../../static-name/goods-sort'
 import mapNewAndOldDegree from '../../static-name/new-and-old-degree'
 import { CDNWebSite } from '../../static-name/web-site'
 import { server, port } from '../../static-name/server'
+import productOrderId from '../../utils/productOrderId'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 interface TypeAtRadioOptionsList {
@@ -73,6 +74,7 @@ const SET_PAY_FOR_OTHER_PRICE = 'SET_PAY_FOR_OTHER_PRICE'
 const SET_DESCRIBE = 'SET_DESCRIBE'
 const SET_FILES = 'SET_FILES'
 const RELEASED = 'RELEASED'
+const NOT_RELEASED = 'NOT_RELEASED'
 const RESET = 'RESET'
 
 const initState: InitState = {
@@ -102,7 +104,7 @@ const initState: InitState = {
   files: [],
   isRelease: false,
 }
-function reducer(state=initState, action) {
+function reducer(state = initState, action) {
   switch (action.type) {
     case TYPE_ONE_LIST_PUSH_OPTIONS:
       return Object.assign({}, state, { typeOneList: action.data })
@@ -154,8 +156,10 @@ function reducer(state=initState, action) {
       return Object.assign({}, state, { files: action.data })
     case RELEASED:
       return Object.assign({}, state, { isRelease: true })
+    case NOT_RELEASED:
+      return Object.assign({}, state, { isRelease: false })
     case RESET:
-      return Object.assign({},initState,{loading:false,isRelease:false})
+      return Object.assign({}, initState, { loading: false, isRelease: false })
     default:
       return state
   }
@@ -465,45 +469,80 @@ function ReleaseGoodsSteps() {
             circle
             type='secondary'
             onClick={() => {
-              console.log(state)
-              // Taro.request({
-              //   url:`http://${server}:${port}/releasegoods`,
-              //   method:'POST',
-              //   data:{
-              //     typeOne:state.typeOne,
-              //     typeTwo:state.typeTwo,
-              //     typeThree:state.typeThree,
-              //     nameInput:state.nameInput,
-              //     goodsNumber:state.goodsNumber,
-              //     newAndOldDegree:state.newAndOldDegree,
-              //     mode:state.mode,
-              //     objectOfPayment:state.objectOfPayment,
-              //     payForMePrice:state.payForMePrice,
-              //     payForOtherPrice:state.payForOtherPrice,
-              //     wantExchangeGoods:state.wantExchangeGoods,
-              //     describe:state.describe,
-              //   }
-              // })
-              Taro.uploadFile({
-                url:`http://${server}:${port}/releasegoodspics`,
-                filePath:state.files[0].url,
-                name:'pic1',
-                header: { 
-                  'Content-Type': 'multipart/form-data',
+              Taro.login({
+                success(loginResult) {
+                  const code = loginResult.code
+                  const orderId = productOrderId()
+
+                  let picsLocation = ''
+                  new Promise((resolve, reject) => {
+                    if (state.files.length > 0) {
+                      for (let i = 0; i < state.files.length; i++) {
+                        Taro.uploadFile({
+                          url: `http://${server}:${port}/releasegoodspics`,
+                          filePath: state.files[i].url,
+                          name: 'pic',
+                          header: {
+                            'Content-Type': 'multipart/form-data',
+                          },
+                          success(res) {
+                            const data = JSON.parse(res.data)
+                            if (res.statusCode === 200 && data.status === 'success') {
+                              picsLocation += `${data.location};`
+                              if (i === state.files.length - 1) {
+                                resolve(picsLocation)
+                              }
+                            }
+                          },
+                          fail() {
+                            reject()
+                          }
+                        })
+                      }
+                    } else {
+                      resolve(picsLocation)
+                    }
+
+                  }).then((picsLocation) => {
+                    Taro.request({
+                      url: `http://${server}:${port}/releasegoods`,
+                      method: 'POST',
+                      data: {
+                        typeOne: state.typeOne,
+                        typeTwo: state.typeTwo,
+                        typeThree: state.typeThree,
+                        nameInput: state.nameInput,
+                        goodsNumber: state.goodsNumber,
+                        newAndOldDegree: state.newAndOldDegree,
+                        mode: state.mode,
+                        objectOfPayment: state.objectOfPayment,
+                        payForMePrice: state.payForMePrice,
+                        payForOtherPrice: state.payForOtherPrice,
+                        wantExchangeGoods: state.wantExchangeGoods,
+                        describe: state.describe,
+                        picsLocation: picsLocation,
+                        orderId: orderId,
+                        code: code
+                      },
+                      success(res) {
+                        if (res.statusCode === 200 && res.data.status === 'success') {
+                          dispatch({ type: RELEASED })
+                          setTimeout(() => {
+                            dispatch({ type: RESET })
+                            Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
+                          }, 1000)
+                        } else {
+                          dispatch({type:NOT_RELEASED})
+                        }
+                      }
+                    })
+                  })
                 }
               })
-              dispatch({ type: RELEASED })
-              setTimeout(()=>{
-                dispatch({type: RESET})
-                Taro.pageScrollTo({scrollTop:0,duration:1000})
-              },1000)   
-              // setTimeout(() => {
-              //   Taro.navigateTo({ url: '/pages/not-found/not-found' })
-              // }, 1000);
             }}
           >发布</AtButton>
         </View> : null}
-        <AtToast isOpened={state.isRelease} text="发布成功！" status='success' duration={1000}></AtToast>
+        <AtToast isOpened={state.isRelease} text={state.isRelease?'发布成功':'发布失败！请检查后再提交！'} status={state.isRelease?'success':'error'} duration={1000}></AtToast>
       </View>
     </Skeleton>
   )
