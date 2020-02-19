@@ -6,6 +6,7 @@ import mapNewAndOldDegree from '../../static-name/new-and-old-degree'
 import { CDNWebSite } from '../../static-name/web-site'
 import { server, port } from '../../static-name/server'
 import productOrderId from '../../utils/productOrderId'
+import orderStatusObject from '../../static-name/order-status'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 interface TypeAtRadioOptionsList {
@@ -473,7 +474,7 @@ function ReleaseGoodsSteps() {
                 success(loginResult) {
                   const code = loginResult.code
                   const orderId = productOrderId()
-
+                  const orderStatus=orderStatusObject.released
                   let picsLocation = ''
                   new Promise((resolve, reject) => {
                     if (state.files.length > 0) {
@@ -484,6 +485,9 @@ function ReleaseGoodsSteps() {
                           name: 'pic',
                           header: {
                             'Content-Type': 'multipart/form-data',
+                          },
+                          formData:{
+                            orderId:orderId
                           },
                           success(res) {
                             const data = JSON.parse(res.data)
@@ -522,7 +526,8 @@ function ReleaseGoodsSteps() {
                         describe: state.describe,
                         picsLocation: picsLocation,
                         orderId: orderId,
-                        code: code
+                        code: code,
+                        orderStatus:orderStatus
                       },
                       success(res) {
                         if (res.statusCode === 200 && res.data.status === 'success') {
