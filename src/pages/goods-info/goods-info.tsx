@@ -49,9 +49,14 @@ class GoodsInfo extends Component {
    */
     config: Config = {
     navigationBarTitleText: '商品详情',
-    enablePullDownRefresh:false
+    enablePullDownRefresh:false,
   }
-
+  state={
+    orderId:''
+  }
+componentWillMount(){
+  this.setState(this.$router.params)
+}
   componentWillReceiveProps (nextProps) {
     console.log(this.props, nextProps)
   }
@@ -65,7 +70,7 @@ class GoodsInfo extends Component {
   render () {
     return (
       <ScrollView className='goods-info'>
-            <GooodsInfoContainer/>
+            <GooodsInfoContainer orderId={this.state.orderId}/>
       </ScrollView>
     )
   }

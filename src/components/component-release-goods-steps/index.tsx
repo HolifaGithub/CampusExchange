@@ -535,6 +535,7 @@ function ReleaseGoodsSteps() {
                           setTimeout(() => {
                             dispatch({ type: RESET })
                             Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
+                            Taro.navigateTo({url:`/pages/goods-info/goods-info?orderId=${orderId}`})
                           }, 1000)
                         } else {
                           dispatch({type:NOT_RELEASED})

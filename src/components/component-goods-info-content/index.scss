@@ -1,9 +1,14 @@
 $width:720px;
 $height:1300px;
-$header-height:180px;
+$header-height:200px;
 $header-padding:10px;
 $header-font-size:24px;
-$header-right-padding-left:60px;
+$header-middle-padding-left:50px;
+$header-right-margin-left:40px;
+$header-right-width:200px;
+$header-right-height:120px;
+$header-right-padding-top:62px;
+$text-margin-top:30px;
 $nick-name-font-size:32px;
 $base-color:#C41A16;
 $count-font-size:28px;
@@ -19,16 +24,15 @@ $goods-img-width:$width;
 $footer-width:750px;
 $footer-background-color:#eee;
 $button-color:#fff;
-$button-width:500px;
-$button-height:130px;
+$button-width:560px;
+$button-height:100px;
 $button-border-radius:80px;
 $button-margin-left:10px;
-$footer-icon-width:60px;
+$footer-icon-width:50px;
 $footer-icon-height:$footer-icon-width;
+$blank-width:750px;
+$blank-height:55px;
 .goods-info-content{
-    border-width: 1px;
-    border-color: red;
-    border-style: solid;
     .header{
         width: $width;
         height: $header-height;
@@ -38,14 +42,28 @@ $footer-icon-height:$footer-icon-width;
         display: flex;
         align-items: center;
         font-size: $header-font-size;
-        .header-right{
+        .header-middle{
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding-left: $header-right-padding-left;
+            padding-left: $header-middle-padding-left;
             .nick-name{
                 font-size:$nick-name-font-size;
                 font-weight: bold;
+            }
+        }
+        .header-right{
+            width: $header-right-width;
+            height: $header-right-height;
+            margin-left: $header-right-margin-left;
+            font-size: $header-font-size;
+            padding-top: $header-right-padding-top;
+            .new-and-old-degree{
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-direction: row;
+                margin-top: $text-margin-top;
             }
         }
     }
@@ -89,8 +107,9 @@ $footer-icon-height:$footer-icon-width;
         position:fixed;
         width: $footer-width;
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-around;
         align-items: center;
+        flex-wrap: wrap;
         .button{
             background-color: $base-color;
             color:$button-color ;
@@ -104,7 +123,11 @@ $footer-icon-height:$footer-icon-width;
         .footer-icon{
             width: $footer-icon-width;
             height: $footer-icon-height;
-            margin-right: $icon-margin;
+            margin-left: $icon-margin;
+        }
+        .blank{
+            width: $blank-width;
+            height: $blank-height;
         }
     }
 }

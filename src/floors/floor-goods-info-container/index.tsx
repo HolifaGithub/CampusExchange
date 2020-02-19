@@ -3,10 +3,13 @@ import { View, } from '@tarojs/components'
 import GooodsInfoContent from '../../components/component-goods-info-content'
 import './index.scss'
 
-function  GooodsInfoContainer() {
+interface Props{
+    orderId:string
+}
+function  GooodsInfoContainer(props:Props) {
     return (
         <View className='goods-info-container'>
-            <GooodsInfoContent/>
+            <GooodsInfoContent orderId={props.orderId}/>
         </View>
     )
 }

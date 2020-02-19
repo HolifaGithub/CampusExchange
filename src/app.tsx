@@ -33,7 +33,6 @@ class App extends Component {
 
   config: Config = {
     pages: [
-      'pages/goods-info/goods-info',
       'pages/index/index',
       'pages/sort/sort',
       'pages/release-goods/release-goods',
@@ -41,6 +40,7 @@ class App extends Component {
       'pages/person/person',
       'pages/not-found/not-found',
       'pages/register/register',
+      'pages/goods-info/goods-info'
     ],
     window: {
       backgroundTextStyle: 'light',
