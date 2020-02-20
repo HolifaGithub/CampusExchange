@@ -3,7 +3,8 @@ import { ScrollView, View, Text, Image } from '@tarojs/components'
 import Skeleton from 'taro-skeleton'
 import Tag from '../component-tag'
 import { server, port } from '../../static-name/server'
-import { AtNavBar, AtAvatar, AtDivider } from 'taro-ui'
+import formatDate from '../../utils/formatDate'
+import { AtNavBar, AtAvatar, AtDivider, AtToast } from 'taro-ui'
 import './index.scss'
 interface Props {
     orderId: string;
@@ -21,14 +22,16 @@ interface InitState {
     newAndOldDegree: string;
     mode: string;
     objectOfPayment: string;
-    payForMePrice: string;
-    payForOtherPrice: string;
+    payForMePrice: number;
+    payForOtherPrice: number;
     wantExchangeGoods: string;
     describe: string;
-    picsLocation: string;
+    picsLocation: [];
     nickName: string;
     avatarUrl: string;
     school: string;
+    isCare: boolean;
+    isCollect: boolean;
 }
 const initState: InitState = {
     orderId: '',
@@ -43,16 +46,22 @@ const initState: InitState = {
     newAndOldDegree: '',
     mode: '',
     objectOfPayment: '',
-    payForMePrice: '',
-    payForOtherPrice: '',
+    payForMePrice: 0,
+    payForOtherPrice: 0,
     wantExchangeGoods: '',
     describe: '',
-    picsLocation: '',
+    picsLocation: [],
     nickName: '',
     avatarUrl: '',
-    school: ''
+    school: '',
+    isCare: false,
+    isCollect: false
 }
 const SET_DATA = 'SET_DATA'
+const CARE = 'CARE'
+const CANCLE_CARE = 'CANCLE_CARE'
+const COLLECT = 'COLLECT'
+const CANCLE_COLLECT = 'CANCLE_COLLECT'
 function reducer(state = initState, action) {
     switch (action.type) {
         case SET_DATA:
@@ -78,6 +87,14 @@ function reducer(state = initState, action) {
                 avatarUrl: action.data.avatarUrl,
                 school: action.data.school
             })
+        case CARE:
+            return Object.assign({}, state, { isCare: true })
+        case CANCLE_CARE:
+            return Object.assign({}, state, { isCare: false })
+        case COLLECT:
+            return Object.assign({}, state, { isCollect: true })
+        case CANCLE_COLLECT:
+            return Object.assign({}, state, { isCollect: false })
         default:
             return state
     }
@@ -110,8 +127,18 @@ function GooodsInfoContent(props: Props) {
                         },
                         success(res) {
                             if (res.statusCode === 200 && res.data.status === 'success') {
-                                console.log(res.data)
-                                dispatch({ type: SET_DATA, data: res.data })
+                                let pics = res.data.picsLocation
+                                pics = pics.split(";")
+                                for (let i = 0; i < pics.length; i++) {
+                                    if (pics[pics.length - 1] === '') {
+                                        pics.pop()
+                                        break;
+                                    }
+                                    pics[i] = `https://${pics[i]}`
+                                }
+                                const formatResult = formatDate(res.data.orderTime)
+                                let date = `${formatResult.year}/${formatResult.month}/${formatResult.day} ${formatResult.hour}:${formatResult.minute}:${formatResult.second}`
+                                dispatch({ type: SET_DATA, data: { ...res.data, picsLocation: pics, orderTime: date } })
                             }
                         }
                     })
@@ -133,11 +160,24 @@ function GooodsInfoContent(props: Props) {
                     border
                 />
                 <View className='header'>
-                    <AtAvatar circle image='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/beauty-makeup/facial-care/fang-shai.png' size='large'></AtAvatar>
+                    <AtAvatar circle image={state.avatarUrl} size='large'></AtAvatar>
                     <View className='header-middle'>
-                        <View className='nick-name'>{state.nickName}</View>
+                        <View className='nick-name'>
+                            <View>{state.nickName}</View>
+                            <View className='care'>
+                                <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/goods-info/care.png' className='icon'></Image>
+                                <View className='text' onClick={() => {
+                                    if (state.isCare) {
+                                        dispatch({ type: CANCLE_CARE })
+                                    } else {
+                                        dispatch({ type: CARE })
+                                    }
+                                }}>{state.isCare?'已关注':'关注'}</View>
+                                <AtToast isOpened={state.isCare} text='关注成功！' status='success' duration={1000}></AtToast>
+                            </View>
+                        </View>
                         <View>
-                            <View className='sort'>分  类：{state.typeOne}/{state.typeTwo}/{state.typeThree}</View>
+                            <View className='sort'>分 类：{state.typeOne}/{state.typeTwo}/{state.typeThree}</View>
                             <View className='school'>发布于：{state.school} </View>
                             <View className="time"> 时 间：{state.orderTime}</View>
                         </View>
@@ -145,7 +185,7 @@ function GooodsInfoContent(props: Props) {
                     <View className='header-right'>
                         <View className="count">
                             数量：{state.goodsNumber}
-                    </View>
+                        </View>
                         <View className='new-and-old-degree'>
                             <View>成色：</View>
                             <Tag title={`${state.newAndOldDegree}新`} />
@@ -154,31 +194,43 @@ function GooodsInfoContent(props: Props) {
                 </View>
                 <View className='body'>
                     <View className='price'>
-                        <View className='price-icon'>
+                        {state.payForMePrice === 0 ? null : <View className='price-icon'>
                             <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/price-red.png' className='icon'></Image>
-    <View>付给我：{state.payForMePrice}元</View>
+                            <View>付给我：{state.payForMePrice}元</View>
                         </View>
-
-                        <View className='price-icon'>
+                        }
+                        {state.payForOtherPrice === 0 ? null : <View className='price-icon'>
                             <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/price-green.png' className='icon'></Image>
-    <View className='pay-for-you'>付给你：{state.payForOtherPrice}元</View>
-                        </View>
-                        <View className='price-icon'>
+                            <View className='pay-for-you'>付给你：{state.payForOtherPrice}元</View>
+                        </View>}
+                        {state.wantExchangeGoods === '' ? null : <View className='price-icon'>
                             <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/exchange-orange.png' className='icon'></Image>
-    <View className='want-exchange'>我想换：{state.wantExchangeGoods}</View>
-                        </View>
+                            <View className='want-exchange'>我想换：{state.wantExchangeGoods}</View>
+                        </View>}
                     </View>
                     <AtDivider content='文字介绍' fontColor='#C41A16' lineColor='#C41A16' />
                     <View className='.at-article__p article'>
-                       {state.describe}
+                        {state.describe.length > 0 ? state.describe : <View>此商品无文字介绍!</View>}
                     </View>
                     <AtDivider content='图片详情' fontColor='#C41A16' lineColor='#C41A16' />
-                    <Image className='goods-img' src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/goods/202021911241893323/wxab9d9c6867f0c70e.o6zAJsxLzm4nGXgtuAjQeopnDbbU.UoMjvhZGe7BD2ad707a8f0dc96cd9ae69cfb25f69779.png'></Image>
-                    <Image className='goods-img' src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/goods/202021911241893323/wxab9d9c6867f0c70e.o6zAJsxLzm4nGXgtuAjQeopnDbbU.UoMjvhZGe7BD2ad707a8f0dc96cd9ae69cfb25f69779.png'></Image>
-                    <Image className='goods-img' src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/goods/202021911241893323/wxab9d9c6867f0c70e.o6zAJsxLzm4nGXgtuAjQeopnDbbU.UoMjvhZGe7BD2ad707a8f0dc96cd9ae69cfb25f69779.png'></Image>
+                    {state.picsLocation.length > 0 ? state.picsLocation.map((pic, index) => {
+                        return (
+                            <Image className='goods-img' src={pic} key={new Date().toString()}></Image>
+                        )
+                    }) : <View>此商品无图片详情!</View>
+                    }
                 </View>
                 <View className='footer' style={{ top: top }}>
-                    <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collect.png' className='footer-icon'></Image>
+                    <View onClick={() => {
+                        if (state.isCollect) {
+                            dispatch({ type: CANCLE_COLLECT })
+                        } else {
+                            dispatch({ type: COLLECT })
+                        }
+                    }}>
+                        {state.isCollect ? <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collected.png' className='footer-icon'></Image> : <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collect.png' className='footer-icon'></Image>}
+                        <AtToast isOpened={state.isCollect} text='收藏成功！' status='success' duration={1000}></AtToast>
+                    </View>
                     <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/chat-blue.png' className='footer-icon'></Image>
                     <View className='button'>交易</View>
                     <View className='blank'></View>

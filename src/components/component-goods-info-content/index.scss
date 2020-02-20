@@ -3,11 +3,17 @@ $height:1300px;
 $header-height:200px;
 $header-padding:10px;
 $header-font-size:24px;
-$header-middle-padding-left:50px;
-$header-right-margin-left:40px;
-$header-right-width:200px;
+$header-middle-width:460px;
+$header-middle-padding-left:20px;
+$header-right-width:190px;
 $header-right-height:120px;
 $header-right-padding-top:62px;
+$care-width:120px;
+$care-icon-width:30px;
+$care-icon-height:$care-icon-width;
+$care-font-size:23px;
+$care-color:#fff;
+$care-margin-left:20px;
 $text-margin-top:30px;
 $nick-name-font-size:32px;
 $base-color:#C41A16;
@@ -37,7 +43,6 @@ $blank-height:55px;
         width: $width;
         height: $header-height;
         margin: 0 auto;
-        padding-left: $header-padding;
         padding-top: $header-padding;
         display: flex;
         align-items: center;
@@ -47,15 +52,37 @@ $blank-height:55px;
             flex-direction: column;
             align-items: flex-start;
             padding-left: $header-middle-padding-left;
+            width:$header-middle-width;
             .nick-name{
                 font-size:$nick-name-font-size;
-                font-weight: bold;
+                font-weight: bold; 
+                display: flex;
+                .care{
+                    width: $care-width;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $base-color;
+                    border-radius: $button-border-radius;
+                    font-size: $care-font-size;
+                    font-weight: normal;
+                    color: $care-color;
+                    margin-left: $care-margin-left;
+                    .icon{
+                        width: $care-icon-width;
+                        height:$care-icon-height;
+                        margin-right: $icon-margin;
+                    }
+                    .text{
+                        position: relative;
+                        left: -10px;
+                    }
+                }
             }
         }
         .header-right{
             width: $header-right-width;
             height: $header-right-height;
-            margin-left: $header-right-margin-left;
             font-size: $header-font-size;
             padding-top: $header-right-padding-top;
             .new-and-old-degree{
