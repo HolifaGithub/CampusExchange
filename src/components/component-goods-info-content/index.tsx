@@ -129,13 +129,17 @@ function GooodsInfoContent(props: Props) {
                             if (res.statusCode === 200 && res.data.status === 'success') {
                                 let pics = res.data.picsLocation
                                 pics = pics.split(";")
-                                for (let i = 0; i < pics.length; i++) {
-                                    if (pics[pics.length - 1] === '') {
-                                        pics.pop()
-                                        break;
-                                    }
-                                    pics[i] = `https://${pics[i]}`
+                                if (pics[pics.length - 1] === '') {
+                                    pics.pop()
                                 }
+                                for (let i = 0; i < pics.length; i++) {
+                                   if(pics[i]!==''){
+                                    pics[i] = `https://${pics[i]}`
+                                   }else{
+                                       pics.splice(i,1)
+                                   }                                                      
+                                }
+                                console.log(pics)
                                 const formatResult = formatDate(res.data.orderTime)
                                 let date = `${formatResult.year}/${formatResult.month}/${formatResult.day} ${formatResult.hour}:${formatResult.minute}:${formatResult.second}`
                                 dispatch({ type: SET_DATA, data: { ...res.data, picsLocation: pics, orderTime: date } })

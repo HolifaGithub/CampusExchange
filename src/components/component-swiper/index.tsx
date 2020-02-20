@@ -35,19 +35,19 @@ function CustomSwiper() {
           <SwiperItem className='swiper-item'>
             <Image
               className='swiper-img'
-              src='http://www.xiaoyuanhuan.xyz:3000/img/banner1.png'
+              src='http://www.xiaoyuanhuan.xyz:3001/img/banner1.png'
             />
           </SwiperItem>
           <SwiperItem className='swiper-item'>
             <Image
               className='swiper-img'
-              src='http://www.xiaoyuanhuan.xyz:3000/img/banner2.png'
+              src='http://www.xiaoyuanhuan.xyz:3001/img/banner2.png'
             />
           </SwiperItem>
           <SwiperItem className='swiper-item'>
             <Image
               className='swiper-img'
-              src='http://www.xiaoyuanhuan.xyz:3000/img/banner3.png'
+              src='http://www.xiaoyuanhuan.xyz:3001/img/banner3.png'
             />
           </SwiperItem>
         </Swiper>
