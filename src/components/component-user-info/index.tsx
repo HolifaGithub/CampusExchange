@@ -88,7 +88,12 @@ function UserInfo() {
     >
       <View className='user-info-container'>
         <View className='user-info-functional'>
-          <Image src={`${CDNWebSite}/icon/user-info/setting.png`} className='setting-image'></Image>
+          <View onClick={() => {
+            Taro.navigateTo({ url: '/pages/show_user_info/show_user_info' })
+          }}>
+            <Image src={`${CDNWebSite}/icon/user-info/setting.png`} className='setting-image'></Image>
+          </View>
+
           <Image src={`${CDNWebSite}/icon/user-info/qr-code.png`} className='qr-code-image'></Image>
         </View>
         <View className='user-info'>
@@ -119,7 +124,7 @@ function UserInfo() {
                         console.log("用户登录成功！返回数据：", res)
                         if (res.data.status === 'success' && res.statusCode === 200) {
                           dispatch({ type: AUTHORIZED })
-                          dispatch({type:SET_NEW_USER,data:res.data.isNewUser})
+                          dispatch({ type: SET_NEW_USER, data: res.data.isNewUser })
                         }
                       },
                       fail() {

@@ -40,7 +40,8 @@ class App extends Component {
       'pages/person/person',
       'pages/not-found/not-found',
       'pages/register/register',
-      'pages/goods-info/goods-info'
+      'pages/goods-info/goods-info',
+      'pages/show_user_info/show_user_info',
     ],
     window: {
       backgroundTextStyle: 'light',

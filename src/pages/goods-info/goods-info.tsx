@@ -1,6 +1,9 @@
 import { ComponentClass } from 'react'
-import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text,ScrollView } from '@tarojs/components'
+import Taro, { PureComponent, Config } from '@tarojs/taro'
+import { View, Text } from '@tarojs/components'
+import { server, port } from '../../static-name/server'
+import formatDate from '../../utils/formatDate'
+import promiseApi from '../../utils/promiseApi'
 import { connect } from '@tarojs/redux'
 import GooodsInfoContainer from '../../floors/floor-goods-info-container'
 import './goods-info.scss'
@@ -33,45 +36,91 @@ interface GoodsInfo {
   props: IProps;
 }
 
-@connect(({  }) => ({
-  
+@connect(({ }) => ({
+
 }), (dispatch) => ({
 
 }))
-class GoodsInfo extends Component {
+class GoodsInfo extends PureComponent {
 
-    /**
-   * 指定config的类型声明为: Taro.Config
-   *
-   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-   */
-    config: Config = {
+  /**
+ * 指定config的类型声明为: Taro.Config
+ *
+ * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
+ * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
+ * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
+ */constructor(props) {
+    super(props)
+    this.state = {
+      data: {}
+    }
+  }
+  config: Config = {
     navigationBarTitleText: '商品详情',
-    enablePullDownRefresh:false,
+    enablePullDownRefresh: false,
   }
-  state={
-    orderId:''
+  componentWillMount() {
+    this.$preloadData
+      .then(res => {
+        this.setState({ ...res })
+      })
   }
-componentWillMount(){
-  this.setState(this.$router.params)
-}
-  componentWillReceiveProps (nextProps) {
+  componentWillPreload(params) {
+    return this.fetchData(params.orderId)
+  }
+  fetchData(orderId) {
+    let fetchDataResult = {}
+    return new Promise((resolve, reject) => {
+      promiseApi(Taro.login)().then((loginResult) => {
+        const code = loginResult.code
+        if (code) {
+          promiseApi(Taro.request)({
+            url: `http://${server}:${port}/getgoodsinfo`,
+            method: 'GET',
+            data: {
+              code: code,
+              orderId: orderId
+            }
+          }).then((res) => {
+            if (res.statusCode === 200 && res.data.status === 'success') {
+              let pics = res.data.picsLocation
+              pics = pics.split(";")
+              if (pics[pics.length - 1] === '') {
+                pics.pop()
+              }
+              for (let i = 0; i < pics.length; i++) {
+                if (pics[i] !== '') {
+                  pics[i] = `https://${pics[i]}`
+                } else {
+                  pics.splice(i, 1)
+                }
+              }
+              console.log(pics)
+              const formatResult = formatDate(res.data.orderTime)
+              let date = `${formatResult.year}/${formatResult.month}/${formatResult.day} ${formatResult.hour}:${formatResult.minute}:${formatResult.second}`
+              fetchDataResult = { ...res.data, picsLocation: pics, orderTime: date }
+              resolve(fetchDataResult)
+            }
+          })
+        }
+      })
+    })
+  }
+  componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps)
   }
 
-  componentWillUnmount () { }
+  componentWillUnmount() { }
 
-  componentDidShow () { }
+  componentDidShow() { }
 
-  componentDidHide () { }
+  componentDidHide() { }
 
-  render () {
+  render() {
     return (
-      <ScrollView className='goods-info'>
-            <GooodsInfoContainer orderId={this.state.orderId}/>
-      </ScrollView>
+      <View className='goods-info'>
+        <GooodsInfoContainer data={this.state} />
+      </View>
     )
   }
 }

@@ -7,7 +7,7 @@ import formatDate from '../../utils/formatDate'
 import { AtNavBar, AtAvatar, AtDivider, AtToast } from 'taro-ui'
 import './index.scss'
 interface Props {
-    orderId: string;
+    data: {};
 }
 interface InitState {
     orderId: string;
@@ -101,9 +101,7 @@ function reducer(state = initState, action) {
 }
 function GooodsInfoContent(props: Props) {
     let [loading, setLoading] = useState(true)
-
     let [state, dispatch] = useReducer(reducer, initState)
-    const orderId = props.orderId
     let top = ''
     Taro.getSystemInfo({
         success(res) {
@@ -111,45 +109,44 @@ function GooodsInfoContent(props: Props) {
         }
     })
     useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-        }, 200)
-        Taro.login({
-            success(loginResult) {
-                const code = loginResult.code
-                if (code) {
-                    Taro.request({
-                        url: `http://${server}:${port}/getgoodsinfo`,
-                        method: 'GET',
-                        data: {
-                            code: code,
-                            orderId: orderId
-                        },
-                        success(res) {
-                            if (res.statusCode === 200 && res.data.status === 'success') {
-                                let pics = res.data.picsLocation
-                                pics = pics.split(";")
-                                if (pics[pics.length - 1] === '') {
-                                    pics.pop()
-                                }
-                                for (let i = 0; i < pics.length; i++) {
-                                   if(pics[i]!==''){
-                                    pics[i] = `https://${pics[i]}`
-                                   }else{
-                                       pics.splice(i,1)
-                                   }                                                      
-                                }
-                                console.log(pics)
-                                const formatResult = formatDate(res.data.orderTime)
-                                let date = `${formatResult.year}/${formatResult.month}/${formatResult.day} ${formatResult.hour}:${formatResult.minute}:${formatResult.second}`
-                                dispatch({ type: SET_DATA, data: { ...res.data, picsLocation: pics, orderTime: date } })
-                            }
-                        }
-                    })
-                }
-            }
-        })
-    }, [])
+        setLoading(false)
+        dispatch({ type: SET_DATA, data: props.data })
+        // Taro.login({
+        //     success(loginResult) {
+        //         const code = loginResult.code
+        //         if (code) {
+        //             Taro.request({
+        //                 url: `http://${server}:${port}/getgoodsinfo`,
+        //                 method: 'GET',
+        //                 data: {
+        //                     code: code,
+        //                     orderId: orderId
+        //                 },
+        //                 success(res) {
+        //                     if (res.statusCode === 200 && res.data.status === 'success') {
+        //                         let pics = res.data.picsLocation
+        //                         pics = pics.split(";")
+        //                         if (pics[pics.length - 1] === '') {
+        //                             pics.pop()
+        //                         }
+        //                         for (let i = 0; i < pics.length; i++) {
+        //                            if(pics[i]!==''){
+        //                             pics[i] = `https://${pics[i]}`
+        //                            }else{
+        //                                pics.splice(i,1)
+        //                            }                                                      
+        //                         }
+        //                         console.log(pics)
+        //                         const formatResult = formatDate(res.data.orderTime)
+        //                         let date = `${formatResult.year}/${formatResult.month}/${formatResult.day} ${formatResult.hour}:${formatResult.minute}:${formatResult.second}`
+        //                         dispatch({ type: SET_DATA, data: { ...res.data, picsLocation: pics, orderTime: date } })
+        //                     }
+        //                 }
+        //             })
+        //         }
+        //     }
+        // })
+    }, [props.data])
     return (
         <Skeleton
             row={1}
@@ -176,7 +173,7 @@ function GooodsInfoContent(props: Props) {
                                     } else {
                                         dispatch({ type: CARE })
                                     }
-                                }}>{state.isCare?'已关注':'关注'}</View>
+                                }}>{state.isCare ? '已关注' : '关注'}</View>
                                 <AtToast isOpened={state.isCare} text='关注成功！' status='success' duration={1000}></AtToast>
                             </View>
                         </View>
@@ -217,7 +214,7 @@ function GooodsInfoContent(props: Props) {
                         {state.describe.length > 0 ? state.describe : <View>此商品无文字介绍!</View>}
                     </View>
                     <AtDivider content='图片详情' fontColor='#C41A16' lineColor='#C41A16' />
-                    {state.picsLocation.length > 0 ? state.picsLocation.map((pic, index) => {
+                    {state.picsLocation&&state.picsLocation.length > 0 ? state.picsLocation.map((pic, index) => {
                         return (
                             <Image className='goods-img' src={pic} key={new Date().toString()}></Image>
                         )
@@ -243,5 +240,28 @@ function GooodsInfoContent(props: Props) {
         </Skeleton>
     )
 }
-
+GooodsInfoContent.defaultProps = {
+    data: {
+        status:'',
+        orderId: '',
+        orderTime: '',
+        orderStatus: '',
+        typeOne: '',
+        typeTwo: '',
+        typeThree: '',
+        nameInput: '',
+        goodsNumber: 1,
+        newAndOldDegree: '',
+        mode: '',
+        objectOfPayment: '',
+        payForMePrice: 0,
+        payForOtherPrice: 0,
+        wantExchangeGoods: '',
+        describe: '',
+        picsLocation: '',
+        nickName: '',
+        avatarUrl: '',
+        school: ''
+    }
+}
 export default Taro.memo(GooodsInfoContent)

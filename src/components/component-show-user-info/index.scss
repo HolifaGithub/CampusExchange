@@ -1,0 +1,52 @@
+.show-user-info-content{
+    width: 720px;
+    margin: 0 auto;
+    .icon{
+        width:40px;
+        height:40px;
+        margin-right: 10px;
+    }
+    .key{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .sex,.birthday,.header-right{
+        display: flex;
+        align-items: center;
+    }
+    .header{
+        display: flex;
+        margin-bottom: 20px;
+        .header-middle{
+            margin-left: 20px;
+            width: 400px;
+            // border-width: 1px;
+            // border-style: solid;
+            // border-color: red;
+            .nick-name{
+                font-size: 32px;
+                font-weight: bold;
+            }
+        }
+        .header-right{
+            font-size: 32px;
+        }
+    }
+    .body{
+        .row{
+            width: 720px;
+            height: 120px;
+            line-height: 120px;
+            font-size: 36px;
+            display: flex;
+            border-bottom-width: 1px;
+            border-bottom-style:dotted;
+            border-color: #eee;
+            .key{
+                font-weight: bold;
+                margin-right: 20px;
+            }
+        }
+    }
+}
