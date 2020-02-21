@@ -7,5 +7,6 @@ export {
     devServer,
     port,
     proxyServer,
-    server
+    server,
+    cloudServer
 }

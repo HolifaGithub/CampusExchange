@@ -2,6 +2,8 @@ import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import ShowUserInfoContainer from '../../floors/floor-show-user-info'
+import { server, port } from '../../static-name/server'
+import promiseApi from '../../utils/promiseApi'
 import { connect } from '@tarojs/redux'
 import './show_user_info.scss'
 
@@ -51,14 +53,50 @@ class ShowUserInfo extends Component {
  * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
+constructor(props) {
+  super(props)
+  this.state = {
+    data: {}
+  }
+}
+
   config: Config = {
     navigationBarTitleText: '用户信息详情页'
   }
-
+  componentWillMount() {
+    this.$preloadData
+      .then(res => {
+        this.setState({...res})
+        
+      })
+  }
+  componentWillPreload(params) {
+    return this.fetchData(params)
+  }
   componentWillReceiveProps(nextProps) {
     console.log(this.props, nextProps)
   }
 
+  fetchData(params) {
+    return new Promise((resolve, reject) => {
+      let data;
+      if (params.code) {
+        data = { code: params.code }
+      } else if (params.orderId) {
+        data = { orderId: params.orderId }
+      }
+      promiseApi(Taro.request)({
+        url: `http://${server}:${port}/getuserinfo`,
+        method: 'GET',
+        data: data
+      }).then((res) => {
+        if (res.statusCode === 200 && res.data.status === 'success') {
+          resolve(res.data)
+        }
+      })
+    })
+
+  }
   componentWillUnmount() { }
 
   componentDidShow() { }
@@ -68,7 +106,7 @@ class ShowUserInfo extends Component {
   render() {
     return (
       <View className='show_user_info'>
-        <ShowUserInfoContainer />
+        <ShowUserInfoContainer data={this.state} />
       </View>
     )
   }

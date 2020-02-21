@@ -27,7 +27,7 @@ function Grid(props: Props) {
             {
                 props.data ? props.data.map((item, index) => {
                     return (
-                        <View className='at-col at-col-3 grid' key={new Date().toString()+index}>
+                        <View className='at-col at-col-3 grid' key={new Date().toString() + index}>
                             <Skeleton
                                 type='column'
                                 row={1}
@@ -37,7 +37,9 @@ function Grid(props: Props) {
                                 loading={loading}
                             >
                                 <View className='grid-content'>
-                                    <Image src={item.image} className='grid-image'></Image>
+                                    <View className='image-container'>
+                                        <Image src={item.image} className='grid-image'></Image>
+                                    </View>
                                     <View className='grid-value'>{item.value}</View>
                                 </View>
                             </Skeleton>

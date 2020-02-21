@@ -17,6 +17,9 @@
     }
     .header{
         display: flex;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: #ddd;
         margin-bottom: 20px;
         .header-middle{
             margin-left: 20px;
@@ -25,12 +28,14 @@
             // border-style: solid;
             // border-color: red;
             .nick-name{
-                font-size: 32px;
+                font-size: 40px;
                 font-weight: bold;
+                margin-left: 47px;
             }
-        }
-        .header-right{
-            font-size: 32px;
+            .school{
+                font-size: 32px;
+                display: flex;
+            }
         }
     }
     .body{
@@ -41,8 +46,8 @@
             font-size: 36px;
             display: flex;
             border-bottom-width: 1px;
-            border-bottom-style:dotted;
-            border-color: #eee;
+            border-bottom-style:solid;
+            border-color: #ddd;
             .key{
                 font-weight: bold;
                 margin-right: 20px;

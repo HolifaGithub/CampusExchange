@@ -101,6 +101,12 @@ class GoodsInfo extends PureComponent {
               fetchDataResult = { ...res.data, picsLocation: pics, orderTime: date }
               resolve(fetchDataResult)
             }
+            if(res.statusCode === 400){
+              promiseApi(Taro.showToast)({ 
+              title: '获取当前商品详情信息失败！',
+              icon: 'none',
+              duration: 1000})
+            }
           })
         }
       })

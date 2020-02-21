@@ -2,6 +2,7 @@ import Taro, { useState, useEffect, useReducer } from '@tarojs/taro'
 import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
 import { View, Text, Image, Button, OpenData } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
+import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
 import { server, port } from '../../static-name/server'
 import './index.scss'
@@ -89,7 +90,11 @@ function UserInfo() {
       <View className='user-info-container'>
         <View className='user-info-functional'>
           <View onClick={() => {
-            Taro.navigateTo({ url: '/pages/show_user_info/show_user_info' })
+            promiseApi(Taro.login)().then((loginResult) => {
+              if (loginResult.code) {
+                promiseApi(Taro.navigateTo)({ url: `/pages/show_user_info/show_user_info?code=${loginResult.code}` })
+              }
+            })
           }}>
             <Image src={`${CDNWebSite}/icon/user-info/setting.png`} className='setting-image'></Image>
           </View>
@@ -125,11 +130,15 @@ function UserInfo() {
                         if (res.data.status === 'success' && res.statusCode === 200) {
                           dispatch({ type: AUTHORIZED })
                           dispatch({ type: SET_NEW_USER, data: res.data.isNewUser })
+                        } else {
+                          console.log("用户登录失败！")
+                          dispatch({ type: NOT_AUTHORIZED })
+                          Taro.showToast({
+                            title: '登录失败！',
+                            icon: 'none',
+                            duration: 1000
+                          })
                         }
-                      },
-                      fail() {
-                        console.log("用户登录失败！")
-                        dispatch({ type: NOT_AUTHORIZED })
                       }
                     })
                     checkIsNeedRegister(dispatch, state.isNewUser)
