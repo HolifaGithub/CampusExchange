@@ -99,9 +99,6 @@ class Index extends PureComponent {
   }
   componentWillMount() {
     this.props.dispatchFetchPageData();
-  }
-
-  componentDidMount() {
     getLocation().then((res: LocationResult) => {
       if (!isNullOrUndefined(res.result.address_component)) {
         const address_component = res.result.address_component
@@ -112,22 +109,32 @@ class Index extends PureComponent {
           if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
             this.setState({ location: `${province}${city}${district}` })
           }
-          Taro.checkSession({
-            success: () => {
-              this.props.dispatchAuthorized()
-            },
-            fail: () => {
-              this.props.dispatchNotAuthorized()
-              setTimeout(() => {
-                Taro.switchTab({
-                  url: '/pages/person/person',
-                  success: () => {
-                    this.props.switchTabPerson()
-                  }
-                })
-              }, 200)
-            }
-          })
+          // Taro.checkSession({
+          //   success: () => {
+          //     this.props.dispatchAuthorized()
+          //   },
+          //   fail: () => {
+          //     this.props.dispatchNotAuthorized()
+          //     setTimeout(() => {
+          //       Taro.switchTab({
+          //         url: '/pages/person/person',
+          //         success: () => {
+          //           this.props.switchTabPerson()
+          //         }
+          //       })
+          //     }, 200)
+          //   }
+          // })
+          if (!this.props.checkIsAuthorized.isAuthorized) {
+            setTimeout(() => {
+              Taro.switchTab({
+                url: '/pages/person/person',
+                success: () => {
+                  this.props.switchTabPerson()
+                }
+              })
+            }, 200)
+          }
         }
       }
     }).catch(() => {
@@ -149,6 +156,10 @@ class Index extends PureComponent {
         }
       })
     })
+  }
+
+  componentDidMount() {
+
 
   }
   // componentWillReceiveProps () {

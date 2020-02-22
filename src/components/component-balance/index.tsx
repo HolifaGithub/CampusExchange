@@ -8,9 +8,7 @@ function Balance() {
     let [loading, setLoading] = useState(true)
     let [balance, setBalance] = useState(1888.8)
     useEffect(() => {
-        setTimeout(() => {
             setLoading(false)
-        }, 1000)
     }, [])
     return (
         <Skeleton

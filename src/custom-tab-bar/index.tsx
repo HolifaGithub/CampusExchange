@@ -150,66 +150,121 @@ class TabBar extends PureComponent {
               }
             ]}
             onClick={(current) => {
-              Taro.checkSession({
-                success: () => {
-                    this.props.dispatchAuthorized()
-                    switch (current) {
-                      case 0: Taro.switchTab({
-                        url: '/pages/index/index',
-                        success: () => {
-                          this.props.switchTabHome()
-                        }
-                      })
-                        break
-                      case 1: Taro.switchTab({
-                        url: '/pages/sort/sort',
-                        success: () => {
-                          this.props.switchTabSort()
-                        }
-                      })
-                        break
-                      case 2: Taro.switchTab({
-                        url: '/pages/release-goods/release-goods',
-                        success: () => {
-                          this.props.switchTabReleaseGoods()
-                        }
-                      })
-                        break
-                      case 3: Taro.switchTab({
-                        url: '/pages/chat/chat',
-                        success: () => {
-                          this.props.switchTabChat()
-                        }
-                      })
-                        break
-                      case 4: Taro.switchTab({
-                        url: '/pages/person/person',
-                        success: () => {
-                          this.props.switchTabPerson()
-                        }
-                      })
-                        break
-                      default: Taro.switchTab({
-                        url: '/pages/index/index',
-                        success: () => {
-                          this.props.switchTabHome()
-                        }
-                      })
-                        break
+              // Taro.checkSession({
+              //   success: () => {
+              //       this.props.dispatchAuthorized()
+              //       switch (current) {
+              //         case 0: Taro.switchTab({
+              //           url: '/pages/index/index',
+              //           success: () => {
+              //             this.props.switchTabHome()
+              //           }
+              //         })
+              //           break
+              //         case 1: Taro.switchTab({
+              //           url: '/pages/sort/sort',
+              //           success: () => {
+              //             this.props.switchTabSort()
+              //           }
+              //         })
+              //           break
+              //         case 2: Taro.switchTab({
+              //           url: '/pages/release-goods/release-goods',
+              //           success: () => {
+              //             this.props.switchTabReleaseGoods()
+              //           }
+              //         })
+              //           break
+              //         case 3: Taro.switchTab({
+              //           url: '/pages/chat/chat',
+              //           success: () => {
+              //             this.props.switchTabChat()
+              //           }
+              //         })
+              //           break
+              //         case 4: Taro.switchTab({
+              //           url: '/pages/person/person',
+              //           success: () => {
+              //             this.props.switchTabPerson()
+              //           }
+              //         })
+              //           break
+              //         default: Taro.switchTab({
+              //           url: '/pages/index/index',
+              //           success: () => {
+              //             this.props.switchTabHome()
+              //           }
+              //         })
+              //           break
+              //       }
+              //   },
+              //   fail:()=>{
+              //     this.props.dispatchNotAuthorized()
+              //     setTimeout(() => {
+              //       Taro.switchTab({
+              //         url: '/pages/person/person',
+              //         success: () => {
+              //           this.props.switchTabPerson()
+              //         }
+              //       })
+              //     }, 200)
+              //   }
+              // })
+              if (this.props.checkIsAuthorized.isAuthorized) {
+                switch (current) {
+                  case 0: Taro.switchTab({
+                    url: '/pages/index/index',
+                    success: () => {
+                      this.props.switchTabHome()
                     }
-                },
-                fail:()=>{
-                  this.props.dispatchNotAuthorized()
-                  setTimeout(() => {
-                    Taro.switchTab({
-                      url: '/pages/person/person',
-                      success: () => {
-                        this.props.switchTabPerson()
-                      }
-                    })
-                  }, 200)
+                  })
+                    break
+                  case 1: Taro.switchTab({
+                    url: '/pages/sort/sort',
+                    success: () => {
+                      this.props.switchTabSort()
+                    }
+                  })
+                    break
+                  case 2: Taro.switchTab({
+                    url: '/pages/release-goods/release-goods',
+                    success: () => {
+                      this.props.switchTabReleaseGoods()
+                    }
+                  })
+                    break
+                  case 3: Taro.switchTab({
+                    url: '/pages/chat/chat',
+                    success: () => {
+                      this.props.switchTabChat()
+                    }
+                  })
+                    break
+                  case 4: Taro.switchTab({
+                    url: '/pages/person/person',
+                    success: () => {
+                      this.props.switchTabPerson()
+                    }
+                  })
+                    break
+                  default: Taro.switchTab({
+                    url: '/pages/index/index',
+                    success: () => {
+                      this.props.switchTabHome()
+                    }
+                  })
+                    break
                 }
-              })
+              } else {
+                setTimeout(() => {
+                  Taro.switchTab({
+                    url: '/pages/person/person',
+                    success: () => {
+                      this.props.switchTabPerson()
+                    }
+                  })
+                }, 200)
+              }
             }}
             current={this.props.switchTarBar.current}
             color='#FFFFFF'

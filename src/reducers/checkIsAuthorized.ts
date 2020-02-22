@@ -1,7 +1,7 @@
 import {AUTHORIZED, NOT_AUTHORIZED} from '../constants/checkIsAuthorized'
 
 const INITIAL_STATE = {
-    isAuthorized: true
+    isAuthorized: false
 }
 
 export default function fetchPageDataReducer(state = INITIAL_STATE, action) {
