@@ -9,6 +9,7 @@ import IndexGrid from '../../floors/floor-index-grid'
 import IndexWaterFall from '../../floors/floor-index-waterfall'
 import { AtToast } from "taro-ui"
 import getLocation from '../../utils/getLocation'
+import promiseApi from '../../utils/promiseApi'
 import isNullOrUndefined from '../../utils/isNullOrUndefined'
 import isStringLengthEqualZero from '../../utils/isStringLengthEqualZero'
 import { switchTabPerson } from '../../actions/switchTabBar'
@@ -95,10 +96,16 @@ class Index extends PureComponent {
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
   state = {
-    location: ''
+    location: '',
+    isSessionEffective:false
   }
   componentWillMount() {
     this.props.dispatchFetchPageData();
+    promiseApi(Taro.checkSession)().then(() => {
+      this.setState({ isSessionEffective: true })
+    }).catch(() => {
+      this.setState({ isSessionEffective: false })
+    })
     getLocation().then((res: LocationResult) => {
       if (!isNullOrUndefined(res.result.address_component)) {
         const address_component = res.result.address_component
@@ -125,7 +132,7 @@ class Index extends PureComponent {
           //     }, 200)
           //   }
           // })
-          if (!this.props.checkIsAuthorized.isAuthorized) {
+          if (!this.props.checkIsAuthorized.isAuthorized||!this.state.isSessionEffective) {
             setTimeout(() => {
               Taro.switchTab({
                 url: '/pages/person/person',

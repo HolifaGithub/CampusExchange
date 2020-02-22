@@ -12,6 +12,7 @@ import {
   switchTabChat,
   switchTabPerson
 } from '../actions/switchTabBar'
+import promiseApi from '../utils/promiseApi'
 import { authorized, notAuthorized } from '../actions/checkIsAuthorized'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
@@ -90,14 +91,17 @@ class TabBar extends PureComponent {
  */
   state = {
     loading: true,
+    isSessionEffective:false
   }
-  // componentWillMount() {
-
-  // }
-  componentDidMount() {
+  componentWillMount() {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 200);
+      promiseApi(Taro.checkSession) ().then(()=>{
+          this.setState({isSessionEffective:true})
+      }).catch(()=>{
+        this.setState({isSessionEffective:false})
+      })
   }
   // componentWillReceiveProps () {
   //   // console.log(this.props, nextProps)
@@ -210,7 +214,7 @@ class TabBar extends PureComponent {
               //     }, 200)
               //   }
               // })
-              if (this.props.checkIsAuthorized.isAuthorized) {
+              if (this.props.checkIsAuthorized.isAuthorized&&this.state.isSessionEffective) {
                 switch (current) {
                   case 0: Taro.switchTab({
                     url: '/pages/index/index',

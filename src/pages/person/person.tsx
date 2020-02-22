@@ -1,6 +1,8 @@
 import { ComponentClass } from 'react'
 import Taro, { PureComponent, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { connect } from '@tarojs/redux'
+import promiseApi from '../../utils/promiseApi'
 import PersonUserInfo from '../../floors/floor-person-user-info'
 // import { connect } from '@tarojs/redux'
 import './person.scss'
@@ -16,7 +18,9 @@ import './person.scss'
 // #endregion
 
 type PageStateProps = {
-
+  checkIsAuthorized: {
+    isAuthorized: boolean;
+  }
 }
 
 type PageDispatchProps = {}
@@ -32,7 +36,19 @@ interface Person {
   props: IProps;
 }
 
+@connect(({ checkIsAuthorized }) => ({
+  checkIsAuthorized
+}), (dispatch) => ({
+
+}))
 class Person extends PureComponent {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isSessionEffective: false
+    }
+  }
 
   /**
  * 指定config的类型声明为: Taro.Config
@@ -43,13 +59,30 @@ class Person extends PureComponent {
  */
   config: Config = {
     navigationBarTitleText: '个人中心',
-    // enablePullDownRefresh: true,
-    navigationBarBackgroundColor:'#C41A16',
-    navigationBarTextStyle:'white',
-    backgroundColor:'#eeeeee'
+    enablePullDownRefresh: false,
+    navigationBarBackgroundColor: '#C41A16',
+    navigationBarTextStyle: 'white',
+    backgroundColor: '#eeeeee'
   }
 
+  // componentWillMount() {
+  //   // this.checkSessionEffective().then((res: boolean) => {
+  //   //   this.setState({ isSessionEffective: res })
+  //   // })
+  // }
+  componentWillReceiveProps() {
 
+  }
+
+  componentWillUpdate(){
+     var that=this;
+      promiseApi(Taro.checkSession) ().then(()=>{
+        that.setState({isSessionEffective:true})
+      }).catch(()=>{
+        that.setState({isSessionEffective:false})
+      })
+  }
+  
   componentWillUnmount() { }
 
   componentDidShow() { }
@@ -59,7 +92,7 @@ class Person extends PureComponent {
   render() {
     return (
       <View className='person'>
-        <PersonUserInfo/>
+        <PersonUserInfo isSessionEffective={this.state}/>
       </View>
     )
   }

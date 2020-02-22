@@ -3,7 +3,6 @@ import { View, Text, Image } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
-
 function GetInfoBars(props) {
   let [loading, setLoading] = useState(true)
   useEffect(() => {

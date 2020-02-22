@@ -6,7 +6,6 @@ import { connect } from '@tarojs/redux'
 import { CDNWebSite } from '../../static-name/web-site'
 import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
-import configStore from '../../store'
 import { authorized, notAuthorized } from '../../actions/checkIsAuthorized'
 import { server, port } from '../../static-name/server'
 import './index.scss'
@@ -189,7 +188,9 @@ type PageDispatchProps = {
   dispatchNotAuthorized: () => any;
 }
 
-type PageOwnProps = {}
+type PageOwnProps = {
+  isSessionEffective:boolean;
+}
 
 type PageState = {
 
@@ -226,18 +227,23 @@ class UserInfo extends Component {
   }
   state = {
     loading: true,
-    isNewUser: false
+    isNewUser: false,
+    // isSessionEffective:false
   }
+  // checkSessionEffective() {
+  //     promiseApi(Taro.checkSession) ().then(()=>{
+  //         this.setState({isSessionEffective:true})
+  //     }).catch(()=>{
+  //       this.setState({isSessionEffective:false})
+  //     })
+  // }
   componentWillMount() {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 200)
-
+    // this.checkSessionEffective()
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps)
-  }
 
   componentWillUnmount() { }
 
@@ -246,7 +252,7 @@ class UserInfo extends Component {
   componentDidHide() { }
 
   render() {
-    console.log(this.props)
+    const isLogin=this.props.isSessionEffective&&this.props.checkIsAuthorized.isAuthorized
     return (
       <Skeleton
         row={1}
@@ -269,18 +275,18 @@ class UserInfo extends Component {
             <Image src={`${CDNWebSite}/icon/user-info/qr-code.png`} className='qr-code-image'></Image>
           </View>
           <View className='user-info'>
-            {!this.props.checkIsAuthorized.isAuthorized ? <Image src={`${CDNWebSite}/icon/user-info/default-avatar-white.png`} className='avatar'></Image> : <OpenData
+            {!isLogin ? <Image src={`${CDNWebSite}/icon/user-info/default-avatar-white.png`} className='avatar'></Image> : <OpenData
               type='userAvatarUrl'
               default-avatar={`${CDNWebSite}/icon/user-info/default-avatar-white.png`}
               className='avatar'
             ></OpenData>}
-            {!this.props.checkIsAuthorized.isAuthorized ? null : <OpenData type='userNickName' className='nick-name'></OpenData>}
-            {this.props.checkIsAuthorized.isAuthorized ? null : <Button type='warn'
+            {!isLogin ? null : <OpenData type='userNickName' className='nick-name'></OpenData>}
+            {isLogin ? null : <Button type='warn'
               openType='getUserInfo'
               onGetUserInfo={(userInfoResult) => {
                 if (userInfoResult.detail.errMsg === 'getUserInfo:ok') {
                   Taro.login({
-                    success:(loginResult)=>{
+                    success: (loginResult) => {
                       Taro.request({
                         url: `http://${server}:${port}/login`,
                         method: 'POST',
@@ -291,16 +297,14 @@ class UserInfo extends Component {
                           encryptedData: userInfoResult.detail.encryptedData,
                           iv: userInfoResult.detail.iv
                         },
-                        success:(res)=>{
-                          console.log("用户登录成功！返回数据：", res)
+                        success: (res) => {
+                          console.log("用户登录请求成功！返回数据：", res)
                           if (res.data.status === 'success' && res.statusCode === 200) {
-                            // dispatch({ type: AUTHORIZED })
-                            console.log(this.props.dispatchAuthorized)
                             this.props.dispatchAuthorized()
+                            this.setState({isSessionEffective:true})
                             this.setState({ isNewUser: res.data.isNewUser })
                           } else {
                             console.log("用户登录失败！")
-                            // dispatch({ type: NOT_AUTHORIZED })
                             this.props.dispatchNotAuthorized()
                             Taro.showToast({
                               title: '登录失败！',
