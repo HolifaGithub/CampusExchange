@@ -96,13 +96,58 @@ class TabBar extends PureComponent {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 200);
-    // promiseApi(Taro.checkSession)().then(() => {
-    //   this.setState({ isSessionEffective: true })
-    // }).catch(() => {
-    //   this.setState({ isSessionEffective: false })
-    // })
+    promiseApi(Taro.checkSession)().then(() => {
+      this.setState({ isSessionEffective: true })
+    }).catch(() => {
+      this.setState({ isSessionEffective: false })
+    })
   }
-
+ jumpTab(current){
+  switch (current) {
+    case 0: Taro.switchTab({
+      url: '/pages/index/index',
+      success: () => {
+        this.props.switchTabHome()
+      }
+    })
+      break
+    case 1: Taro.switchTab({
+      url: '/pages/sort/sort',
+      success: () => {
+        this.props.switchTabSort()
+      }
+    })
+      break
+    case 2: Taro.switchTab({
+      url: '/pages/release-goods/release-goods',
+      success: () => {
+        this.props.switchTabReleaseGoods()
+      }
+    })
+      break
+    case 3: Taro.switchTab({
+      url: '/pages/chat/chat',
+      success: () => {
+        this.props.switchTabChat()
+      }
+    })
+      break
+    case 4: Taro.switchTab({
+      url: '/pages/person/person',
+      success: () => {
+        this.props.switchTabPerson()
+      }
+    })
+      break
+    default: Taro.switchTab({
+      url: '/pages/index/index',
+      success: () => {
+        this.props.switchTabHome()
+      }
+    })
+      break
+  }
+ }
   // componentWillReceiveProps() {
 
   // }
@@ -214,65 +259,25 @@ class TabBar extends PureComponent {
               //     }, 200)
               //   }
               // })
-              promiseApi(Taro.checkSession)().then(() => {
-                this.setState({ isSessionEffective: true })
-              }).catch(() => {
-                this.setState({ isSessionEffective: false })
-              })
+
               if (!this.props.checkIsNeedRelogin.isNeedRelogin && this.state.isSessionEffective) {
-                switch (current) {
-                  case 0: Taro.switchTab({
-                    url: '/pages/index/index',
-                    success: () => {
-                      this.props.switchTabHome()
-                    }
-                  })
-                    break
-                  case 1: Taro.switchTab({
-                    url: '/pages/sort/sort',
-                    success: () => {
-                      this.props.switchTabSort()
-                    }
-                  })
-                    break
-                  case 2: Taro.switchTab({
-                    url: '/pages/release-goods/release-goods',
-                    success: () => {
-                      this.props.switchTabReleaseGoods()
-                    }
-                  })
-                    break
-                  case 3: Taro.switchTab({
-                    url: '/pages/chat/chat',
-                    success: () => {
-                      this.props.switchTabChat()
-                    }
-                  })
-                    break
-                  case 4: Taro.switchTab({
-                    url: '/pages/person/person',
-                    success: () => {
-                      this.props.switchTabPerson()
-                    }
-                  })
-                    break
-                  default: Taro.switchTab({
-                    url: '/pages/index/index',
-                    success: () => {
-                      this.props.switchTabHome()
-                    }
-                  })
-                    break
-                }
+                  this.jumpTab(current)
               } else {
-                setTimeout(() => {
-                  Taro.switchTab({
-                    url: '/pages/person/person',
-                    success: () => {
-                      this.props.switchTabPerson()
-                    }
-                  })
-                }, 200)
+                promiseApi(Taro.checkSession)().then(() => {
+                  this.setState({ isSessionEffective: true })
+                  this.jumpTab(current)
+                }).catch(() => {
+                  this.setState({ isSessionEffective: false })
+                  setTimeout(() => {
+                    this.setState({ isSessionEffective: true })
+                    Taro.switchTab({
+                      url: '/pages/person/person',
+                      success: () => {
+                        this.props.switchTabPerson()
+                      }
+                    })
+                  }, 200)
+                })
               }
             }}
             current={this.props.switchTarBar.current}

@@ -1,5 +1,9 @@
 $screen-width:750px;
 $base-color: #C41A16;
+$exchange-color:#efb336;
+$exchange-icon-width:40px;
+$exchange-icon-height:$exchange-icon-width;
+$price-width:140px;
 $water-fall-item-width:355px;
 $water-fall-item-radius:10px;
 $water-fall-item-interval:10px;
@@ -9,7 +13,7 @@ $water-fall-item-avater-image-size:30px;
 $water-fall-item-nick-name-width:160px;
 $water-fall-content-color:#666666;
 $water-fall-content-font-size:25px;
-
+$water-fall-item-avater-image-marigin-right:10px;
 .water-fall-container {
   display: flex;
   flex-direction: row;
@@ -51,13 +55,32 @@ $water-fall-content-font-size:25px;
       align-items: center;
       position: relative;
       padding: $water-fall-item-interval;
-
-      .water-fall-price {
+      .price-bar{
+        display: flex;
+        justify-content: flex-start;
         width: $water-fall-item-width;
-        font-weight: bold;
-        color: $base-color;
+        .water-fall-price-red {
+          width: $price-width;
+          font-weight: bold;
+          color: $base-color;
+        }
+        .water-fall-price-green{
+          width: $price-width;
+          font-weight: bold;
+          color: rgb(24, 184, 24);
+        }
+        .water-fall-price-exchange{
+          display: flex;
+          width: $price-width;
+          font-weight: bold;
+          color: $exchange-color;
+          .exchange-image{
+            width: $exchange-icon-width;
+            height: $exchange-icon-height;
+          }
+        }
       }
-
+ 
       .water-fall-avater-image {
         width: $water-fall-item-avater-image-size;
         height: $water-fall-item-avater-image-size;
@@ -87,6 +110,7 @@ $water-fall-content-font-size:25px;
         .water-fall-view-image {
           width: $water-fall-item-avater-image-size;
           height: $water-fall-item-avater-image-size;
+          margin-right:$water-fall-item-avater-image-marigin-right;
         }
       }
     }

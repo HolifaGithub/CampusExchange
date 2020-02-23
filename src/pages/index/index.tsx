@@ -10,6 +10,7 @@ import IndexWaterFall from '../../floors/floor-index-waterfall'
 import { AtToast } from "taro-ui"
 import getLocation from '../../utils/getLocation'
 import promiseApi from '../../utils/promiseApi'
+import { server, port } from '../../static-name/server'
 import isNullOrUndefined from '../../utils/isNullOrUndefined'
 import isStringLengthEqualZero from '../../utils/isStringLengthEqualZero'
 import { switchTabPerson } from '../../actions/switchTabBar'
@@ -45,8 +46,25 @@ type PageDispatchProps = {
 }
 
 type PageOwnProps = {}
-
-type PageState = {}
+type WaterFallDatasType = {
+  orderId:string;
+  nameInput:string;
+  newAndOldDegree:string;
+  mode:string;
+  objectOfPayment:string;
+  payForMePrice:number;
+  payForOtherPrice:number;
+  wantExchangeGoods:string;
+  topPicSrc:string;
+  watchedPeople:number;
+  nickName:string;
+  avatarUrl:string;
+}
+type PageState = {
+  location:string;
+  isSessionEffective: boolean;
+  waterFallDatas:WaterFallDatasType[]
+}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
@@ -54,14 +72,7 @@ interface Index {
   props: IProps;
 }
 
-type WaterFallDatasType = {
-  imageSrc: string,
-  avaterImageSrc: string,
-  nickName: string,
-  viewNumber: number,
-  price: number,
-  title: string
-}
+
 interface LocationResult {
   status: number,
   message: string,
@@ -97,10 +108,12 @@ class Index extends PureComponent {
  */
   state = {
     location: '',
-    isSessionEffective: false
+    isSessionEffective: false,
+    waterFallDatas:[]
   }
   componentDidMount() {
-    this.props.dispatchFetchPageData();
+    this.fetchWaterFallData()
+    // this.props.dispatchFetchPageData();
     promiseApi(Taro.checkSession)().then(() => {
       this.setState({ isSessionEffective: true })
     }).catch(() => {
@@ -116,22 +129,6 @@ class Index extends PureComponent {
           if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
             this.setState({ location: `${province}${city}${district}` })
           }
-          // Taro.checkSession({
-          //   success: () => {
-          //     this.props.dispatchAuthorized()
-          //   },
-          //   fail: () => {
-          //     this.props.dispatchNotAuthorized()
-          //     setTimeout(() => {
-          //       Taro.switchTab({
-          //         url: '/pages/person/person',
-          //         success: () => {
-          //           this.props.switchTabPerson()
-          //         }
-          //       })
-          //     }, 200)
-          //   }
-          // })
           if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
             setTimeout(() => {
               Taro.switchTab({
@@ -158,14 +155,35 @@ class Index extends PureComponent {
       }
     })
   }
-
+  fetchWaterFallData(){
+    promiseApi(Taro.login)().then((loginResult)=>{
+      if(loginResult.code){
+        promiseApi(Taro.request)({
+          url: `http://${server}:${port}/getwaterfall`,
+          method: 'GET',
+          data: {
+            code: loginResult.code
+          }
+        }).then(res=>{
+          if(res.statusCode===200&&res.data.status==='success'){
+            this.setState({waterFallDatas:res.data.returnDatas})
+          }else{
+            console.log('获取瀑布流数据失败！')
+          }         
+        })
+      }
+    })
+  }
   // componentWillReceiveProps () {
   //   // console.log(this.props, nextProps)
   // }
 
   // componentWillUnmount () { }
 
-  // componentDidShow () { }
+  // componentDidShow () {
+  //   console.log("show")
+  //   this.fetchWaterFallData()
+  //  }
 
   // componentDidHide () { }
 
@@ -187,80 +205,80 @@ class Index extends PureComponent {
     console.log("onReachBottom");
   }
   render() {
-    const waterFallDatas: WaterFallDatasType[] = [
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      },
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      },
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      },
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      },
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      },
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      },
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      },
-      {
-        imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-        avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-        nickName: 'holifa',
-        viewNumber: 65375,
-        price: 3225.6,
-        title: "iphonex 256 95新 要的快来"
-      }
+    // const waterFallDatas: WaterFallDatasType[] = [
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   },
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   },
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   },
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   },
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   },
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   },
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   },
+    //   {
+    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
+    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
+    //     nickName: 'holifa',
+    //     viewNumber: 65375,
+    //     price: 3225.6,
+    //     title: "iphonex 256 95新 要的快来"
+    //   }
 
-    ]
+    // ]
     return (
       <View
         className='index'
       >
         <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
-        <IndexWaterFall datas={waterFallDatas}></IndexWaterFall>
+        <IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>
         <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
       </View>
     )
