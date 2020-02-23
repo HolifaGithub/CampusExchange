@@ -18,8 +18,8 @@ import './person.scss'
 // #endregion
 
 type PageStateProps = {
-  checkIsAuthorized: {
-    isAuthorized: boolean;
+  checkIsNeedRelogin: {
+    isNeedRelogin: boolean;
   }
 }
 
@@ -36,8 +36,8 @@ interface Person {
   props: IProps;
 }
 
-@connect(({ checkIsAuthorized }) => ({
-  checkIsAuthorized
+@connect(({ checkIsNeedRelogin }) => ({
+  checkIsNeedRelogin
 }), (dispatch) => ({
 
 }))
@@ -74,25 +74,31 @@ class Person extends PureComponent {
 
   }
 
-  componentWillUpdate(){
-     var that=this;
-      promiseApi(Taro.checkSession) ().then(()=>{
-        that.setState({isSessionEffective:true})
-      }).catch(()=>{
-        that.setState({isSessionEffective:false})
-      })
+  componentWillUpdate() {
+    var that = this;
+    promiseApi(Taro.checkSession)().then(() => {
+      that.setState({ isSessionEffective: true })
+    }).catch(() => {
+      that.setState({ isSessionEffective: false })
+    })
   }
-  
   componentWillUnmount() { }
 
-  componentDidShow() { }
+  componentDidShow() { 
+    var that = this;
+    promiseApi(Taro.checkSession)().then(() => {
+      that.setState({ isSessionEffective: true })
+    }).catch(() => {
+      that.setState({ isSessionEffective: false })
+    })
+  }
 
   componentDidHide() { }
 
   render() {
     return (
       <View className='person'>
-        <PersonUserInfo isSessionEffective={this.state}/>
+        <PersonUserInfo isSessionEffective={this.state} />
       </View>
     )
   }

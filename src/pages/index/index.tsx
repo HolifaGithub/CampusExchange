@@ -13,7 +13,7 @@ import promiseApi from '../../utils/promiseApi'
 import isNullOrUndefined from '../../utils/isNullOrUndefined'
 import isStringLengthEqualZero from '../../utils/isStringLengthEqualZero'
 import { switchTabPerson } from '../../actions/switchTabBar'
-import { authorized, notAuthorized } from '../../actions/checkIsAuthorized'
+import { needRelogin, notNeedRelogin } from '../../actions/checkIsNeedRelogin'
 // #region 书写注意
 //
 // 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
@@ -32,16 +32,16 @@ type PageStateProps = {
   switchTarBar: {
     current: number;
   },
-  checkIsAuthorized: {
-    isAuthorized: boolean;
+  checkIsNeedRelogin: {
+    isNeedRelogin: boolean;
   }
 }
 
 type PageDispatchProps = {
   dispatchFetchPageData: () => any;
   switchTabPerson: () => any;
-  dispatchAuthorized: () => any;
-  dispatchNotAuthorized: () => any;
+  dispatchNeedRelogin: () => any;
+  dispatchNotNeedRelogin: () => any;
 }
 
 type PageOwnProps = {}
@@ -68,10 +68,10 @@ interface LocationResult {
   result: any,
   request_id: string
 }
-@connect(({ fetchPageData, switchTarBar, checkIsAuthorized }) => ({
+@connect(({ fetchPageData, switchTarBar, checkIsNeedRelogin }) => ({
   fetchPageData,
   switchTarBar,
-  checkIsAuthorized
+  checkIsNeedRelogin
 }), (dispatch) => ({
   dispatchFetchPageData() {
     dispatch(dispatchFetchPageData())
@@ -79,11 +79,11 @@ interface LocationResult {
   switchTabPerson() {
     dispatch(switchTabPerson())
   },
-  dispatchAuthorized() {
-    dispatch(authorized())
+  dispatchNeedRelogin() {
+    dispatch(needRelogin())
   },
-  dispatchNotAuthorized() {
-    dispatch(notAuthorized())
+  dispatchNotNeedRelogin() {
+    dispatch(notNeedRelogin())
   }
 }))
 class Index extends PureComponent {
@@ -97,9 +97,9 @@ class Index extends PureComponent {
  */
   state = {
     location: '',
-    isSessionEffective:false
+    isSessionEffective: false
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatchFetchPageData();
     promiseApi(Taro.checkSession)().then(() => {
       this.setState({ isSessionEffective: true })
@@ -132,7 +132,7 @@ class Index extends PureComponent {
           //     }, 200)
           //   }
           // })
-          if (!this.props.checkIsAuthorized.isAuthorized||!this.state.isSessionEffective) {
+          if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
             setTimeout(() => {
               Taro.switchTab({
                 url: '/pages/person/person',
@@ -146,29 +146,19 @@ class Index extends PureComponent {
       }
     }).catch(() => {
       this.setState({ location: '无法获取当前位置' })
-      Taro.checkSession({
-        success: () => {
-          this.props.dispatchAuthorized()
-        },
-        fail: () => {
-          this.props.dispatchNotAuthorized()
-          setTimeout(() => {
-            Taro.switchTab({
-              url: '/pages/person/person',
-              success: () => {
-                this.props.switchTabPerson()
-              }
-            })
-          }, 200)
-        }
-      })
+      if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
+        setTimeout(() => {
+          Taro.switchTab({
+            url: '/pages/person/person',
+            success: () => {
+              this.props.switchTabPerson()
+            }
+          })
+        }, 200)
+      }
     })
   }
 
-  componentDidMount() {
-
-
-  }
   // componentWillReceiveProps () {
   //   // console.log(this.props, nextProps)
   // }
@@ -271,7 +261,7 @@ class Index extends PureComponent {
         <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
         <IndexWaterFall datas={waterFallDatas}></IndexWaterFall>
-        <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
+        <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
       </View>
     )
   }

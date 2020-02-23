@@ -63,8 +63,8 @@ import './index.scss'
 // #endregion
 
 type PageStateProps = {
-    checkIsAuthorized: {
-        isAuthorized: boolean;
+    checkIsNeedRelogin: {
+        isNeedRelogin: boolean;
     }
 }
 
@@ -84,8 +84,8 @@ interface Balance {
     props: IProps;
 }
 
-@connect(({ checkIsAuthorized }) => ({
-    checkIsAuthorized
+@connect(({ checkIsNeedRelogin }) => ({
+    checkIsNeedRelogin
 }), (dispatch) => ({
 
 }))
@@ -103,13 +103,13 @@ class Balance extends Component {
     }
     state = {
         loading: true,
-        balance:0
+        balance: 0
     }
     componentDidMount() {
         this.setState({ loading: false })
     }
-    componentWillReceiveProps(nextProps){
-        if (nextProps.isSessionEffective && this.props.checkIsAuthorized.isAuthorized) {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin) {
             promiseApi(Taro.login)().then(loginResult => {
                 if (loginResult.code) {
                     promiseApi(Taro.request)({
@@ -119,9 +119,9 @@ class Balance extends Component {
                             code: loginResult.code
                         }
                     }).then(res => {
-                        if(res.statusCode===200&&res.data.status==='success'){
-                            this.setState({balance:res.data.balance})
-                        }   
+                        if (res.statusCode === 200 && res.data.status === 'success') {
+                            this.setState({ balance: res.data.balance })
+                        }
                     })
                 }
             })
@@ -134,7 +134,7 @@ class Balance extends Component {
     componentDidHide() { }
 
     render() {
-        const isLogin = this.props.isSessionEffective && this.props.checkIsAuthorized.isAuthorized
+        const isLogin = this.props.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin
         return (
             <Skeleton
                 row={1}

@@ -6,7 +6,7 @@ import { connect } from '@tarojs/redux'
 import { CDNWebSite } from '../../static-name/web-site'
 import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
-import { authorized, notAuthorized } from '../../actions/checkIsAuthorized'
+import { needRelogin, notNeedRelogin } from '../../actions/checkIsNeedRelogin'
 import { server, port } from '../../static-name/server'
 import './index.scss'
 
@@ -178,18 +178,18 @@ import './index.scss'
 // #endregion
 
 type PageStateProps = {
-  checkIsAuthorized: {
-    isAuthorized: boolean;
+  checkIsNeedRelogin: {
+    isNeedRelogin: boolean;
   }
 }
 
 type PageDispatchProps = {
-  dispatchAuthorized: () => any;
-  dispatchNotAuthorized: () => any;
+  dispatchNeedRelogin: () => any;
+  dispatchNotNeedRelogin: () => any;
 }
 
 type PageOwnProps = {
-  isSessionEffective:boolean;
+  isSessionEffective: boolean;
 }
 
 type PageState = {
@@ -202,14 +202,14 @@ interface UserInfo {
   props: IProps;
 }
 
-@connect(({ checkIsAuthorized }) => ({
-  checkIsAuthorized
+@connect(({ checkIsNeedRelogin }) => ({
+  checkIsNeedRelogin
 }), (dispatch) => ({
-  dispatchAuthorized() {
-    dispatch(authorized())
+  dispatchNeedRelogin() {
+    dispatch(needRelogin())
   },
-  dispatchNotAuthorized() {
-    dispatch(notAuthorized())
+  dispatchNotNeedRelogin() {
+    dispatch(notNeedRelogin())
   }
 }))
 class UserInfo extends Component {
@@ -228,20 +228,12 @@ class UserInfo extends Component {
   state = {
     loading: true,
     isNewUser: false,
-    // isSessionEffective:false
   }
-  // checkSessionEffective() {
-  //     promiseApi(Taro.checkSession) ().then(()=>{
-  //         this.setState({isSessionEffective:true})
-  //     }).catch(()=>{
-  //       this.setState({isSessionEffective:false})
-  //     })
-  // }
+
   componentWillMount() {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 200)
-    // this.checkSessionEffective()
   }
 
 
@@ -252,7 +244,8 @@ class UserInfo extends Component {
   componentDidHide() { }
 
   render() {
-    const isLogin=this.props.isSessionEffective&&this.props.checkIsAuthorized.isAuthorized
+    const isLogin = this.props.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin
+    // console.log('isSessionEffective ',this.props.isSessionEffective ,'isNeedRelogin',this.props.checkIsNeedRelogin.isNeedRelogin)
     return (
       <Skeleton
         row={1}
@@ -275,13 +268,13 @@ class UserInfo extends Component {
             <Image src={`${CDNWebSite}/icon/user-info/qr-code.png`} className='qr-code-image'></Image>
           </View>
           <View className='user-info'>
-            {!isLogin ? <Image src={`${CDNWebSite}/icon/user-info/default-avatar-white.png`} className='avatar'></Image> : <OpenData
+            {isLogin ? <OpenData
               type='userAvatarUrl'
               default-avatar={`${CDNWebSite}/icon/user-info/default-avatar-white.png`}
               className='avatar'
-            ></OpenData>}
-            {!isLogin ? null : <OpenData type='userNickName' className='nick-name'></OpenData>}
-            {isLogin ? null : <Button type='warn'
+            ></OpenData> : <Image src={`${CDNWebSite}/icon/user-info/default-avatar-white.png`} className='avatar'></Image>}
+            {isLogin ? <OpenData type='userNickName' className='nick-name'></OpenData> : null}
+            {!isLogin ? <Button type='warn'
               openType='getUserInfo'
               onGetUserInfo={(userInfoResult) => {
                 if (userInfoResult.detail.errMsg === 'getUserInfo:ok') {
@@ -300,12 +293,12 @@ class UserInfo extends Component {
                         success: (res) => {
                           console.log("用户登录请求成功！返回数据：", res)
                           if (res.data.status === 'success' && res.statusCode === 200) {
-                            this.props.dispatchAuthorized()
-                            this.setState({isSessionEffective:true})
+                            this.props.dispatchNotNeedRelogin()
+                            this.setState({ isSessionEffective: true })
                             this.setState({ isNewUser: res.data.isNewUser })
                           } else {
                             console.log("用户登录失败！")
-                            this.props.dispatchNotAuthorized()
+                            this.props.dispatchNeedRelogin()
                             Taro.showToast({
                               title: '登录失败！',
                               icon: 'none',
@@ -320,7 +313,7 @@ class UserInfo extends Component {
               }
               }
               className='login-and-register'
-            >登录/注册</Button>}
+            >登录/注册</Button> : null}
             {this.state.isNewUser ? <AtModal
               isOpened
               title='系统检测到您为新用户'

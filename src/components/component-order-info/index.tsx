@@ -68,8 +68,8 @@ import './index.scss'
 // #endregion
 
 type PageStateProps = {
-  checkIsAuthorized: {
-    isAuthorized: boolean;
+  checkIsNeedRelogin: {
+    isNeedRelogin: boolean;
   }
 }
 
@@ -89,8 +89,8 @@ interface OrderInfo {
   props: IProps;
 }
 
-@connect(({ checkIsAuthorized }) => ({
-  checkIsAuthorized
+@connect(({ checkIsNeedRelogin }) => ({
+  checkIsNeedRelogin
 }), (dispatch) => ({
 
 }))
@@ -116,39 +116,46 @@ class OrderInfo extends Component {
     this.setState({ loading: false })
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isSessionEffective && this.props.checkIsAuthorized.isAuthorized) {
-      promiseApi(Taro.login)().then(loginResult => {
-        if (loginResult.code) {
-          promiseApi(Taro.request)({
-            url: `http://${server}:${port}/getorderinfo`,
-            method: 'GET',
-            data: {
-              code: loginResult.code
-            }
-          }).then(res => {
-            if (res.statusCode === 200 && res.data.status === 'success') {
-              this.setState({
-                orderInfo: {
-                  released: res.data.released,
-                  trading: res.data.trading,
-                  bougth: res.data.bougth,
-                  saled: res.data.saled
-                }
-              })
-            }
-          })
-        }
-      })
+    if (nextProps.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin) {
+      this.fetchOrderData()
     }
+  }
+  fetchOrderData() {
+    promiseApi(Taro.login)().then(loginResult => {
+      if (loginResult.code) {
+        promiseApi(Taro.request)({
+          url: `http://${server}:${port}/getorderinfo`,
+          method: 'GET',
+          data: {
+            code: loginResult.code
+          }
+        }).then(res => {
+          if (res.statusCode === 200 && res.data.status === 'success') {
+            this.setState({
+              orderInfo: {
+                released: res.data.released,
+                trading: res.data.trading,
+                bougth: res.data.bougth,
+                saled: res.data.saled
+              }
+            })
+          }
+        })
+      }
+    })
   }
   componentWillUnmount() { }
 
-  componentDidShow() { }
+  componentDidShow() {
+    if (this.props.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin) {
+      this.fetchOrderData()
+    }
+  }
 
   componentDidHide() { }
 
   render() {
-    const isLogin = this.props.isSessionEffective && this.props.checkIsAuthorized.isAuthorized
+    const isLogin = this.props.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin
     return (
       <Skeleton
         row={1}

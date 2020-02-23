@@ -13,7 +13,7 @@ import {
   switchTabPerson
 } from '../actions/switchTabBar'
 import promiseApi from '../utils/promiseApi'
-import { authorized, notAuthorized } from '../actions/checkIsAuthorized'
+import { needRelogin, notNeedRelogin } from '../actions/checkIsNeedRelogin'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 
@@ -31,8 +31,8 @@ type PageStateProps = {
   switchTarBar: {
     current: number
   },
-  checkIsAuthorized: {
-    isAuthorized: boolean;
+  checkIsNeedRelogin: {
+    isNeedRelogin: boolean;
   }
 }
 
@@ -42,8 +42,8 @@ type PageDispatchProps = {
   switchTabReleaseGoods: () => any;
   switchTabChat: () => any;
   switchTabPerson: () => any;
-  dispatchAuthorized: () => any;
-  dispatchNotAuthorized: () => any;
+  dispatchNeedRelogin: () => any;
+  dispatchNotNeedRelogin: () => any;
 }
 
 type PageOwnProps = {}
@@ -57,9 +57,9 @@ interface TabBar {
 }
 
 
-@connect(({ switchTarBar, checkIsAuthorized }) => ({
+@connect(({ switchTarBar, checkIsNeedRelogin }) => ({
   switchTarBar,
-  checkIsAuthorized
+  checkIsNeedRelogin
 }), (dispatch) => ({
   switchTabHome() {
     dispatch(switchTabHome())
@@ -72,13 +72,12 @@ interface TabBar {
   }, switchTabPerson() {
     dispatch(switchTabPerson())
   },
-  dispatchAuthorized() {
-    dispatch(authorized())
+  dispatchNeedRelogin() {
+    dispatch(needRelogin())
   },
-  dispatchNotAuthorized() {
-    dispatch(notAuthorized())
+  dispatchNotNeedRelogin() {
+    dispatch(notNeedRelogin())
   }
-
 }))
 class TabBar extends PureComponent {
 
@@ -91,20 +90,21 @@ class TabBar extends PureComponent {
  */
   state = {
     loading: true,
-    isSessionEffective:false
+    isSessionEffective: false
   }
   componentWillMount() {
     setTimeout(() => {
       this.setState({ loading: false })
     }, 200);
-      promiseApi(Taro.checkSession) ().then(()=>{
-          this.setState({isSessionEffective:true})
-      }).catch(()=>{
-        this.setState({isSessionEffective:false})
-      })
+    // promiseApi(Taro.checkSession)().then(() => {
+    //   this.setState({ isSessionEffective: true })
+    // }).catch(() => {
+    //   this.setState({ isSessionEffective: false })
+    // })
   }
-  // componentWillReceiveProps () {
-  //   // console.log(this.props, nextProps)
+
+  // componentWillReceiveProps() {
+
   // }
 
   // componentWillUnmount () { }
@@ -123,7 +123,7 @@ class TabBar extends PureComponent {
         loading={this.state.loading}
       >
         <View>
-          <AtToast isOpened={!this.props.checkIsAuthorized.isAuthorized} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
+          <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
           <AtTabBar
             tabList={[
               {
@@ -214,7 +214,12 @@ class TabBar extends PureComponent {
               //     }, 200)
               //   }
               // })
-              if (this.props.checkIsAuthorized.isAuthorized&&this.state.isSessionEffective) {
+              promiseApi(Taro.checkSession)().then(() => {
+                this.setState({ isSessionEffective: true })
+              }).catch(() => {
+                this.setState({ isSessionEffective: false })
+              })
+              if (!this.props.checkIsNeedRelogin.isNeedRelogin && this.state.isSessionEffective) {
                 switch (current) {
                   case 0: Taro.switchTab({
                     url: '/pages/index/index',
