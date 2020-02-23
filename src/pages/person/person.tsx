@@ -85,12 +85,12 @@ class Person extends PureComponent {
   componentWillUnmount() { }
 
   componentDidShow() { 
-    var that = this;
-    promiseApi(Taro.checkSession)().then(() => {
-      that.setState({ isSessionEffective: true })
-    }).catch(() => {
-      that.setState({ isSessionEffective: false })
-    })
+    // var that = this;
+    // promiseApi(Taro.checkSession)().then(() => {
+    //   that.setState({ isSessionEffective: true })
+    // }).catch(() => {
+    //   that.setState({ isSessionEffective: false })
+    // })
   }
 
   componentDidHide() { }

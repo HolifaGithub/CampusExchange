@@ -114,11 +114,6 @@ class Index extends PureComponent {
   componentDidMount() {
     this.fetchWaterFallData()
     // this.props.dispatchFetchPageData();
-    promiseApi(Taro.checkSession)().then(() => {
-      this.setState({ isSessionEffective: true })
-    }).catch(() => {
-      this.setState({ isSessionEffective: false })
-    })
     getLocation().then((res: LocationResult) => {
       if (!isNullOrUndefined(res.result.address_component)) {
         const address_component = res.result.address_component
@@ -129,6 +124,12 @@ class Index extends PureComponent {
           if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
             this.setState({ location: `${province}${city}${district}` })
           }
+          promiseApi(Taro.checkSession)().then(() => {
+            this.setState({ isSessionEffective: true })
+          }).catch(() => {
+            this.setState({ isSessionEffective: false })
+          })
+          // console.log(this.props.checkIsNeedRelogin.isNeedRelogin,this.state.isSessionEffective)
           if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
             setTimeout(() => {
               Taro.switchTab({
@@ -142,6 +143,11 @@ class Index extends PureComponent {
         }
       }
     }).catch(() => {
+      promiseApi(Taro.checkSession)().then(() => {
+        this.setState({ isSessionEffective: true })
+      }).catch(() => {
+        this.setState({ isSessionEffective: false })
+      })
       this.setState({ location: '无法获取当前位置' })
       if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
         setTimeout(() => {

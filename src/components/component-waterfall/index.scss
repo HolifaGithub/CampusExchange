@@ -4,6 +4,7 @@ $exchange-color:#efb336;
 $exchange-icon-width:40px;
 $exchange-icon-height:$exchange-icon-width;
 $price-width:140px;
+$price-tag-height:90px;
 $water-fall-item-width:355px;
 $water-fall-item-radius:10px;
 $water-fall-item-interval:10px;
@@ -55,32 +56,38 @@ $water-fall-item-avater-image-marigin-right:10px;
       align-items: center;
       position: relative;
       padding: $water-fall-item-interval;
-      .price-bar{
+      .price-tag{
         display: flex;
-        justify-content: flex-start;
-        width: $water-fall-item-width;
-        .water-fall-price-red {
-          width: $price-width;
-          font-weight: bold;
-          color: $base-color;
-        }
-        .water-fall-price-green{
-          width: $price-width;
-          font-weight: bold;
-          color: rgb(24, 184, 24);
-        }
-        .water-fall-price-exchange{
+        height: $price-tag-height;
+        .price-bar{
           display: flex;
-          width: $price-width;
-          font-weight: bold;
-          color: $exchange-color;
-          .exchange-image{
-            width: $exchange-icon-width;
-            height: $exchange-icon-height;
+          flex-direction: column;
+          justify-content: flex-start;
+          .water-fall-price-red {
+            width: $price-width;
+            font-weight: bold;
+            color: $base-color;
+          }
+          .water-fall-price-green{
+            width: $price-width;
+            font-weight: bold;
+            color: rgb(24, 184, 24);
+          }
+          .water-fall-price-exchange{
+            display: flex;
+            width: $price-width;
+            font-weight: bold;
+            color: $exchange-color;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-wrap: nowrap;
+            .exchange-image{
+              width: $exchange-icon-width;
+              height: $exchange-icon-height;
+            }
           }
         }
-      }
- 
+      } 
       .water-fall-avater-image {
         width: $water-fall-item-avater-image-size;
         height: $water-fall-item-avater-image-size;

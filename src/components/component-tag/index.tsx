@@ -17,7 +17,7 @@ function Tag(props) {
       animate
       loading={loading}
     >
-      <View className='tag-container'>
+      <View className='tag-container' style={{backgroundColor:props.backgroundColor,fontSize:props.fontSize}}>
             {props.title}
       </View>
     </Skeleton>
