@@ -2,7 +2,7 @@ import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import ShowUserInfoContainer from '../../floors/floor-show-user-info'
-import { server, port } from '../../static-name/server'
+import { server, port,protocol } from '../../static-name/server'
 import promiseApi from '../../utils/promiseApi'
 import { connect } from '@tarojs/redux'
 import './show_user_info.scss'
@@ -86,7 +86,7 @@ constructor(props) {
         data = { orderId: params.orderId }
       }
       promiseApi(Taro.request)({
-        url: `http://${server}:${port}/getuserinfo`,
+        url: `${protocol}://${server}:${port}/getuserinfo`,
         method: 'GET',
         data: data
       }).then((res) => {

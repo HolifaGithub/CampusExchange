@@ -3,7 +3,7 @@ import { ComponentClass } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import promiseApi from '../../utils/promiseApi'
-import { server, port } from '../../static-name/server'
+import { server, port,protocol } from '../../static-name/server'
 import { CDNWebSite } from '../../static-name/web-site'
 import Skeleton from 'taro-skeleton'
 import { AtBadge } from 'taro-ui'
@@ -124,7 +124,7 @@ class OrderInfo extends Component {
     promiseApi(Taro.login)().then(loginResult => {
       if (loginResult.code) {
         promiseApi(Taro.request)({
-          url: `http://${server}:${port}/getorderinfo`,
+          url: `${protocol}://${server}:${port}/getorderinfo`,
           method: 'GET',
           data: {
             code: loginResult.code

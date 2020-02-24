@@ -4,7 +4,7 @@ import { AtSteps, AtRadio, AtImagePicker, AtTextarea, AtInput, AtButton, AtInput
 import goodsTypeGridsDatas from '../../static-name/goods-sort'
 import mapNewAndOldDegree from '../../static-name/new-and-old-degree'
 import { CDNWebSite } from '../../static-name/web-site'
-import { server, port } from '../../static-name/server'
+import { server, port,protocol } from '../../static-name/server'
 import productOrderId from '../../utils/productOrderId'
 import orderStatusObject from '../../static-name/order-status'
 import Skeleton from 'taro-skeleton'
@@ -480,7 +480,7 @@ function ReleaseGoodsSteps() {
                     if (state.files.length > 0) {
                       for (let i = 0; i < state.files.length; i++) {
                         Taro.uploadFile({
-                          url: `http://${server}:${port}/releasegoodspics`,
+                          url: `${protocol}://${server}:${port}/releasegoodspics`,
                           filePath: state.files[i].url,
                           name: 'pic',
                           header: {
@@ -509,7 +509,7 @@ function ReleaseGoodsSteps() {
 
                   }).then((picsLocation) => {
                     Taro.request({
-                      url: `http://${server}:${port}/releasegoods`,
+                      url: `${protocol}://${server}:${port}/releasegoods`,
                       method: 'POST',
                       data: {
                         typeOne: state.typeOne,

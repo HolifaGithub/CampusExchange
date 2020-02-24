@@ -1,8 +1,23 @@
 $screen-width:750px;
 $page-height:1270px;
+$block-width:750px;
+$loading-height:50px;
+$loading-background-color:#C41A16;
+$loading-border-radius:10px;
 .index{
     background-color: #eeeeee;
     width: $screen-width;
     // height: $page-height;
     height: 100%;
+    .loading{ 
+        position: relative;
+        height: $loading-height;
+        background-color: $loading-background-color;
+        border-bottom-right-radius:$loading-border-radius;
+        border-bottom-left-radius:$loading-border-radius;
+    }
+    .block{
+        background-color: orange;
+        width: $block-width;
+      }
 }

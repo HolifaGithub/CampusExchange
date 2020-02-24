@@ -7,10 +7,11 @@ import './index.scss'
 import IndexHeader from '../../floors/floor-index-header'
 import IndexGrid from '../../floors/floor-index-grid'
 import IndexWaterFall from '../../floors/floor-index-waterfall'
-import { AtToast } from "taro-ui"
+import { AtToast, AtActivityIndicator, AtDivider } from "taro-ui"
 import getLocation from '../../utils/getLocation'
 import promiseApi from '../../utils/promiseApi'
-import { server, port } from '../../static-name/server'
+import getSystemInfo from '../../utils/getSystemInfo'
+import { server, port, protocol } from '../../static-name/server'
 import isNullOrUndefined from '../../utils/isNullOrUndefined'
 import isStringLengthEqualZero from '../../utils/isStringLengthEqualZero'
 import { switchTabPerson } from '../../actions/switchTabBar'
@@ -47,23 +48,26 @@ type PageDispatchProps = {
 
 type PageOwnProps = {}
 type WaterFallDatasType = {
-  orderId:string;
-  nameInput:string;
-  newAndOldDegree:string;
-  mode:string;
-  objectOfPayment:string;
-  payForMePrice:number;
-  payForOtherPrice:number;
-  wantExchangeGoods:string;
-  topPicSrc:string;
-  watchedPeople:number;
-  nickName:string;
-  avatarUrl:string;
+  orderId: string;
+  nameInput: string;
+  newAndOldDegree: string;
+  mode: string;
+  objectOfPayment: string;
+  payForMePrice: number;
+  payForOtherPrice: number;
+  wantExchangeGoods: string;
+  topPicSrc: string;
+  watchedPeople: number;
+  nickName: string;
+  avatarUrl: string;
 }
 type PageState = {
-  location:string;
+  location: string;
   isSessionEffective: boolean;
-  waterFallDatas:WaterFallDatasType[]
+  waterFallDatas: WaterFallDatasType[][];
+  loadMore: boolean;
+  page: number;
+  hasMore: boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -109,7 +113,10 @@ class Index extends PureComponent {
   state = {
     location: '',
     isSessionEffective: false,
-    waterFallDatas:[]
+    waterFallDatas: [[]],
+    loadMore: false,
+    page: 1,
+    hasMore: true
   }
   componentDidMount() {
     this.fetchWaterFallData()
@@ -122,33 +129,46 @@ class Index extends PureComponent {
           const city = address_component.city
           const district = address_component.district
           if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
-            this.setState({ location: `${province}${city}${district}` })
-          }
-          promiseApi(Taro.checkSession)().then(() => {
-            this.setState({ isSessionEffective: true })
-          }).catch(() => {
-            this.setState({ isSessionEffective: false })
-          })
-          // console.log(this.props.checkIsNeedRelogin.isNeedRelogin,this.state.isSessionEffective)
-          if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
-            setTimeout(() => {
-              Taro.switchTab({
-                url: '/pages/person/person',
-                success: () => {
-                  this.props.switchTabPerson()
-                }
+            // this.setState({ location: `${province}${city}${district}` })
+            promiseApi(Taro.checkSession)().then(() => {
+              this.setState({
+                isSessionEffective: true,
+                location: `${province}${city}${district}`
               })
-            }, 200)
+            }).catch(() => {
+              this.setState({
+                isSessionEffective: false,
+                location: `${province}${city}${district}`
+              })
+            })
+            // console.log(this.props.checkIsNeedRelogin.isNeedRelogin,this.state.isSessionEffective)
+            if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
+              setTimeout(() => {
+                Taro.switchTab({
+                  url: '/pages/person/person',
+                  success: () => {
+                    this.props.switchTabPerson()
+                  }
+                })
+              }, 300)
+            }
           }
         }
       }
     }).catch(() => {
+      this.fetchWaterFallData()
       promiseApi(Taro.checkSession)().then(() => {
-        this.setState({ isSessionEffective: true })
+        this.setState({
+          isSessionEffective: true,
+          location: '无法获取当前位置'
+        })
       }).catch(() => {
-        this.setState({ isSessionEffective: false })
+        this.setState({
+          isSessionEffective: false,
+          location: '无法获取当前位置'
+        })
       })
-      this.setState({ location: '无法获取当前位置' })
+      // this.setState({ location: '无法获取当前位置' })
       if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
         setTimeout(() => {
           Taro.switchTab({
@@ -157,25 +177,63 @@ class Index extends PureComponent {
               this.props.switchTabPerson()
             }
           })
-        }, 200)
+        }, 300)
       }
     })
   }
-  fetchWaterFallData(){
-    promiseApi(Taro.login)().then((loginResult)=>{
-      if(loginResult.code){
+  fetchWaterFallData() {
+    promiseApi(Taro.login)().then((loginResult) => {
+      if (loginResult.code) {
         promiseApi(Taro.request)({
-          url: `http://${server}:${port}/getwaterfall`,
+          url: `${protocol}://${server}:${port}/getwaterfall`,
           method: 'GET',
           data: {
-            code: loginResult.code
+            code: loginResult.code,
+            page: this.state.page
           }
-        }).then(res=>{
-          if(res.statusCode===200&&res.data.status==='success'){
-            this.setState({waterFallDatas:res.data.returnDatas})
-          }else{
+        }).then(res => {
+          if (res.statusCode === 200 && res.data.status === 'success') {
+            this.setState((prevState: PageState) => {
+              // console.log('prevState',prevState)
+              return {waterFallDatas:prevState.waterFallDatas.concat([res.data.returnDatas])}
+            })
+          } else {
             console.log('获取瀑布流数据失败！')
-          }         
+          }
+        })
+      }
+    })
+  }
+  fetchMoreData() {
+    promiseApi(Taro.login)().then((loginResult) => {
+      if (loginResult.code) {
+        promiseApi(Taro.request)({
+          url: `${protocol}://${server}:${port}/getwaterfall`,
+          method: 'GET',
+          data: {
+            code: loginResult.code,
+            page: ++this.state.page
+          }
+        }).then(res => {
+          // console.log(res)
+          if (res.statusCode === 200 && res.data.status === 'success') {
+            if (res.data.returnDatas.length === 0) {
+              this.setState({
+                hasMore: false,
+                loadMore: false
+              })
+            } else {
+              this.setState((prevState: PageState) => {
+                // console.log('prevState',prevState)
+                return {
+                  loadMore: false,
+                  waterFallDatas:prevState.waterFallDatas.concat([res.data.returnDatas])
+                }
+              })
+            }
+          } else {
+            console.log('获取瀑布流数据失败！')
+          }
         })
       }
     })
@@ -203,81 +261,29 @@ class Index extends PureComponent {
 
   onPullDownRefresh() {
     console.log("onPullDownRefresh")
+    this.fetchWaterFallData()
     setTimeout(() => {
       Taro.stopPullDownRefresh()
     }, 1000);
   }
   onReachBottom() {
     console.log("onReachBottom");
+    if (this.state.hasMore) {
+      this.setState({ loadMore: true })
+      this.fetchMoreData()
+    }
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.hasMore !== nextState.hasMore|| this.state.waterFallDatas.length!==nextState.waterFallDatas.length) {
+      return true
+    } else {
+      return false
+    }
+
   }
   render() {
-    // const waterFallDatas: WaterFallDatasType[] = [
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   },
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   },
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   },
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   },
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   },
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   },
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   },
-    //   {
-    //     imageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner1.png',
-    //     avaterImageSrc: 'http://www.xiaoyuanhuan.xyz:3001/img/banner2.png',
-    //     nickName: 'holifa',
-    //     viewNumber: 65375,
-    //     price: 3225.6,
-    //     title: "iphonex 256 95新 要的快来"
-    //   }
-
-    // ]
+    // console.log(this.state.page, this.state.waterFallDatas)
+    const tarBarHeight = (getSystemInfo().tabBarHeight) + 'px'
     return (
       <View
         className='index'
@@ -285,7 +291,12 @@ class Index extends PureComponent {
         <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
         <IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>
-        <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
+        {this.state.loadMore ? <View className='loading'>
+          <AtActivityIndicator content='加载中...' color='#ffffff' mode='center'></AtActivityIndicator>
+        </View> : null}
+        {this.state.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#C41A16' />}
+        <View className='block' style={{ height: tarBarHeight }}></View>
+        <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={300}></AtToast>
       </View>
     )
   }

@@ -2,7 +2,7 @@ import Taro, { useReducer } from '@tarojs/taro'
 import { View, Text, Image, OpenData, Picker } from '@tarojs/components'
 import { AtNoticebar, AtInput, AtForm, AtButton, AtToast } from 'taro-ui'
 import { CDNWebSite } from '../../static-name/web-site'
-import { server, port } from '../../static-name/server'
+import { server, port,protocol } from '../../static-name/server'
 import './index.scss'
 
 interface InitState {
@@ -230,7 +230,7 @@ function UserRegister() {
             success(loginResult) {
               if (loginResult.code) {
                 Taro.request({
-                  url: `http://${server}:${port}/register`,
+                  url: `${protocol}://${server}:${port}/register`,
                   method: 'POST',
                   data: {
                     code: loginResult.code,

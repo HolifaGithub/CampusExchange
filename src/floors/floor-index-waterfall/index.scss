@@ -2,15 +2,13 @@ $base-color:#C41A16;
 $index-waterfall-border-color:#ffffff;
 $index-waterfalll-border-radius:10px;
 $index-waterfalll-margin-top:10px;
-$block-width:750px;
+
 
 .index-waterfall-container {
   background-color: $base-color;
   border-top: 1px solid $index-waterfall-border-color;
-  border-radius: $index-waterfalll-border-radius;
+  border-top-left-radius: $index-waterfalll-border-radius;
+  border-top-right-radius: $index-waterfalll-border-radius;
   margin-top: $index-waterfalll-margin-top;
-  .block{
-    background-color: orange;
-    width: $block-width;
-  }
+
 }

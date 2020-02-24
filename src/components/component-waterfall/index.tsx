@@ -21,7 +21,7 @@ type datasType = {
     avatarUrl: string;
 }
 interface Props {
-    datas: datasType[]
+    datas: datasType[][]
 }
 
 function Waterfall(props: Props) {
@@ -32,6 +32,7 @@ function Waterfall(props: Props) {
             setLoading(false)
         }, 1000)
     }, [])
+    // console.log('component',props.datas)
     return (
         <Skeleton
             row={datas && datas.length > 0 ? datas.length : 2}
@@ -39,42 +40,49 @@ function Waterfall(props: Props) {
             animate
             loading={loading}
         >
-            <View className='water-fall-container'>
-                {(datas && datas.length > 0) ? datas.map((data, index) => {
-                    const { orderId, nameInput, newAndOldDegree, mode, objectOfPayment, payForMePrice, payForOtherPrice, wantExchangeGoods, topPicSrc, watchedPeople, nickName, avatarUrl } = data
-                    return (
-                        <View className='water-fall-item' key={new Date().toString() + index} onClick={() => {
-                            Taro.navigateTo({
-                                url: `/pages/goods-info/goods-info?orderId=${orderId}`
-                            })
-                        }}>
-                            <Image className='water-fall-image' src={topPicSrc.length > 0 ? topPicSrc : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'}></Image>
-                            <View className='water-fall-title'><Text>{nameInput}</Text></View>
-                            <View className='water-fall-content-container'>
-                                <View className='price-tag'>
-                                    <View className='price-bar'>
-                                        {payForMePrice !== 0 || mode === 'directSale' ? <View className='water-fall-price-red'><Text>&yen;{payForMePrice}</Text></View> : null}
-                                        {payForOtherPrice !== 0 ? <View className='water-fall-price-green'><Text>&yen;{payForOtherPrice}</Text></View> : null}
-                                        {wantExchangeGoods !== '' || mode === 'directExchange' ? < View className='water-fall-price-exchange'>
-                                            <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/exchange.png' className='exchange-image'></Image>
-                                            <Text>{wantExchangeGoods}</Text>
-                                        </View> : null}
-                                    </View>
-                                    <Tag title={mapMode[mode]} fontSize={'11px'} backgroundColor={'#efb336'}></Tag>
-                                    <Tag title={mapNewAndOldDegree[newAndOldDegree]} fontSize={'11px'}></Tag>
-                                </View>
+            <View>
+                {(datas && datas.length > 0) ? datas.map((onePage, index1) => {
+                    return (<View key={new Date().toString() + index1} className='water-fall-container'>
+                        {
+                            (onePage && onePage.length > 0) ? onePage.map((data, index2) => {
+                                const { orderId, nameInput, newAndOldDegree, mode, objectOfPayment, payForMePrice, payForOtherPrice, wantExchangeGoods, topPicSrc, watchedPeople, nickName, avatarUrl } = data
+                                return (
+                                    <View className='water-fall-item' key={new Date().toString() + index2} onClick={() => {
+                                        Taro.navigateTo({
+                                            url: `/pages/goods-info/goods-info?orderId=${orderId}`
+                                        })
+                                    }}>
+                                        <Image className='water-fall-image' src={topPicSrc.length > 0 ? topPicSrc : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'}></Image>
+                                        <View className='water-fall-title'><Text>{nameInput}</Text></View>
+                                        <View className='water-fall-content-container'>
+                                            <View className='price-tag'>
+                                                <View className='price-bar'>
+                                                    {payForMePrice !== 0 || mode === 'directSale' ? <View className='water-fall-price-red'><Text>&yen;{payForMePrice}</Text></View> : null}
+                                                    {payForOtherPrice !== 0 ? <View className='water-fall-price-green'><Text>&yen;{payForOtherPrice}</Text></View> : null}
+                                                    {wantExchangeGoods !== '' || mode === 'directExchange' ? < View className='water-fall-price-exchange'>
+                                                        <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/exchange.png' className='exchange-image'></Image>
+                                                        <Text>{wantExchangeGoods}</Text>
+                                                    </View> : null}
+                                                </View>
+                                                <Tag title={mapMode[mode]} fontSize={'11px'} backgroundColor={'#efb336'}></Tag>
+                                                <Tag title={mapNewAndOldDegree[newAndOldDegree]} fontSize={'11px'}></Tag>
+                                            </View>
 
-                                <Image className='water-fall-avater-image' src={avatarUrl}></Image>
-                                <View className='water-fall-nick-name'><Text>{nickName}</Text>
-                                </View>
-                                <View className='water-fall-view-container'>
-                                    <Image src={'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/watched.png'} className='water-fall-view-image'></Image>
-                                    <View className='water-falll-view-number'><Text>{watchedPeople}</Text></View>
-                                </View>
-                            </View>
-                        </View>
-                    )
+                                            <Image className='water-fall-avater-image' src={avatarUrl}></Image>
+                                            <View className='water-fall-nick-name'><Text>{nickName}</Text>
+                                            </View>
+                                            <View className='water-fall-view-container'>
+                                                <Image src={'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/watched.png'} className='water-fall-view-image'></Image>
+                                                <View className='water-falll-view-number'><Text>{watchedPeople}</Text></View>
+                                            </View>
+                                        </View>
+                                    </View>
+                                )
+                            }) : null
+                        }
+                    </View>)
                 }) : null}
+
             </View >
         </Skeleton >
     )

@@ -1,7 +1,7 @@
 import { ComponentClass } from 'react'
 import Taro, { PureComponent, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { server, port } from '../../static-name/server'
+import { server, port,protocol } from '../../static-name/server'
 import formatDate from '../../utils/formatDate'
 import promiseApi from '../../utils/promiseApi'
 import { connect } from '@tarojs/redux'
@@ -75,7 +75,7 @@ class GoodsInfo extends PureComponent {
         const code = loginResult.code
         if (code) {
           promiseApi(Taro.request)({
-            url: `http://${server}:${port}/getgoodsinfo`,
+            url: `${protocol}://${server}:${port}/getgoodsinfo`,
             method: 'GET',
             data: {
               code: code,

@@ -2,55 +2,11 @@ import Taro, { Component } from '@tarojs/taro'
 import { ComponentClass } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
-import { server, port } from '../../static-name/server'
+import { server, port,protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
 import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
-// function Balance(props) {
-//     let [loading, setLoading] = useState(true)
-//     let [balance, setBalance] = useState(1888.8)
-//     console.log('balance',props.isSessionEffective)
-//     console.log('balance',configStore().getState().checkIsAuthorized.isAuthorized)
-//     useEffect(() => {
-//         setLoading(false)
-//         // promiseApi(Taro.checkSession) ().then(()=>{
-//         //     this.setState({isSessionEffective:true})
-//         // }).catch(()=>{
-//         //   this.setState({isSessionEffective:false})
-//         // })
-//         // promiseApi(Taro.login)().then(loginResult=>{
-//         //     if(loginResult.code){
-//         //         promiseApi(Taro.request)({
-//         //             url: `http://${server}:${port}/getmoney`,
-//         //             method: 'GET',
-//         //             data: {
-//         //               code: loginResult.code
-//         //             }
-//         //         }).then(res=>{
-//         //             console.log(res)
-//         //         })
-//         //     }
-//         // })
-//     }, [])
-//     return (
-//         <Skeleton
-//             row={1}
-//             rowHeight={60}
-//             animate
-//             loading={loading}
-//         >
-//             <View className='balance-container'>
-//                 <View className='balance-content-container'>
-//                     <Image src={`${CDNWebSite}/icon/user-info/balance.png`} className='balance-image'></Image>
-//                     <Text className='balance'>余额:{balance}元</Text>
-//                 </View>
-//             </View>
-//         </Skeleton>
-//     )
-// }
-
-// export default Taro.memo(Balance)
 
 // #region 书写注意
 //
@@ -113,7 +69,7 @@ class Balance extends Component {
             promiseApi(Taro.login)().then(loginResult => {
                 if (loginResult.code) {
                     promiseApi(Taro.request)({
-                        url: `http://${server}:${port}/getmoney`,
+                        url: `${protocol}://${server}:${port}/getmoney`,
                         method: 'GET',
                         data: {
                             code: loginResult.code

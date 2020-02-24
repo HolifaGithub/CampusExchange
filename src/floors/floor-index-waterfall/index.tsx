@@ -1,7 +1,6 @@
 import Taro from '@tarojs/taro'
 import HeaderTitle from '../../components/component-header-title'
 import WaterFall from '../../components/component-waterfall'
-import getSystemInfo from '../../utils/getSystemInfo'
 import { View, } from '@tarojs/components'
 import './index.scss'
 
@@ -20,21 +19,20 @@ type datasType = {
     avatarUrl:string;
 }
 interface Props {
-    datas: datasType[]
+    datas: datasType[][]
 }
 
 function IndexWaterFall(props: Props) {
-   const tarBarHeight=getSystemInfo().tabBarHeight+'px'
+    // console.log("floor",props.datas)
     return (
         <View className='index-waterfall-container'>
             <HeaderTitle></HeaderTitle>
             <WaterFall datas={props.datas} />
-            <View className='block' style={{height:tarBarHeight}}></View>
         </View>
     )
 }
 IndexWaterFall.defaultProps = {
-    datas: [{
+    datas: [[{
         orderId:'',
         nameInput:'',
         newAndOldDegree:'',
@@ -61,6 +59,6 @@ IndexWaterFall.defaultProps = {
         nickName:'',
         avatarUrl:''
     }
-]
+]]
 }
 export default Taro.memo(IndexWaterFall)
