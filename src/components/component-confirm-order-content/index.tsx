@@ -78,10 +78,10 @@ class ConfirmOrderContent extends Component {
     }
     state = {
         loading: true,
-        isOpened:false
+        isOpened: false
     }
-    text='微信支付'
-    isSuccess=true
+    text = '微信支付'
+    isSuccess = true
     static defaultProps = {
         datas: {
             avatarUrl: '',
@@ -111,16 +111,31 @@ class ConfirmOrderContent extends Component {
     componentDidShow() { }
 
     componentDidHide() { }
-    handlePay(){
-        this.text='微信支付'
-        this.isSuccess=false
-        this.setState({isOpened:true},()=>{
-                setTimeout(() => {
-                    this.text='支付成功！'
-                    this.isSuccess=true
-                    this.setState({isOpened:true})
-                }, 1200)
-                
+    handlePay(orderId,payForMePrice,payForOtherPrice) {
+        this.text = '微信支付'
+        this.isSuccess = false
+        this.setState({ isOpened: true }, () => {
+            promiseApi(Taro.login)().then((loginResult) => {
+                const code = loginResult.code
+                if (code) {
+                    promiseApi(Taro.request)({
+                        url: `${protocol}://${server}:${port}/pay`,
+                        method: 'POST',
+                        data: {
+                            code: code,
+                            orderId:orderId,
+                            payForMePrice:parseFloat(payForMePrice),
+                            payForOtherPrice:parseFloat(payForOtherPrice)
+                        }
+                    }).then((res) => {
+                        if(res.statusCode===200&&res.data.status==='success'){
+                            this.text = '支付成功！'
+                            this.isSuccess = true
+                            this.setState({ isOpened: true })
+                        }
+                    })
+                }
+            })
         })
     }
     render() {
@@ -162,15 +177,19 @@ class ConfirmOrderContent extends Component {
                             价格/交换详情：
                         </View>
                         <View className='footer-content'>
-                            {mode==='directExchange'||mode==='priceDifference'? < View className='want-exchange'>您需要给卖家：{wantExchangeGoods}</View>:null}
-                           {payForMePrice===0 || mode==='directSale'|| (mode==='priceDifference'&&objectOfPayment==='payForMe')? <View className='pay-for-me'>您需要支付：&yen; {payForMePrice}</View>:null}
-                        {(mode==='priceDifference'&&objectOfPayment==='payForOther')?<View className='pay-for-other'>您将要收入：&yen; {payForOtherPrice}</View>:null}
+                            {mode === 'directExchange' || mode === 'priceDifference' ? < View className='want-exchange'>您需要给卖家：{wantExchangeGoods}</View> : null}
+                            {payForMePrice === 0 || mode === 'directSale' || (mode === 'priceDifference' && objectOfPayment === 'payForMe') ? <View className='pay-for-me'>您需要支付：&yen; {payForMePrice}</View> : null}
+                            {(mode === 'priceDifference' && objectOfPayment === 'payForOther') ? <View className='pay-for-other'>您将要收入：&yen; {payForOtherPrice}</View> : null}
+                        </View>
                     </View>
-                </View>
-                <View className='confirm-button' onClick={()=>{this.handlePay()}}>
-                    确认交易
+                    <View className='confirm-button' onClick={() => { this.handlePay(orderId,payForMePrice,payForOtherPrice) }}>
+                        确认交易
                     </View>
-                    <AtToast isOpened={this.state.isOpened} text={this.text} image={this.isSuccess?'':'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/confirm-order/wechat-pay-white.png'} status={this.isSuccess?'success':undefined} duration={1200}></AtToast>
+                    <AtToast isOpened={this.state.isOpened} text={this.text} image={this.isSuccess ? '' : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/confirm-order/wechat-pay-white.png'} status={this.isSuccess ? 'success' : undefined} duration={1200} hasMask onClose={() => { 
+                        if(this.isSuccess){
+                            promiseApi(Taro.navigateTo)({url:'/pages/not-found/not-found'})
+                        }
+                     }}></AtToast>
                 </View>
             </Skeleton >
         )

@@ -10,7 +10,7 @@ function NotFoundComponent() {
         <Image src={`${CDNWebSite}/icon/not-found/404.png`} className='icon'></Image>
         <View className='text'>
         <Text>404 Not Found</Text>
-        <View>抱歉，您打开的商品为空！</View>
+        <View>空空如也~~</View>
         </View>
     </View>
   )

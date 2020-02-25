@@ -295,7 +295,7 @@ class Index extends PureComponent {
   // }
   render() {
     // console.log(this.state.page, this.state.waterFallDatas)
-    const tarBarHeight = (getSystemInfo().tabBarHeight) + 'px'
+    const tarBarHeight = (getSystemInfo().tabBarHeight+10) + 'px'
     return (
       <View
         className='index'
@@ -304,7 +304,7 @@ class Index extends PureComponent {
         <IndexGrid></IndexGrid>
         <IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>
         {this.state.loadMore ? <View className='loading'>
-          <AtActivityIndicator content='加载中...' color='#ffffff' mode='center'></AtActivityIndicator>
+          <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
         </View> : null}
         {this.state.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#C41A16' />}
         <View className='block' style={{ height: tarBarHeight }}></View>

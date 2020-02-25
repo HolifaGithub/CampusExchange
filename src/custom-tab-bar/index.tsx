@@ -14,7 +14,6 @@ import {
 } from '../actions/switchTabBar'
 import promiseApi from '../utils/promiseApi'
 import { needRelogin, notNeedRelogin } from '../actions/checkIsNeedRelogin'
-import Skeleton from 'taro-skeleton'
 import './index.scss'
 
 // #region 书写注意
@@ -89,7 +88,6 @@ class TabBar extends PureComponent {
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
   state = {
-    loading: true,
     isSessionEffective: false
   }
   componentWillMount() {
@@ -157,16 +155,17 @@ class TabBar extends PureComponent {
   // componentDidShow () { }
 
   // componentDidHide () { }
-
+  shouldComponentUpdate(nextProps,nextState){
+    // console.log(nextProps.switchTarBar.current,this.props.switchTarBar.current)
+    if(nextProps.switchTarBar.current!==this.props.switchTarBar.current){
+      return true
+    }else{
+      return false
+    }
+  }
   render() {
-
+    // console.log('aaaa')
     return (
-      <Skeleton
-        row={1}
-        rowHeight={50}
-        animate
-        loading={this.state.loading}
-      >
         <View>
           <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
           <AtTabBar
@@ -199,67 +198,6 @@ class TabBar extends PureComponent {
               }
             ]}
             onClick={(current) => {
-              // Taro.checkSession({
-              //   success: () => {
-              //       this.props.dispatchAuthorized()
-              //       switch (current) {
-              //         case 0: Taro.switchTab({
-              //           url: '/pages/index/index',
-              //           success: () => {
-              //             this.props.switchTabHome()
-              //           }
-              //         })
-              //           break
-              //         case 1: Taro.switchTab({
-              //           url: '/pages/sort/sort',
-              //           success: () => {
-              //             this.props.switchTabSort()
-              //           }
-              //         })
-              //           break
-              //         case 2: Taro.switchTab({
-              //           url: '/pages/release-goods/release-goods',
-              //           success: () => {
-              //             this.props.switchTabReleaseGoods()
-              //           }
-              //         })
-              //           break
-              //         case 3: Taro.switchTab({
-              //           url: '/pages/chat/chat',
-              //           success: () => {
-              //             this.props.switchTabChat()
-              //           }
-              //         })
-              //           break
-              //         case 4: Taro.switchTab({
-              //           url: '/pages/person/person',
-              //           success: () => {
-              //             this.props.switchTabPerson()
-              //           }
-              //         })
-              //           break
-              //         default: Taro.switchTab({
-              //           url: '/pages/index/index',
-              //           success: () => {
-              //             this.props.switchTabHome()
-              //           }
-              //         })
-              //           break
-              //       }
-              //   },
-              //   fail:()=>{
-              //     this.props.dispatchNotAuthorized()
-              //     setTimeout(() => {
-              //       Taro.switchTab({
-              //         url: '/pages/person/person',
-              //         success: () => {
-              //           this.props.switchTabPerson()
-              //         }
-              //       })
-              //     }, 200)
-              //   }
-              // })
-
               if (!this.props.checkIsNeedRelogin.isNeedRelogin && this.state.isSessionEffective) {
                   this.jumpTab(current)
               } else {
@@ -290,7 +228,6 @@ class TabBar extends PureComponent {
             key={1}
           />
         </View>
-      </Skeleton>
     )
   }
 }
