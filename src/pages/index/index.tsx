@@ -134,29 +134,41 @@ class Index extends PureComponent {
               this.setState({
                 isSessionEffective: true,
                 location: `${province}${city}${district}`
-              })
-            }).catch(() => {
-              this.setState({
-                isSessionEffective: false,
-                location: `${province}${city}${district}`
+              }, () => {
+                if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
+                  setTimeout(() => {
+                    Taro.switchTab({
+                      url: '/pages/person/person',
+                      success: () => {
+                        this.props.switchTabPerson()
+                      }
+                    })
+                  }, 300)
+                }
               })
             })
+            this.setState({
+              isSessionEffective: false,
+              location: `${province}${city}${district}`
+            }, () => {
+              if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
+                setTimeout(() => {
+                  Taro.switchTab({
+                    url: '/pages/person/person',
+                    success: () => {
+                      this.props.switchTabPerson()
+                    }
+                  })
+                }, 300)
+              }
+            })
+
             // console.log(this.props.checkIsNeedRelogin.isNeedRelogin,this.state.isSessionEffective)
-            if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
-              setTimeout(() => {
-                Taro.switchTab({
-                  url: '/pages/person/person',
-                  success: () => {
-                    this.props.switchTabPerson()
-                  }
-                })
-              }, 300)
-            }
           }
         }
       }
     }).catch(() => {
-      this.fetchWaterFallData()
+      // this.fetchWaterFallData()
       promiseApi(Taro.checkSession)().then(() => {
         this.setState({
           isSessionEffective: true,
@@ -195,7 +207,7 @@ class Index extends PureComponent {
           if (res.statusCode === 200 && res.data.status === 'success') {
             this.setState((prevState: PageState) => {
               // console.log('prevState',prevState)
-              return {waterFallDatas:prevState.waterFallDatas.concat([res.data.returnDatas])}
+              return { waterFallDatas: prevState.waterFallDatas.concat([res.data.returnDatas]) }
             })
           } else {
             console.log('获取瀑布流数据失败！')
@@ -227,7 +239,7 @@ class Index extends PureComponent {
                 // console.log('prevState',prevState)
                 return {
                   loadMore: false,
-                  waterFallDatas:prevState.waterFallDatas.concat([res.data.returnDatas])
+                  waterFallDatas: prevState.waterFallDatas.concat([res.data.returnDatas])
                 }
               })
             }
@@ -273,14 +285,14 @@ class Index extends PureComponent {
       this.fetchMoreData()
     }
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.hasMore !== nextState.hasMore|| this.state.waterFallDatas.length!==nextState.waterFallDatas.length) {
-      return true
-    } else {
-      return false
-    }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.state.hasMore !== nextState.hasMore|| this.state.waterFallDatas.length!==nextState.waterFallDatas.length) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
 
-  }
+  // }
   render() {
     // console.log(this.state.page, this.state.waterFallDatas)
     const tarBarHeight = (getSystemInfo().tabBarHeight) + 'px'

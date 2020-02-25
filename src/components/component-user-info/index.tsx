@@ -138,8 +138,10 @@ class UserInfo extends Component {
                           console.log("用户登录请求成功！返回数据：", res)
                           if (res.data.status === 'success' && res.statusCode === 200) {
                             this.props.dispatchNotNeedRelogin()
-                            this.setState({ isSessionEffective: true })
-                            this.setState({ isNewUser: res.data.isNewUser })
+                            this.setState({ 
+                              isSessionEffective: true,
+                              isNewUser: res.data.isNewUser 
+                            })
                           } else {
                             console.log("用户登录失败！")
                             this.props.dispatchNeedRelogin()

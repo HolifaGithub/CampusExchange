@@ -42,6 +42,7 @@ class App extends Component {
       'pages/register/register',
       'pages/goods-info/goods-info',
       'pages/show_user_info/show_user_info',
+      'pages/confirm-order/confirm-order',
     ],
     window: {
       backgroundTextStyle: 'light',

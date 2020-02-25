@@ -2,6 +2,7 @@ import Taro, { useState, useEffect, useReducer } from '@tarojs/taro'
 import { ScrollView, View, Text, Image } from '@tarojs/components'
 import Skeleton from 'taro-skeleton'
 import Tag from '../component-tag'
+import promiseApi from '../../utils/promiseApi'
 import { server, port } from '../../static-name/server'
 import formatDate from '../../utils/formatDate'
 import { AtNavBar, AtAvatar, AtDivider, AtToast } from 'taro-ui'
@@ -13,7 +14,6 @@ interface InitState {
     orderId: string;
     orderTime: string;
     orderStatus: string;
-    openid: string;
     typeOne: string;
     typeTwo: string;
     typeThree: string;
@@ -26,7 +26,7 @@ interface InitState {
     payForOtherPrice: number;
     wantExchangeGoods: string;
     describe: string;
-    picsLocation: [];
+    picsLocation: string[];
     nickName: string;
     avatarUrl: string;
     school: string;
@@ -37,7 +37,6 @@ const initState: InitState = {
     orderId: '',
     orderTime: '',
     orderStatus: '',
-    openid: '',
     typeOne: '',
     typeTwo: '',
     typeThree: '',
@@ -50,7 +49,7 @@ const initState: InitState = {
     payForOtherPrice: 0,
     wantExchangeGoods: '',
     describe: '',
-    picsLocation: [],
+    picsLocation: [''],
     nickName: '',
     avatarUrl: '',
     school: '',
@@ -69,7 +68,6 @@ function reducer(state = initState, action) {
                 orderId: action.data.orderId,
                 orderTime: action.data.orderTime,
                 orderStatus: action.data.orderStatus,
-                openid: action.data.openid,
                 typeOne: action.data.typeOne,
                 typeTwo: action.data.typeTwo,
                 typeThree: action.data.typeThree,
@@ -233,7 +231,12 @@ function GooodsInfoContent(props: Props) {
                         <AtToast isOpened={state.isCollect} text='收藏成功！' status='success' duration={1000}></AtToast>
                     </View>
                     <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/chat-blue.png' className='footer-icon'></Image>
-                    <View className='button'>交易</View>
+                    <View className='button' onClick={()=>{
+                        let topPic=state.picsLocation.length>0?state.picsLocation[0]:'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'
+                        promiseApi(Taro.navigateTo)({
+                           url: `/pages/confirm-order/confirm-order?avatarUrl=${state.avatarUrl}&orderTime=${state.orderTime}&typeOne=${state.typeOne}&typeTwo=${state.typeTwo}&typeThree=${state.typeThree}&nameInput=${state.nameInput}&goodsNumber=${state.goodsNumber}&newAndOldDegree=${state.newAndOldDegree}&mode=${state.mode}&objectOfPayment=${state.objectOfPayment}&payForMePrice=${state.payForMePrice}&payForOtherPrice=${state.payForOtherPrice}&wantExchangeGoods=${state.wantExchangeGoods}&topPic=${topPic}&nickName=${state.nickName}&orderId=${state.orderId}&school=${state.school}`
+                        })
+                    }}>交易</View>
                     <View className='blank'></View>
                 </View>
             </View>
