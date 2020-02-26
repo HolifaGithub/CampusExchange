@@ -1,0 +1,148 @@
+.trading-container {
+  .goods-introduction {
+    background-color: #ffffff;
+    border-radius: 20px;
+    width: 720px;
+    margin: 0 auto;
+
+    .order-id {
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: #eeeeee;
+      height: 60px;
+      padding-left: 20px;
+      font-size: 28px;
+      line-height: 60px;
+    }
+
+    .goods-introduction-content {
+      // border-width: 1px;
+      // border-color: green;
+      // border-style: solid;
+      height: 250px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      .img {
+        width: 200px;
+        height: 200px;
+        border-radius: 20px;
+        margin-left: 20px;
+      }
+
+      .introduction {
+        padding-left: 20px;
+
+        .title {
+          font-size: 35px;
+          height: 60px;
+          font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .degree-and-count {
+          display: flex;
+          align-items: center;
+
+          .count {
+            padding-left: 280px;
+          }
+        }
+
+        .price-info {
+          font-size: 28px;
+
+          .want-exchange,
+          .pay-for-me,
+          .pay-for-other {
+            margin-bottom: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .want-exchange {
+            color: #efb336;
+          }
+
+          .pay-for-me {
+            color: #C41A16;
+          }
+
+          .pay-for-other {
+            color: #27af08;
+          }
+        }
+      }
+    }
+  }
+
+  .trading-content {
+    margin-top: 60px;
+
+    .main {
+      display: flex;
+      justify-content: space-around;
+      align-content: center;
+
+      .col {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        color: #ffffff;
+        text-align: center;
+        font-weight: bold;
+        .school{
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            max-width: 230px;
+            max-height:120px ;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            .icon{
+                width: 40px;
+                height: 40px;
+            }
+        }
+        .left,.right{
+            color: #ffffff;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+      }
+
+      .exchange-icon {
+        width: 180px;
+        height: 180px;
+      }
+
+      .avatar {
+        width: 170px;
+        height: 170px;
+        border-radius: 50%;
+        border-width: 10px;
+        border-color: #ffffff;
+        border-style: solid;
+      }
+    }
+  }
+
+  .qr-code{
+      width: 720px;
+      margin: 0 auto;
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .tip{
+          color: #ffffff;
+          font-size: 22px;
+      }
+  }
+
+}

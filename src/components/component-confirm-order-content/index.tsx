@@ -112,7 +112,7 @@ class ConfirmOrderContent extends Component {
 
     componentDidHide() { }
     handlePay(orderId,payForMePrice,payForOtherPrice) {
-        this.text = '微信支付'
+        this.text = '微信支付...'
         this.isSuccess = false
         this.setState({ isOpened: true }, () => {
             promiseApi(Taro.login)().then((loginResult) => {
@@ -187,7 +187,9 @@ class ConfirmOrderContent extends Component {
                     </View>
                     <AtToast isOpened={this.state.isOpened} text={this.text} image={this.isSuccess ? '' : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/confirm-order/wechat-pay-white.png'} status={this.isSuccess ? 'success' : undefined} duration={1200} hasMask onClose={() => { 
                         if(this.isSuccess){
-                            promiseApi(Taro.navigateTo)({url:'/pages/not-found/not-found'})
+                            promiseApi(Taro.navigateTo)({
+                                url: `/pages/trading/trading?avatarUrl=${avatarUrl}&orderTime=${orderTime}&typeOne=${typeOne}&typeTwo=${typeTwo}&typeThree=${typeThree}&nameInput=${nameInput}&goodsNumber=${goodsNumber}&newAndOldDegree=${newAndOldDegree}&mode=${mode}&objectOfPayment=${objectOfPayment}&payForMePrice=${payForMePrice}&payForOtherPrice=${payForOtherPrice}&wantExchangeGoods=${wantExchangeGoods}&topPic=${topPic}&nickName=${nickName}&orderId=${orderId}&school=${school}`
+                             })
                         }
                      }}></AtToast>
                 </View>
