@@ -124,7 +124,6 @@ class TradingContent extends Component {
 
     render() {
         const {avatarUrl, nickName, nameInput, goodsNumber, newAndOldDegree, payForMePrice, payForOtherPrice, wantExchangeGoods, topPic, orderId, school,salederPhone,salederAddress,buierPhone,buierAddress,buierAvatarUrl,orderCode,buierNickName} =this.props.datas
-        console.log(orderCode)
         return (
             <Skeleton
                 row={1}

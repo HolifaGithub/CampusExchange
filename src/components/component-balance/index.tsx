@@ -2,7 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { ComponentClass } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
-import { server, port,protocol } from '../../static-name/server'
+import { server, port, protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
 import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
@@ -61,31 +61,39 @@ class Balance extends Component {
         loading: true,
         balance: 0
     }
+    fetchBalanceInfo() {
+        promiseApi(Taro.login)().then(loginResult => {
+            if (loginResult.code) {
+                promiseApi(Taro.request)({
+                    url: `${protocol}://${server}:${port}/getmoney`,
+                    method: 'GET',
+                    data: {
+                        code: loginResult.code
+                    }
+                }).then(res => {
+                    if (res.statusCode === 200 && res.data.status === 'success') {
+                        this.setState({ balance: res.data.balance })
+                    }
+                })
+            }
+        })
+    }
     componentDidMount() {
         this.setState({ loading: false })
     }
     componentWillReceiveProps(nextProps) {
         if (nextProps.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin) {
-            promiseApi(Taro.login)().then(loginResult => {
-                if (loginResult.code) {
-                    promiseApi(Taro.request)({
-                        url: `${protocol}://${server}:${port}/getmoney`,
-                        method: 'GET',
-                        data: {
-                            code: loginResult.code
-                        }
-                    }).then(res => {
-                        if (res.statusCode === 200 && res.data.status === 'success') {
-                            this.setState({ balance: res.data.balance })
-                        }
-                    })
-                }
-            })
+            this.fetchBalanceInfo()
         }
     }
+
     componentWillUnmount() { }
 
-    componentDidShow() { }
+    componentDidShow() {
+        if (this.props.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin) {
+            this.fetchBalanceInfo()
+          }
+     }
 
     componentDidHide() { }
 

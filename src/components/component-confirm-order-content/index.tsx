@@ -132,6 +132,10 @@ class ConfirmOrderContent extends Component {
                             this.text = '支付成功！'
                             this.isSuccess = true
                             this.setState({ isOpened: true })
+                        }else{
+                            this.text = '支付失败!'
+                            this.isSuccess = true
+                            this.setState({ isOpened: true })
                         }
                     })
                 }
