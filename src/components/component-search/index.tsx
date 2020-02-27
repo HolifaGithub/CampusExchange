@@ -5,7 +5,7 @@ import { CDNWebSite } from '../../static-name/web-site'
 import { server, port, protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
 import promiseApi from '../../utils/promiseApi'
-import { AtSearchBar } from 'taro-ui'
+import { AtSearchBar, AtDivider, AtActivityIndicator } from 'taro-ui'
 import WaterFall from '../component-waterfall'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
@@ -43,7 +43,9 @@ type datasType = {
 }
 
 type PageOwnProps = {
-    datas: datasType[][]
+    datas: datasType[][],
+    loadMore: boolean;
+    hasMore: boolean;
 }
 
 type PageState = {}
@@ -73,99 +75,77 @@ class SearchContent extends Component {
     }
     state = {
         loading: true,
-        value:''
+        value: '',
     }
-    onActionClick(){
-        console.log('hhh')
+    pageSize=6
+    onActionClick() {
+        // this.fetchSearchData(this.state.value)
     }
-    onChange(val){
-        this.setState({value:val})
+    fetchSearchData(value) {
+        this.setState({ value: value })
+        return new Promise((resolve, reject) => {
+            promiseApi(Taro.request)({
+                url: `${protocol}://${server}:${port}/search`,
+                method: 'GET',
+                data: {
+                    value: value,
+                    page: 1
+                }
+            }).then(res => {
+                if (res.statusCode === 200 && res.data.status === 'success') {
+                    if (res.data.returnDatas.length < this.pageSize) {
+                      this.setState({
+                        hasMore: false,
+                        loadMore: false,
+                        waterFallDatas: [res.data.returnDatas]
+                      })
+                    } else {
+                      this.setState({
+                        loadMore: false,
+                        waterFallDatas: [res.data.returnDatas]
+                      })
+                    }
+                  } else {
+                    this.setState({ hasMore: false })
+                  }
+            })
+        })
+    }
+    onChange(val) {
+        this.setState({ value: val })
     }
     static defaultProps = {
         datas: [[{
-            orderId:'',
-            nameInput:'',
-            newAndOldDegree:'',
-            mode:'',
-            objectOfPayment:'',
-            payForMePrice:0,
-            payForOtherPrice:0,
-            wantExchangeGoods:'',
-            topPicSrc:'',
-            watchedPeople:0,
-            nickName:'',
-            avatarUrl:''
-        },{
-            orderId:'',
-            nameInput:'',
-            newAndOldDegree:'',
-            mode:'',
-            objectOfPayment:'',
-            payForMePrice:0,
-            payForOtherPrice:0,
-            wantExchangeGoods:'',
-            topPicSrc:'',
-            watchedPeople:0,
-            nickName:'',
-            avatarUrl:''
+            orderId: '',
+            nameInput: '',
+            newAndOldDegree: '',
+            mode: '',
+            objectOfPayment: '',
+            payForMePrice: 0,
+            payForOtherPrice: 0,
+            wantExchangeGoods: '',
+            topPicSrc: '',
+            watchedPeople: 0,
+            nickName: '',
+            avatarUrl: ''
+        }, {
+            orderId: '',
+            nameInput: '',
+            newAndOldDegree: '',
+            mode: '',
+            objectOfPayment: '',
+            payForMePrice: 0,
+            payForOtherPrice: 0,
+            wantExchangeGoods: '',
+            topPicSrc: '',
+            watchedPeople: 0,
+            nickName: '',
+            avatarUrl: ''
         }
-    ],[{
-        orderId:'',
-        nameInput:'',
-        newAndOldDegree:'',
-        mode:'',
-        objectOfPayment:'',
-        payForMePrice:0,
-        payForOtherPrice:0,
-        wantExchangeGoods:'',
-        topPicSrc:'',
-        watchedPeople:0,
-        nickName:'',
-        avatarUrl:''
-    },{
-        orderId:'',
-        nameInput:'',
-        newAndOldDegree:'',
-        mode:'',
-        objectOfPayment:'',
-        payForMePrice:0,
-        payForOtherPrice:0,
-        wantExchangeGoods:'',
-        topPicSrc:'',
-        watchedPeople:0,
-        nickName:'',
-        avatarUrl:''
-    }
-],[{
-    orderId:'',
-    nameInput:'',
-    newAndOldDegree:'',
-    mode:'',
-    objectOfPayment:'',
-    payForMePrice:0,
-    payForOtherPrice:0,
-    wantExchangeGoods:'',
-    topPicSrc:'',
-    watchedPeople:0,
-    nickName:'',
-    avatarUrl:''
-},{
-    orderId:'',
-    nameInput:'',
-    newAndOldDegree:'',
-    mode:'',
-    objectOfPayment:'',
-    payForMePrice:0,
-    payForOtherPrice:0,
-    wantExchangeGoods:'',
-    topPicSrc:'',
-    watchedPeople:0,
-    nickName:'',
-    avatarUrl:''
-}
-]
-
-]
+        ]
+        ],
+        loadMore: false,
+        hasMore: true
     }
     componentDidMount() {
         this.setState({ loading: false })
@@ -198,7 +178,11 @@ class SearchContent extends Component {
                         onActionClick={this.onActionClick.bind(this)}
                     />
                     <View className='water-fall'>
-                    <WaterFall datas={this.props.datas}/>
+                        <WaterFall datas={this.props.datas} />
+                        {this.props.loadMore ? <View className='loading'>
+                            <AtActivityIndicator content='加载中...' color='#C41A16' mode='center' size={36}></AtActivityIndicator>
+                        </View> : null}
+                        {this.props.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#C41A16' />}
                     </View>
                 </View>
             </Skeleton>

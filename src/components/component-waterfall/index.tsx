@@ -35,7 +35,7 @@ function Waterfall(props: Props) {
     // console.log('component',props.datas)
     return (
         <Skeleton
-            row={datas && datas.length > 0 ? datas.length : 2}
+            row={2}
             rowHeight={450}
             animate
             loading={loading}

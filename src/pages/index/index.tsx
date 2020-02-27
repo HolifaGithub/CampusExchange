@@ -113,7 +113,7 @@ class Index extends PureComponent {
   state = {
     location: '',
     isSessionEffective: false,
-    waterFallDatas: [[]],
+    waterFallDatas: [],
     loadMore: false,
     page: 1,
     hasMore: true
@@ -302,7 +302,7 @@ class Index extends PureComponent {
       >
         <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
-        <IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>
+        {this.state.waterFallDatas.length>0?(<IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>):null}
         {this.state.loadMore ? <View className='loading'>
           <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
         </View> : null}

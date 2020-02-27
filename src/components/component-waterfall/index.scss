@@ -18,7 +18,7 @@ $water-fall-item-avater-image-marigin-right:10px;
 .water-fall-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
   width: $screen-width;
   flex-wrap: wrap;
   margin-top: $water-fall-item-interval;
@@ -30,7 +30,7 @@ $water-fall-item-avater-image-marigin-right:10px;
     margin-bottom: $water-fall-item-interval;
     color: #333333;
     text-align: start;
-
+    margin-left: 14px;
     .water-fall-image {
       width: $water-fall-item-width;
       height: $water-fall-item-image-height;
@@ -52,6 +52,7 @@ $water-fall-item-avater-image-marigin-right:10px;
     .water-fall-content-container {
       display: flex;
       flex-direction: row;
+      justify-content: flex-start;
       flex-wrap: wrap;
       align-items: center;
       position: relative;
