@@ -1,15 +1,16 @@
 import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Input, Icon, Button } from '@tarojs/components'
 // import { AtSearchBar } from 'taro-ui'
+import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 
 function SearchBar() {
-  // const initValue = ''
+  let initValue = ''
   const placeholder = '搜索一下'
   let [loading, setLoading] = useState(true)
   let [showSearchButton, setShowSearchButton] = useState(false)
-  // let [value, setValue] = useState(initValue)
+  let [value, setValue] = useState(initValue)
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
@@ -36,9 +37,17 @@ function SearchBar() {
             onFocus={() => { setShowSearchButton(true) }}
             onBlur={() => { setShowSearchButton(false) }}
             confirmType='search'
+            value={value}
+            onInput={(event)=>{
+              setValue(event.detail.value)
+            }}
           ></Input>
         </View>
-        {showSearchButton ? <Button size={"mini"} plain className='search-bar-button'>搜索</Button> : null}
+        {showSearchButton ? <Button size={"mini"} plain className='search-bar-button' onClick={() => {
+          promiseApi(Taro.navigateTo)({
+            url: `/pages/search/search?value=${value}`
+          })
+        }}>搜索</Button> : null}
       </View>
     </Skeleton>
   )

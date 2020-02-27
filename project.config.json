@@ -4,7 +4,7 @@
 	"description": "校园换项目",
 	"appid": "wxab9d9c6867f0c70e",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": false,
 		"preloadBackgroundData": false,

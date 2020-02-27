@@ -44,6 +44,7 @@ class App extends Component {
       'pages/show_user_info/show_user_info',
       'pages/confirm-order/confirm-order',
       'pages/trading/trading',
+      'pages/search/search',
     ],
     window: {
       backgroundTextStyle: 'light',
