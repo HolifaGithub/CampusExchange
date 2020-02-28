@@ -5,6 +5,7 @@ import { CDNWebSite } from '../../static-name/web-site'
 import { server, port, protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
 import promiseApi from '../../utils/promiseApi'
+import AtSearchBarComponent from '../component-at-search-bar'
 import { AtSearchBar, AtDivider, AtActivityIndicator } from 'taro-ui'
 import WaterFall from '../component-waterfall'
 import Skeleton from 'taro-skeleton'
@@ -48,7 +49,10 @@ type PageOwnProps = {
     hasMore: boolean;
 }
 
-type PageState = {}
+type PageState = {
+    loading: boolean;
+    value: string;
+}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
@@ -78,42 +82,6 @@ class SearchContent extends Component {
         value: '',
     }
     pageSize=6
-    onActionClick() {
-        // this.fetchSearchData(this.state.value)
-    }
-    fetchSearchData(value) {
-        this.setState({ value: value })
-        return new Promise((resolve, reject) => {
-            promiseApi(Taro.request)({
-                url: `${protocol}://${server}:${port}/search`,
-                method: 'GET',
-                data: {
-                    value: value,
-                    page: 1
-                }
-            }).then(res => {
-                if (res.statusCode === 200 && res.data.status === 'success') {
-                    if (res.data.returnDatas.length < this.pageSize) {
-                      this.setState({
-                        hasMore: false,
-                        loadMore: false,
-                        waterFallDatas: [res.data.returnDatas]
-                      })
-                    } else {
-                      this.setState({
-                        loadMore: false,
-                        waterFallDatas: [res.data.returnDatas]
-                      })
-                    }
-                  } else {
-                    this.setState({ hasMore: false })
-                  }
-            })
-        })
-    }
-    onChange(val) {
-        this.setState({ value: val })
-    }
     static defaultProps = {
         datas: [[{
             orderId: '',
@@ -171,12 +139,7 @@ class SearchContent extends Component {
                 loading={this.state.loading}
             >
                 <View className='search-container'>
-                    <AtSearchBar
-                        actionName='搜索'
-                        value={this.state.value}
-                        onChange={this.onChange.bind(this)}
-                        onActionClick={this.onActionClick.bind(this)}
-                    />
+                    <AtSearchBarComponent/>
                     <View className='water-fall'>
                         <WaterFall datas={this.props.datas} />
                         {this.props.loadMore ? <View className='loading'>

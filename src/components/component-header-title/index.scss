@@ -7,7 +7,7 @@ $header-title-margin:20px;
 $header-title-border-radius:10px;
 $header-title-image-width:100px;
 $header-title-image-height:$header-title-height;
-
+$header-title-marigin-top:10px;
 .header-title-container {
   display: flex;
   justify-content: center;
@@ -17,7 +17,7 @@ $header-title-image-height:$header-title-height;
   height: $header-title-height;
   border-radius: $header-title-border-radius;
   border-bottom: 1px solid $header-title-color;
-
+  margin-top: $header-title-marigin-top;
   .header-title-image {
     width: $header-title-image-width;
     height: $header-title-image-height;

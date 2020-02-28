@@ -1,5 +1,4 @@
 import Taro from '@tarojs/taro'
-import HeaderTitle from '../../components/component-header-title'
 import WaterFall from '../../components/component-waterfall'
 import { View, } from '@tarojs/components'
 import './index.scss'
@@ -26,7 +25,6 @@ function IndexWaterFall(props: Props) {
     // console.log("floor",props.datas)
     return (
         <View className='index-waterfall-container'>
-            <HeaderTitle></HeaderTitle>
             <WaterFall datas={props.datas} />
         </View>
     )

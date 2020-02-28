@@ -45,6 +45,7 @@ class App extends Component {
       'pages/confirm-order/confirm-order',
       'pages/trading/trading',
       'pages/search/search',
+      'pages/order-status/order-status',
     ],
     window: {
       backgroundTextStyle: 'light',

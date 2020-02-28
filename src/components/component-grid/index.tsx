@@ -4,8 +4,9 @@ import Skeleton from 'taro-skeleton'
 import './index.scss'
 
 interface GridDataObject {
-    image: string,
-    value: string
+    image: string;
+    value: string;
+    bgColor:string;
 }
 
 type GridDataArray = GridDataObject[]
@@ -36,8 +37,12 @@ function Grid(props: Props) {
                                 animate
                                 loading={loading}
                             >
-                                <View className='grid-content'>
-                                    <View className='image-container'>
+                                <View className='grid-content' onClick={()=>{
+                                    Taro.navigateTo({
+                                        url:`/pages/search/search?value=${item.value}`
+                                    })
+                                }}>
+                                    <View className='image-container' style={{backgroundColor:item.bgColor}}>
                                         <Image src={item.image} className='grid-image'></Image>
                                     </View>
                                     <View className='grid-value'>{item.value}</View>

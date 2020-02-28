@@ -1,11 +1,9 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
-import SortVerticalTabs from '../../floors/floor-sort-vertical-tabs'
-import goodsTypeGridsDatas from '../../static-name/goods-sort'
-
-import './sort.scss'
+import OrderStatusContent from '../../components/component-order-status-content'
+import './order-status.scss'
 
 // #region 书写注意
 //
@@ -31,43 +29,43 @@ type PageState = {}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
-interface Sort {
+interface OrderStatus {
   props: IProps;
 }
 
-@connect(({ }) => ({
-
+@connect(({  }) => ({
+  
 }), (dispatch) => ({
 
 }))
-class Sort extends Component {
+class OrderStatus extends Component {
 
-  /**
- * 指定config的类型声明为: Taro.Config
- *
- * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
- * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
- * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
- */
-  config: Config = {
-    navigationBarTitleText: '校园换-分类页',
+    /**
+   * 指定config的类型声明为: Taro.Config
+   *
+   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
+   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
+   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
+   */
+    config: Config = {
+    navigationBarTitleText: '订单状态页',
+    navigationBarBackgroundColor:"#eee"
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(this.props, nextProps)
-  // }
+  componentWillReceiveProps (nextProps) {
+    console.log(this.props, nextProps)
+  }
 
-  componentWillUnmount() { }
+  componentWillUnmount () { }
 
-  componentDidShow() { }
+  componentDidShow () { }
 
-  componentDidHide() { }
+  componentDidHide () { }
 
-  render() {
-
+  render () {
     return (
-      <View className='sort'>
-        <SortVerticalTabs datas={goodsTypeGridsDatas}/>
+      <View className='order-status'>
+          <OrderStatusContent/>
       </View>
     )
   }
@@ -80,4 +78,4 @@ class Sort extends Component {
 //
 // #endregion
 
-export default Sort as ComponentClass<PageOwnProps, PageState>
+export default OrderStatus as ComponentClass<PageOwnProps, PageState>

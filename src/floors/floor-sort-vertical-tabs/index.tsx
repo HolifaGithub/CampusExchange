@@ -1,5 +1,5 @@
 import Taro, { useState } from '@tarojs/taro'
-import SearchBar from '../../components/component-search-bar'
+import AtSearchBarComponent from '../../components/component-at-search-bar'
 import { View } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtNoticebar } from 'taro-ui'
 import GoodsTypeGrids from '../../components/component-goods-type-grids'
@@ -23,7 +23,7 @@ interface TabList {
     title: string
 }
 function SortVerticalTabs(props: Props) {
-    const tabHeight = '1650px';
+    const tabHeight = '1450px';
     const [current, setCurrent] = useState(0)
     const { datas } = props
     const tabList: TabList[] = []
@@ -32,7 +32,7 @@ function SortVerticalTabs(props: Props) {
     }
     return (
         <View className='sort-vertical-tabs-container'>
-            <SearchBar></SearchBar>
+            <AtSearchBarComponent></AtSearchBarComponent>
             <AtNoticebar icon='volume-plus' marquee>
                 注意：分类栏仅展示常见类型或热门机型，如果没有想要的类型，请通过上方搜索栏或点击更多进行分类查找！
             </AtNoticebar>

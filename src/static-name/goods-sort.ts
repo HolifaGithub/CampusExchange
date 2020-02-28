@@ -49,26 +49,26 @@ const goodsTypeGridsDatas = [
             typeThree: '7',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/7.png',
           },
-          {
-            typeThree: '6s plus',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/6splus.png',
-          },
-          {
-            typeThree: '6s',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/6s.png',
-          },
-          {
-            typeThree: '6',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/6.png',
-          },
-          {
-            typeThree: 'se',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/se.png',
-          },
-          {
-            typeThree: '5s',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/5s.png',
-          }
+          // {
+          //   typeThree: '6s plus',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/6splus.png',
+          // },
+          // {
+          //   typeThree: '6s',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/6s.png',
+          // },
+          // {
+          //   typeThree: '6',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/6.png',
+          // },
+          // {
+          //   typeThree: 'se',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/se.png',
+          // },
+          // {
+          //   typeThree: '5s',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/5s.png',
+          // }
         ]
       },
       {
@@ -114,14 +114,14 @@ const goodsTypeGridsDatas = [
             typeThree: 'mix 3',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mix3.png',
           },
-          {
-            typeThree: 'RedMi 7A',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/redmi%207A.png',
-          },
-          {
-            typeThree: 'RedMi8 pro',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/redmi8%20pro.png',
-          }
+          // {
+          //   typeThree: 'RedMi 7A',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/redmi%207A.png',
+          // },
+          // {
+          //   typeThree: 'RedMi8 pro',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/redmi8%20pro.png',
+          // }
         ]
       },
       {
@@ -190,14 +190,14 @@ const goodsTypeGridsDatas = [
         typeTwo: "vivo",
         trademark: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/vivo-trademark.png',
         typeTwoDatas: [
-          {
-            typeThree: '	iqoo neo',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo%20neo.png',
-          },
-          {
-            typeThree: 'iqoo pro',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo%20pro.png',
-          },
+          // {
+          //   typeThree: '	iqoo neo',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo%20neo.png',
+          // },
+          // {
+          //   typeThree: 'iqoo pro',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo%20pro.png',
+          // },
           {
             typeThree: 'iqoo',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo.png',

@@ -1,0 +1,51 @@
+.goods-introduction {
+    background-color: #ffffff;
+    border-radius: 20px;
+    width: 720px;
+    margin: 0 auto;
+
+    .order-id {
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: #eeeeee;
+      height: 60px;
+      padding-left: 20px;
+      font-size: 28px;
+      line-height: 60px;
+    }
+
+    .goods-introduction-content {
+      height: 170px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      .img {
+        width: 160px;
+        height: 160px;
+        border-radius: 20px;
+        margin-left: 20px;
+      }
+
+      .introduction {
+        padding-left: 20px;
+
+        .title {
+          font-size: 35px;
+          height: 60px;
+          font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .degree-and-count {
+          display: flex;
+          align-items: center;
+
+          .count {
+            padding-left: 280px;
+          }
+        }
+      }
+    }
+  }

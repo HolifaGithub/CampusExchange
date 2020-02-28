@@ -4,6 +4,7 @@ import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { dispatchFetchPageData } from '../../actions/fetchPageData'
 import './index.scss'
+import HeaderTitle from '../../components/component-header-title'
 import IndexHeader from '../../floors/floor-index-header'
 import IndexGrid from '../../floors/floor-index-grid'
 import IndexWaterFall from '../../floors/floor-index-waterfall'
@@ -205,10 +206,12 @@ class Index extends PureComponent {
           }
         }).then(res => {
           if (res.statusCode === 200 && res.data.status === 'success') {
-            this.setState((prevState: PageState) => {
-              // console.log('prevState',prevState)
-              return { waterFallDatas: prevState.waterFallDatas.concat([res.data.returnDatas]) }
-            })
+            if(res.data.returnDatas.length>0){
+              this.setState((prevState: PageState) => {
+                // console.log('prevState',prevState)     
+                return { waterFallDatas: [res.data.returnDatas] }
+              })
+            }
           } else {
             console.log('获取瀑布流数据失败！')
           }
@@ -302,7 +305,8 @@ class Index extends PureComponent {
       >
         <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
-        {this.state.waterFallDatas.length>0?(<IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>):null}
+        <HeaderTitle></HeaderTitle>
+        {this.state.waterFallDatas.length>0?(<IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>):<View className='no-data'>暂无推荐!</View>}
         {this.state.loadMore ? <View className='loading'>
           <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
         </View> : null}
