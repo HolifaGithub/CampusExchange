@@ -3,7 +3,7 @@ import { ComponentClass } from 'react'
 import { connect } from '@tarojs/redux'
 import promiseApi from '../../utils/promiseApi'
 import './index.scss'
-import { View,Image } from '@tarojs/components'
+import { View, Image } from '@tarojs/components'
 import Tag from '../component-tag'
 
 // #region 书写注意
@@ -24,9 +24,18 @@ type PageDispatchProps = {
 
 }
 
-
+interface OrderListReturnDatas {
+    orderId: string;
+    nameInput: string;
+    newAndOldDegree: string;
+    topPicSrc: string;
+    typeOne: string;
+    typeTwo: string;
+    typeThree: string;
+    goodsNumber: string;
+}
 type PageOwnProps = {
-
+    datas: OrderListReturnDatas[]
 }
 
 type PageState = {
@@ -57,19 +66,22 @@ class OrderStatusContent extends PureComponent {
         super(props)
     }
     state = {
-        value: '',
-    }
-    onActionClick() {
-        promiseApi(Taro.navigateTo)({
-            url: `/pages/search/search?value=${this.state.value}`
-        })
-    }
-    onChange(val) {
-        this.setState({ value: val })
-    }
 
-
-
+    }
+    defaultProps = {
+        datas: [
+            {
+                orderId: '',
+                nameInput: '',
+                newAndOldDegree: '',
+                topPicSrc: '',
+                typeOne: '',
+                typeTwo: '',
+                typeThree: '',
+                goodsNumber: '',
+            }
+        ]
+    }
     componentWillUnmount() { }
 
     componentDidShow() {
@@ -77,25 +89,33 @@ class OrderStatusContent extends PureComponent {
     }
 
     componentDidHide() { }
-
+    onClick(orderId){
+        promiseApi(Taro.navigateTo)({
+            url:`/pages/goods-info/goods-info?orderId=${orderId}`
+        })
+    }
     render() {
         return (
             <View>
-                <View className='goods-introduction'>
-                    <View className='order-id'>
-                        订单编号：3243240324343294
-                    </View>
-                    <View className='goods-introduction-content'>
-                        <Image src={'https://www.xiaoyuanhuan.xyz:3002/img/banner1.png'} className='img'></Image>
-                        <View className='introduction'>
-                            <View className='title'>dwqldlwq</View>
-                            <View className='degree-and-count'>
-                                <Tag title={95 + '新'} fontSize={'12px'} />
-                                <View className='count'>X {1}</View>
+                {this.props.datas ? (this.props.datas.map((data, index) => {
+                    return (
+                        <View className='goods-introduction' key={new Date().toString() + index} onClick={()=>{this.onClick(data.orderId)}}>
+                            <View className='order-id'>
+                                订单编号：{data.orderId}
+                        </View>
+                            <View className='goods-introduction-content'>
+                                <Image src={data.topPicSrc.length>0?data.topPicSrc:'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'} className='img'></Image>
+                                <View className='introduction'>
+                                    <View className='title'>{data.nameInput}</View>
+                                    <View className='degree-and-count'>
+                                        <Tag title={data.newAndOldDegree + '新'} fontSize={'12px'} />
+                                        <View className='count'>X {data.goodsNumber}</View>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                </View>
+                    )
+                })) : null}
 
             </View>
         )

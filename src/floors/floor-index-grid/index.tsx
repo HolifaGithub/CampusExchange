@@ -16,7 +16,7 @@ function IndexGrid() {
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/phone.png',
             value: '手机',
-            bgColor:'#ED838F'
+            bgColor:'#EAA432'
         },
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/computer.png',
@@ -41,7 +41,7 @@ function IndexGrid() {
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/meizhuang.png',
             value: '美妆',
-            bgColor:'#EAA432'
+            bgColor:'#ED838F'
         },
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/study.png',

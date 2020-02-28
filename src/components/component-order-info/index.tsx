@@ -6,6 +6,8 @@ import promiseApi from '../../utils/promiseApi'
 import { server, port,protocol } from '../../static-name/server'
 import { CDNWebSite } from '../../static-name/web-site'
 import Skeleton from 'taro-skeleton'
+import orderStatusObject from '../../static-name/order-status'
+import orderInfoObject from '../../static-name/oredr-info-name'
 import { AtBadge } from 'taro-ui'
 import './index.scss'
 // function OrderInfo(props) {
@@ -144,6 +146,11 @@ class OrderInfo extends Component {
       }
     })
   }
+  onClick(orderStatus,orderInfo){
+    promiseApi(Taro.navigateTo({
+        url:`/pages/order-status/order-status?orderStatus=${orderStatus}&orderInfo=${orderInfo}`
+    }))
+  }
   componentWillUnmount() { }
 
   componentDidShow() {
@@ -166,26 +173,26 @@ class OrderInfo extends Component {
         <View className='order-info-container'>
           <View className='order-info-header-title'>我的交易</View>
           <View className='order-info-content'>
-            <View className='order-info-one'>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.released,orderInfoObject.released)}}>
               {isLogin ? <AtBadge value={this.state.orderInfo.released}>
                 <Image src={`${CDNWebSite}/icon/user-info/release.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/release.png`} className='icon'></Image>}
               <Text>我发布的</Text>
             </View>
-            <View className='order-info-one'>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.trading,orderInfoObject.trading)}}>
               {isLogin ? <AtBadge value={this.state.orderInfo.trading}>
                 <Image src={`${CDNWebSite}/icon/user-info/transaction.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/transaction.png`} className='icon'></Image>
               }
               <Text>交易中的</Text>
             </View>
-            <View className='order-info-one'>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.completed,orderInfoObject.bougth)}}>
               {isLogin ? <AtBadge value={this.state.orderInfo.bougth}>
                 <Image src={`${CDNWebSite}/icon/user-info/buy.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/buy.png`} className='icon'></Image>}
               <Text>我买到的</Text>
             </View>
-            <View className='order-info-one'>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.completed,orderInfoObject.saled)}}>
               {isLogin ? <AtBadge value={this.state.orderInfo.saled}>
                 <Image src={`${CDNWebSite}/icon/user-info/sale.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/sale.png`} className='icon'></Image>}

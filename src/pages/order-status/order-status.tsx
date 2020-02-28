@@ -3,7 +3,11 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import OrderStatusContent from '../../components/component-order-status-content'
+import { server, port, protocol } from '../../static-name/server'
+import {  AtActivityIndicator, AtDivider } from "taro-ui"
+import NotFound from '../../components/componnent-not-found'
 import './order-status.scss'
+import promiseApi from '../../utils/promiseApi'
 
 // #region 书写注意
 //
@@ -22,10 +26,27 @@ type PageStateProps = {
 type PageDispatchProps = {
 
 }
+interface OrderListReturnDatas{
+  orderId:string;
+  nameInput:string;
+  newAndOldDegree:string;
+  topPicSrc:string;
+  typeOne:string;
+  typeTwo:string;
+  typeThree:string;
+  goodsNumber:string;
+}
 
 type PageOwnProps = {}
 
-type PageState = {}
+type PageState = {
+  loadMore: boolean;
+  page: number;
+  hasMore:  boolean;
+  orderListDatas: OrderListReturnDatas[];
+  orderStatus:string;
+  orderInfo:string;
+}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
@@ -33,39 +54,134 @@ interface OrderStatus {
   props: IProps;
 }
 
-@connect(({  }) => ({
-  
+@connect(({ }) => ({
+
 }), (dispatch) => ({
 
 }))
 class OrderStatus extends Component {
 
-    /**
-   * 指定config的类型声明为: Taro.Config
-   *
-   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-   */
-    config: Config = {
+  /**
+ * 指定config的类型声明为: Taro.Config
+ *
+ * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
+ * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
+ * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
+ */
+  config: Config = {
     navigationBarTitleText: '订单状态页',
-    navigationBarBackgroundColor:"#eee"
+    navigationBarBackgroundColor: "#eee"
   }
-
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+  state = {
+    loadMore: false,
+    page: 1,
+    hasMore: true,
+    orderListDatas: [],
+    orderStatus:'',
+    orderInfo:''
   }
+  pageSize=7
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(this.props, nextProps)
+  // }
+componentWillMount(){
+  this.$preloadData.then((res)=>{
+    if (res.statusCode === 200 && res.data.status === 'success') {
+      if (res.data.returnDatas.length===this.pageSize) {
+        this.setState({ 
+          orderListDatas: res.data.returnDatas ,
+          hasMore:true,
+          orderStatus:res.data.orderStatus,
+          orderInfo:res.data.orderInfo
+        })
+      } else {
+        this.setState({ 
+          hasMore: false,
+          orderStatus:res.data.orderStatus,
+          orderInfo:res.data.orderInfo
+        })
+      }
+    }
+  })
+}
+  componentWillUnmount() { }
 
-  componentWillUnmount () { }
+  componentDidShow() { }
 
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
+  componentDidHide() { }
+  componentWillPreload(params) {
+    if (params.orderStatus && params.orderInfo) {
+      return this.fetchOrderList(params.orderStatus, params.orderInfo)
+    }
+  }
+  fetchOrderList(orderStatus, orderInfo) {
+    return new Promise((resolve, reject) => {
+      promiseApi(Taro.login)().then((loginResult) => {
+        const code = loginResult.code
+        if (code) {
+          promiseApi(Taro.request)({
+            url: `${protocol}://${server}:${port}/orderlist`,
+            method: 'GET',
+            data: {
+              code: code,
+              orderStatus: orderStatus,
+              orderInfo: orderInfo,
+              page: this.state.page
+            }
+          }).then((res) => {
+            resolve(res)
+          })
+        }
+      })
+    })
+  }
+  fetchMore(){
+    promiseApi(Taro.login)().then((loginResult) => {
+      if (loginResult.code) {
+        promiseApi(Taro.request)({
+          url: `${protocol}://${server}:${port}/orderlist`,
+          method: 'GET',
+          data: {
+            code: loginResult.code,
+            orderStatus: this.state.orderStatus,
+            orderInfo: this.state.orderInfo,
+            page: ++this.state.page
+          }
+        }).then(res => {
+          if (res.statusCode === 200 && res.data.status === 'success') {
+            if (res.data.returnDatas.length===this.pageSize) {
+              this.setState((prevState: PageState) => {
+                return {
+                  hasMore:true,
+                  loadMore:false,
+                  orderListDatas: prevState.orderListDatas.concat(res.data.returnDatas)
+                }
+              })
+            } else {
+              this.setState({ 
+                hasMore: false,
+                loadMore:false,
+              })
+            }
+          } 
+        })
+      }
+    })
+  }
+  onReachBottom(){
+    if(this.state.hasMore){
+      this.setState({loadMore:true})
+      this.fetchMore()
+    }
+  }
+  render() {
     return (
-      <View className='order-status'>
-          <OrderStatusContent/>
+      <View className='order-status'>       
+        {this.state.orderListDatas.length>0?(<OrderStatusContent datas={this.state.orderListDatas}/>):(<NotFound/>)}
+        {this.state.loadMore ? <View className='loading'>
+          <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
+        </View> : null}
+        {this.state.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#C41A16' />}
       </View>
     )
   }

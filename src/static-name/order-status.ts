@@ -1,14 +1,14 @@
 interface OrderStatusObject{
         released: string;
-        transaction: string;
+        trading: string;
         completed: string;
 }
 const released='released'
-const transaction = 'transaction'
+const trading = 'trading'
 const completed='completed'
 const orderStatusObject:OrderStatusObject={
     released,
-    transaction,
+    trading,
     completed
 }
 export default orderStatusObject
