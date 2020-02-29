@@ -46,6 +46,7 @@ class App extends Component {
       'pages/trading/trading',
       'pages/search/search',
       'pages/order-status/order-status',
+      'pages/recharge/recharge',
     ],
     window: {
       backgroundTextStyle: 'light',

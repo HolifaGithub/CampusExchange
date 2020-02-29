@@ -2,7 +2,13 @@ import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
 import Skeleton from 'taro-skeleton'
+import promiseApi from '../../utils/promiseApi'
 import './index.scss'
+function onClickRecharge(){
+  promiseApi(Taro.navigateTo)({
+    url:'/pages/recharge/recharge'
+  })
+}
 function GetInfoBars(props) {
   let [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -18,7 +24,7 @@ function GetInfoBars(props) {
       loading={loading}
     >
       <View className='get-info-bars-container'>
-        <View className='get-info-bar-container'>
+        <View className='get-info-bar-container' onClick={onClickRecharge}>
           <Image className='icon' src={`${CDNWebSite}/icon/user-info/recharge.png`}></Image>
           <Text>充值</Text>
           <Image className='icon arrow' src={`${CDNWebSite}/icon/user-info/arrow.png`}>

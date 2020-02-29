@@ -72,6 +72,10 @@ class Balance extends Component {
                     }
                 }).then(res => {
                     if (res.statusCode === 200 && res.data.status === 'success') {
+                        promiseApi(Taro.setStorage)({
+                            key:'balance',
+                            data:res.data.balance
+                        })
                         this.setState({ balance: res.data.balance })
                     }
                 })
