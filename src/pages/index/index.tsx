@@ -206,7 +206,7 @@ class Index extends PureComponent {
           }
         }).then(res => {
           if (res.statusCode === 200 && res.data.status === 'success') {
-            if(res.data.returnDatas.length>0){
+            if (res.data.returnDatas.length > 0) {
               this.setState((prevState: PageState) => {
                 // console.log('prevState',prevState)     
                 return { waterFallDatas: [res.data.returnDatas] }
@@ -298,7 +298,7 @@ class Index extends PureComponent {
   // }
   render() {
     // console.log(this.state.page, this.state.waterFallDatas)
-    const tarBarHeight = (getSystemInfo().tabBarHeight+10) + 'px'
+    const tarBarHeight = (getSystemInfo().tabBarHeight + 10) + 'px'
     return (
       <View
         className='index'
@@ -306,7 +306,7 @@ class Index extends PureComponent {
         <IndexHeader location={this.state.location}></IndexHeader>
         <IndexGrid></IndexGrid>
         <HeaderTitle></HeaderTitle>
-        {this.state.waterFallDatas.length>0?(<IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>):<View className='no-data'>暂无推荐!</View>}
+        <IndexWaterFall datas={this.state.waterFallDatas}></IndexWaterFall>
         {this.state.loadMore ? <View className='loading'>
           <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
         </View> : null}

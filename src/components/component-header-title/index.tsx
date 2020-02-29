@@ -6,10 +6,14 @@ import './index.scss'
 
 function HeaderTitle() {
   let [loading, setLoading] = useState(true)
+  var timer
   useEffect(() => {
-    setTimeout(() => {
+    timer=setTimeout(() => {
       setLoading(false)
     }, 1000)
+    return ()=>{
+      clearTimeout(timer)
+    }
   }, [])
   return (
     <Skeleton

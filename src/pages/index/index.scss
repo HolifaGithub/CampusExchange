@@ -19,12 +19,5 @@ $loading-border-radius:10px;
     .block{
         width: $block-width;
       }
-      .no-data{
-          width: $screen-width;
-          height: 300px;
-          background-color: $loading-background-color;
-          color: #ffffff;
-          text-align: center;
-          padding-top: 80px;
-      }
+
 }

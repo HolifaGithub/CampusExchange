@@ -98,7 +98,8 @@ componentWillMount(){
         this.setState({ 
           hasMore: false,
           orderStatus:res.data.orderStatus,
-          orderInfo:res.data.orderInfo
+          orderInfo:res.data.orderInfo,
+          orderListDatas: res.data.returnDatas 
         })
       }
     }

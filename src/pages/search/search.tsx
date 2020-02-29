@@ -1,6 +1,6 @@
-import { ComponentClass, version } from 'react'
+import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Button, Text, ScrollView } from '@tarojs/components'
+import { ScrollView } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import getSystemInfo from '../../utils/getSystemInfo'
 import promiseApi from '../../utils/promiseApi'

@@ -18,10 +18,14 @@ interface Props {
 
 function GoodsTypeGrids(props: Props) {
     let [loading, setLoading] = useState(true)
+    var timer
     useEffect(() => {
-        setTimeout(() => {
+        timer=setTimeout(() => {
             setLoading(false)
         }, 1000)
+        return ()=>{
+            clearTimeout(timer)
+        }
     }, [])
     return (
         <View>
@@ -52,8 +56,9 @@ function GoodsTypeGrids(props: Props) {
                                     <Skeleton
                                         type='column'
                                         avatar
-                                        avatar-size={50}
+                                        avatar-size={3}
                                         row={1}
+                                        row-width={'50%'}
                                         rowHeight={30}
                                         animate
                                         loading={loading}
@@ -66,7 +71,9 @@ function GoodsTypeGrids(props: Props) {
                                         }}>
                                             <Image
                                                 src={imageSrc}
-                                                className='goods-type-grid-image'>
+                                                className='goods-type-grid-image'
+                                                lazyLoad
+                                            >
                                             </Image>
                                             <Text className='goods-type-grid-name'>{typeThree}</Text>
                                         </View>

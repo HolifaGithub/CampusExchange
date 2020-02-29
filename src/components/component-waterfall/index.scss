@@ -15,6 +15,14 @@ $water-fall-item-nick-name-width:160px;
 $water-fall-content-color:#666666;
 $water-fall-content-font-size:25px;
 $water-fall-item-avater-image-marigin-right:10px;
+.no-data{
+  width: 750px;
+  height: 300px;
+  background-color: #C41A16;
+  color: #ffffff;
+  text-align: center;
+  padding-top: 80px;
+}
 .water-fall-container {
   display: flex;
   flex-direction: row;

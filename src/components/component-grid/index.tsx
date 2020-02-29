@@ -17,10 +17,14 @@ interface Props {
 
 function Grid(props: Props) {
     let [loading, setLoading] = useState(true)
+    var timer
     useEffect(() => {
-        setTimeout(() => {
+        timer=setTimeout(() => {
             setLoading(false)
         }, 1000)
+        return ()=>{
+            clearTimeout(timer)
+        }
     }, [])
     return (
 

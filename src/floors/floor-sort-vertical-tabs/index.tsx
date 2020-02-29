@@ -1,6 +1,7 @@
 import Taro, { useState } from '@tarojs/taro'
 import AtSearchBarComponent from '../../components/component-at-search-bar'
-import { View } from '@tarojs/components'
+import { View, ScrollView } from '@tarojs/components'
+import getSystemInfo from '../../utils/getSystemInfo'
 import { AtTabs, AtTabsPane, AtNoticebar } from 'taro-ui'
 import GoodsTypeGrids from '../../components/component-goods-type-grids'
 import './index.scss'
@@ -23,15 +24,17 @@ interface TabList {
     title: string
 }
 function SortVerticalTabs(props: Props) {
-    const tabHeight = '1450px';
+    // const tabHeight = '1450px';
     const [current, setCurrent] = useState(0)
     const { datas } = props
     const tabList: TabList[] = []
+    let windowHeight
     for (let data of datas) {
-        tabList.push({ title: data.typeOne })
-    }
+            tabList.push({ title: data.typeOne })
+        }
+        windowHeight = (getSystemInfo().windowHeight - getSystemInfo().tabBarHeight) + 'px'
     return (
-        <View className='sort-vertical-tabs-container'>
+        <ScrollView className='sort-vertical-tabs-container' enableFlex scrollY style={{ height: windowHeight }}>
             <AtSearchBarComponent></AtSearchBarComponent>
             <AtNoticebar icon='volume-plus' marquee>
                 注意：分类栏仅展示常见类型或热门机型，如果没有想要的类型，请通过上方搜索栏或点击更多进行分类查找！
@@ -40,25 +43,25 @@ function SortVerticalTabs(props: Props) {
             <AtTabs
                 current={current}
                 scroll
-                height={tabHeight}
+                height={windowHeight}
                 tabDirection='vertical'
                 tabList={tabList}
-                onClick={(current) => { 
-                    setCurrent(current) 
-                    Taro.pageScrollTo({scrollTop:0,duration:1000})
-                    }}>
+                onClick={(current) => {
+                    setCurrent(current)
+                    Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
+                }}>
                 {datas && datas.length > 0 ? datas.map((data, index) => {
                     const { typeOneDatas } = data
                     return (
-                        <AtTabsPane tabDirection='vertical' current={current} index={index} key={new Date().toString()+index}>
+                        <AtTabsPane tabDirection='vertical' current={current} index={index} key={new Date().toString() + index}>
                             <View style='font-size:18px;text-align:start;height:400px;'>
                                 <GoodsTypeGrids datas={typeOneDatas}></GoodsTypeGrids>
                             </View>
                         </AtTabsPane>
                     )
-                }):null}
+                }) : null}
             </AtTabs>
-        </View>
+        </ScrollView>
     )
 }
 SortVerticalTabs.defaultProps = {

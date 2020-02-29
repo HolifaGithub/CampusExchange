@@ -27,10 +27,14 @@ interface Props {
 function Waterfall(props: Props) {
     const { datas } = props;
     let [loading, setLoading] = useState(true)
+    var timer
     useEffect(() => {
-        setTimeout(() => {
+        timer=setTimeout(() => {
             setLoading(false)
         }, 1000)
+        return ()=>{
+            clearTimeout(timer)
+          }
     }, [])
     // console.log('component',props.datas)
     return (
@@ -40,7 +44,7 @@ function Waterfall(props: Props) {
             animate
             loading={loading}
         >
-            <View>
+            {datas&&datas.length>0 ? (<View>
                 {(datas && datas.length > 0) ? datas.map((onePage, index1) => {
                     return (<View key={new Date().toString() + index1} className='water-fall-container'>
                         {
@@ -83,7 +87,7 @@ function Waterfall(props: Props) {
                     </View>)
                 }) : null}
 
-            </View >
+            </View >) : <View className='no-data'>暂无推荐!</View>}
         </Skeleton >
     )
 }

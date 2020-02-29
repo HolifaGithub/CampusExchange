@@ -41,14 +41,14 @@ const goodsTypeGridsDatas = [
             typeThree: '8',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/8.png',
           },
-          {
-            typeThree: '7 plus',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/7plus.png',
-          },
-          {
-            typeThree: '7',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/7.png',
-          },
+          // {
+          //   typeThree: '7 plus',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/7plus.png',
+          // },
+          // {
+          //   typeThree: '7',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/7.png',
+          // },
           // {
           //   typeThree: '6s plus',
           //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/iphone/6splus.png',
@@ -90,10 +90,10 @@ const goodsTypeGridsDatas = [
             typeThree: 'k30',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/k30.png',
           },
-          {
-            typeThree: '小米8 se',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mi8%20se.png',
-          },
+          // {
+          //   typeThree: '小米8 se',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mi8%20se.png',
+          // },
           {
             typeThree: '小米8',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mi8.png',
@@ -102,10 +102,10 @@ const goodsTypeGridsDatas = [
             typeThree: '小米9',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mi9.png',
           },
-          {
-            typeThree: '小米9 se',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mi9se.png',
-          },
+          // {
+          //   typeThree: '小米9 se',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mi9se.png',
+          // },
           {
             typeThree: 'mix 2s',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/xiaomi/mix2s.png',
@@ -176,14 +176,14 @@ const goodsTypeGridsDatas = [
             typeThree: 'Find x',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/find%20x.png',
           },
-          {
-            typeThree: 'oppo ace',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/oppo%20ace.png',
-          },
-          {
-            typeThree: '	oppo k5',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/oppo%20k5.png',
-          }
+          // {
+          //   typeThree: 'oppo ace',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/oppo%20ace.png',
+          // },
+          // {
+          //   typeThree: '	oppo k5',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/oppo/oppo%20k5.png',
+          // }
         ]
       },
       {
@@ -202,10 +202,11 @@ const goodsTypeGridsDatas = [
             typeThree: 'iqoo',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/iqoo.png',
 
-          }, {
-            typeThree: 'nex',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/nex.png',
-          },
+          }, 
+          // {
+          //   typeThree: 'nex',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/nex.png',
+          // },
           {
             typeThree: 'nex2',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/nex2%20double.png',
@@ -218,10 +219,10 @@ const goodsTypeGridsDatas = [
             typeThree: 'x27 pro',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x27%20pro.png',
           },
-          {
-            typeThree: 'x27',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x27.png',
-          },
+          // {
+          //   typeThree: 'x27',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x27.png',
+          // },
           {
             typeThree: 'x30 pro',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/vivo/x30%20pro.png',
@@ -244,10 +245,11 @@ const goodsTypeGridsDatas = [
             typeThree: '16th',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu%2016th.png',
           },
-          {
-            typeThree: 'x8',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu%20x8.png',
-          }, {
+          // {
+          //   typeThree: 'x8',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu%20x8.png',
+          // },
+           {
             typeThree: '16 xs',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16%20xs.png',
           },
@@ -263,10 +265,10 @@ const goodsTypeGridsDatas = [
             typeThree: '16th plus',
             imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16th%20plus.png',
           },
-          {
-            typeThree: '16x',
-            imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16x.png',
-          }
+          // {
+          //   typeThree: '16x',
+          //   imageSrc: 'https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-type-grids/phone/meizu/meizu16x.png',
+          // }
         ]
       }
     ]
