@@ -3,11 +3,11 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import OrderStatusContent from '../../components/component-order-status-content'
-import { server, port, protocol } from '../../static-name/server'
+import { server, port, protocol } from '../../../static-name/server'
 import {  AtActivityIndicator, AtDivider } from "taro-ui"
-import NotFound from '../../components/componnent-not-found'
+import NotFound from '../../../components/componnent-not-found'
 import './order-status.scss'
-import promiseApi from '../../utils/promiseApi'
+import promiseApi from '../../../utils/promiseApi'
 
 // #region 书写注意
 //
@@ -78,43 +78,66 @@ class OrderStatus extends Component {
     hasMore: true,
     orderListDatas: [],
     orderStatus:'',
-    orderInfo:''
+    orderInfo:'',
   }
   pageSize=7
   // componentWillReceiveProps(nextProps) {
   //   console.log(this.props, nextProps)
   // }
 componentWillMount(){
-  this.$preloadData.then((res)=>{
-    if (res.statusCode === 200 && res.data.status === 'success') {
-      if (res.data.returnDatas.length===this.pageSize) {
-        this.setState({ 
-          orderListDatas: res.data.returnDatas ,
-          hasMore:true,
-          orderStatus:res.data.orderStatus,
-          orderInfo:res.data.orderInfo
-        })
-      } else {
-        this.setState({ 
-          hasMore: false,
-          orderStatus:res.data.orderStatus,
-          orderInfo:res.data.orderInfo,
-          orderListDatas: res.data.returnDatas 
-        })
+  const orderStatus=this.$router.preload!.orderStatus
+  const orderInfo = this.$router.preload!.orderInfo
+  this.fetchOrderList(orderStatus,orderInfo).then((res:any)=>{
+          if (res.statusCode === 200 && res.data.status === 'success') {
+        if (res.data.returnDatas.length===this.pageSize) {
+          this.setState({ 
+            orderListDatas: res.data.returnDatas ,
+            hasMore:true,
+            orderStatus:res.data.orderStatus,
+            orderInfo:res.data.orderInfo
+          })
+        } else {
+          this.setState({ 
+            hasMore: false,
+            orderStatus:res.data.orderStatus,
+            orderInfo:res.data.orderInfo,
+            orderListDatas: res.data.returnDatas 
+          })
+        }
       }
-    }
   })
+  // if(this.$preloadData){
+  //   this.$preloadData.then((res)=>{
+  //     if (res.statusCode === 200 && res.data.status === 'success') {
+  //       if (res.data.returnDatas.length===this.pageSize) {
+  //         this.setState({ 
+  //           orderListDatas: res.data.returnDatas ,
+  //           hasMore:true,
+  //           orderStatus:res.data.orderStatus,
+  //           orderInfo:res.data.orderInfo
+  //         })
+  //       } else {
+  //         this.setState({ 
+  //           hasMore: false,
+  //           orderStatus:res.data.orderStatus,
+  //           orderInfo:res.data.orderInfo,
+  //           orderListDatas: res.data.returnDatas 
+  //         })
+  //       }
+  //     }
+  //   })
+  // }
 }
   componentWillUnmount() { }
 
   componentDidShow() { }
 
   componentDidHide() { }
-  componentWillPreload(params) {
-    if (params.orderStatus && params.orderInfo) {
-      return this.fetchOrderList(params.orderStatus, params.orderInfo)
-    }
-  }
+  // componentWillPreload(params) {
+  //   if (params.orderStatus && params.orderInfo) {
+  //     return this.fetchOrderList(params.orderStatus, params.orderInfo)
+  //   }
+  // }
   fetchOrderList(orderStatus, orderInfo) {
     return new Promise((resolve, reject) => {
       promiseApi(Taro.login)().then((loginResult) => {

@@ -1,6 +1,6 @@
 import Taro, { useState, useEffect, useReducer } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import { CDNWebSite } from '../../static-name/web-site'
+import { CDNWebSite } from '../../../static-name/web-site'
 import { AtAvatar } from 'taro-ui'
 import Skeleton from 'taro-skeleton'
 import './index.scss'

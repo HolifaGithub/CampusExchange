@@ -147,8 +147,12 @@ class OrderInfo extends Component {
     })
   }
   onClick(orderStatus,orderInfo){
+    this.$preload({
+      orderStatus:orderStatus,
+      orderInfo:orderInfo
+    })
     promiseApi(Taro.navigateTo({
-        url:`/pages/order-status/order-status?orderStatus=${orderStatus}&orderInfo=${orderInfo}`
+        url:`/packageA/pages/order-status/order-status`
     }))
   }
   componentWillUnmount() { }

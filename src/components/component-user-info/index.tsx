@@ -102,7 +102,8 @@ class UserInfo extends Component {
             <View onClick={() => {
               promiseApi(Taro.login)().then((loginResult) => {
                 if (loginResult.code) {
-                  promiseApi(Taro.navigateTo)({ url: `/pages/show_user_info/show_user_info?code=${loginResult.code}` })
+                  this.$preload('code',loginResult.code)
+                  promiseApi(Taro.navigateTo)({ url: `/packageA/pages/show_user_info/show_user_info` })
                 }
               })
             }}>
@@ -167,7 +168,7 @@ class UserInfo extends Component {
               onConfirm={() => {
                 this.setState({ isNewUser: false })
                 Taro.navigateTo({
-                  url: '/pages/register/register'
+                  url: '/packageA/pages/register/register'
                 })
               }}
               content='Hello！新用户，欢迎来到校园换，现在需要填写一些关于您的详细信息，谢谢您的配合！'

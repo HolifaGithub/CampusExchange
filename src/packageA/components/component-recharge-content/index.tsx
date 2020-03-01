@@ -1,10 +1,10 @@
 import Taro, { Component } from '@tarojs/taro'
 import { ComponentClass } from 'react'
 import { View, Button, Image } from '@tarojs/components'
-import { CDNWebSite } from '../../static-name/web-site'
-import { server, port, protocol } from '../../static-name/server'
+import { CDNWebSite } from '../../../static-name/web-site'
+import { server, port, protocol } from '../../../static-name/server'
 import { AtCard,AtInput,AtToast  } from "taro-ui"
-import promiseApi from '../../utils/promiseApi'
+import promiseApi from '../../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 

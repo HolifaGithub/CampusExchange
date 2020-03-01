@@ -38,16 +38,30 @@ class App extends Component {
       'pages/release-goods/release-goods',
       'pages/chat/chat',
       'pages/person/person',
-      'pages/not-found/not-found',
-      'pages/register/register',
-      'pages/goods-info/goods-info',
-      'pages/show_user_info/show_user_info',
       'pages/confirm-order/confirm-order',
       'pages/trading/trading',
       'pages/search/search',
-      'pages/order-status/order-status',
-      'pages/recharge/recharge',
+      'pages/not-found/not-found',
+      'pages/goods-info/goods-info'
     ],
+    subPackages:[
+      {
+        root:'packageA',
+        name:'packageA',
+        pages:[
+          'pages/order-status/order-status',
+          'pages/recharge/recharge',
+          'pages/register/register',
+          'pages/show_user_info/show_user_info',
+        ]
+      }
+    ],
+    preloadRule:{
+      'pages/person/person':{
+        network:'all',
+        packages:['packageA']
+      }
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',

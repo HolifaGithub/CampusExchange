@@ -6,7 +6,7 @@ import promiseApi from '../../utils/promiseApi'
 import './index.scss'
 function onClickRecharge(){
   promiseApi(Taro.navigateTo)({
-    url:'/pages/recharge/recharge'
+    url:'/packageA/pages/recharge/recharge'
   })
 }
 function GetInfoBars(props) {

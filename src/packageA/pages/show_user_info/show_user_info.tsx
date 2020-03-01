@@ -2,8 +2,8 @@ import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import ShowUserInfoContainer from '../../floors/floor-show-user-info'
-import { server, port,protocol } from '../../static-name/server'
-import promiseApi from '../../utils/promiseApi'
+import { server, port, protocol } from '../../../static-name/server'
+import promiseApi from '../../../utils/promiseApi'
 import { connect } from '@tarojs/redux'
 import './show_user_info.scss'
 
@@ -53,29 +53,35 @@ class ShowUserInfo extends Component {
  * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
  * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
  */
-constructor(props) {
-  super(props)
-  this.state = {
-    data: {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: {}
+    }
   }
-}
 
   config: Config = {
     navigationBarTitleText: '用户信息详情页'
   }
   componentWillMount() {
-    this.$preloadData
-      .then(res => {
-        this.setState({...res})
-        
-      })
+    // if (this.$preloadData) {
+    //   this.$preloadData
+    //     .then(res => {
+    //       this.setState({ ...res })
+
+    //     })
+    // }
+    const params=this.$router.preload!
+    this.fetchData(params).then((res:any) => {
+            this.setState({...res})
+          })
   }
-  componentWillPreload(params) {
-    return this.fetchData(params)
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps)
-  }
+  // componentWillPreload(params) {
+  //   return this.fetchData(params)
+  // }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log(this.props, nextProps)
+  // }
 
   fetchData(params) {
     return new Promise((resolve, reject) => {

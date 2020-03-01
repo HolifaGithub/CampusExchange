@@ -1,10 +1,10 @@
 import Taro, { PureComponent } from '@tarojs/taro'
 import { ComponentClass } from 'react'
 import { connect } from '@tarojs/redux'
-import promiseApi from '../../utils/promiseApi'
+import promiseApi from '../../../utils/promiseApi'
 import './index.scss'
 import { View, Image } from '@tarojs/components'
-import Tag from '../component-tag'
+import Tag from '../../../components/component-tag'
 
 // #region 书写注意
 //

@@ -1,7 +1,7 @@
 import { ComponentClass } from 'react'
 import Taro, { PureComponent, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { server, port,protocol } from '../../static-name/server'
+import { server, port, protocol } from '../../static-name/server'
 import formatDate from '../../utils/formatDate'
 import promiseApi from '../../utils/promiseApi'
 import { connect } from '@tarojs/redux'
@@ -60,10 +60,12 @@ class GoodsInfo extends PureComponent {
     enablePullDownRefresh: false,
   }
   componentWillMount() {
-    this.$preloadData
-      .then(res => {
-        this.setState({ ...res })
-      })
+    if (this.$preloadData) {
+      this.$preloadData
+        .then(res => {
+          this.setState({ ...res })
+        })
+    }
   }
   componentWillPreload(params) {
     return this.fetchData(params.orderId)
@@ -101,11 +103,12 @@ class GoodsInfo extends PureComponent {
               fetchDataResult = { ...res.data, picsLocation: pics, orderTime: date }
               resolve(fetchDataResult)
             }
-            if(res.statusCode === 400){
-              promiseApi(Taro.showToast)({ 
-              title: '获取当前商品详情信息失败！',
-              icon: 'none',
-              duration: 1000})
+            if (res.statusCode === 400) {
+              promiseApi(Taro.showToast)({
+                title: '获取当前商品详情信息失败！',
+                icon: 'none',
+                duration: 1000
+              })
             }
           })
         }

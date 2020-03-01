@@ -1,8 +1,8 @@
 import Taro, { useReducer } from '@tarojs/taro'
 import { View, Text, Image, OpenData, Picker } from '@tarojs/components'
 import { AtNoticebar, AtInput, AtForm, AtButton, AtToast } from 'taro-ui'
-import { CDNWebSite } from '../../static-name/web-site'
-import { server, port,protocol } from '../../static-name/server'
+import { CDNWebSite } from '../../../static-name/web-site'
+import { server, port,protocol } from '../../../static-name/server'
 import './index.scss'
 
 interface InitState {
