@@ -45,7 +45,9 @@ function Grid(props: Props) {
                                     Taro.navigateTo({
                                         url:`/pages/search/search?value=${item.value}`
                                     })
-                                }}>
+                                }}
+                                hoverClass='hover'
+                                >
                                     <View className='image-container' style={{backgroundColor:item.bgColor}}>
                                         <Image src={item.image} className='grid-image'></Image>
                                     </View>

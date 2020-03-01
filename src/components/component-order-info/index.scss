@@ -19,6 +19,9 @@ $icon-margin-bottom:20px;
     border-radius: $border-radius;
     position: relative;
     top: $top;
+    .hover{
+        transform: scale(0.90);
+    }
     .order-info-header-title{
         color: $base-color;
         font-size: $header-title-font-size;

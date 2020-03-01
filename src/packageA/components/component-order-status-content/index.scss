@@ -4,9 +4,6 @@
     width: 720px;
     margin: 0 auto;
     margin-bottom: 20px;
-    border-width: 1px;
-    border-color: #C41A16;
-    border-style: solid;
     .order-id {
       border-bottom-width: 1px;
       border-bottom-style: solid;
@@ -23,7 +20,10 @@
       display: flex;
       justify-content: space-around;
       align-items: center;
-
+      .sort{
+        font-size: 22px;
+        color: #666;
+      }
       .img {
         width: 160px;
         height: 160px;
@@ -31,11 +31,11 @@
       }
 
       .introduction {
-        padding-left: 20px;
-
+        width: 400px;
         .title {
           font-size: 30px;
-          height: 60px;
+          height: 40px;
+          line-height: 40px;
           font-weight: 600;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -44,9 +44,10 @@
         .degree-and-count {
           display: flex;
           align-items: center;
-
+          margin-top: 15px;
           .count {
-            padding-left: 280px;
+            font-size: 22px;
+            padding-left: 180px;
           }
         }
       }

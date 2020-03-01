@@ -15,6 +15,9 @@ $login-and-register-left:-130px;
 .user-info-container{
     height: $user-info-container-height;
     background-color: $user-info-container-background-color;
+    .hover{
+        transform: scale(0.9);
+    }
     .user-info-functional{
         display: flex;
         padding-left:$user-info-container-padding-left;

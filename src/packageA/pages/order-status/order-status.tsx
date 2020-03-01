@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import OrderStatusContent from '../../components/component-order-status-content'
 import { server, port, protocol } from '../../../static-name/server'
-import {  AtActivityIndicator, AtDivider } from "taro-ui"
+import { AtActivityIndicator, AtDivider } from "taro-ui"
 import NotFound from '../../../components/componnent-not-found'
 import './order-status.scss'
 import promiseApi from '../../../utils/promiseApi'
@@ -26,15 +26,15 @@ type PageStateProps = {
 type PageDispatchProps = {
 
 }
-interface OrderListReturnDatas{
-  orderId:string;
-  nameInput:string;
-  newAndOldDegree:string;
-  topPicSrc:string;
-  typeOne:string;
-  typeTwo:string;
-  typeThree:string;
-  goodsNumber:string;
+interface OrderListReturnDatas {
+  orderId: string;
+  nameInput: string;
+  newAndOldDegree: string;
+  topPicSrc: string;
+  typeOne: string;
+  typeTwo: string;
+  typeThree: string;
+  goodsNumber: string;
 }
 
 type PageOwnProps = {}
@@ -42,10 +42,10 @@ type PageOwnProps = {}
 type PageState = {
   loadMore: boolean;
   page: number;
-  hasMore:  boolean;
+  hasMore: boolean;
   orderListDatas: OrderListReturnDatas[];
-  orderStatus:string;
-  orderInfo:string;
+  orderStatus: string;
+  orderInfo: string;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -77,57 +77,57 @@ class OrderStatus extends Component {
     page: 1,
     hasMore: true,
     orderListDatas: [],
-    orderStatus:'',
-    orderInfo:'',
+    orderStatus: '',
+    orderInfo: '',
   }
-  pageSize=7
+  pageSize = 7
   // componentWillReceiveProps(nextProps) {
   //   console.log(this.props, nextProps)
   // }
-componentWillMount(){
-  const orderStatus=this.$router.preload!.orderStatus
-  const orderInfo = this.$router.preload!.orderInfo
-  this.fetchOrderList(orderStatus,orderInfo).then((res:any)=>{
-          if (res.statusCode === 200 && res.data.status === 'success') {
-        if (res.data.returnDatas.length===this.pageSize) {
-          this.setState({ 
-            orderListDatas: res.data.returnDatas ,
-            hasMore:true,
-            orderStatus:res.data.orderStatus,
-            orderInfo:res.data.orderInfo
+  componentWillMount() {
+    const orderStatus = this.$router.preload!.orderStatus
+    const orderInfo = this.$router.preload!.orderInfo
+    this.fetchOrderList(orderStatus, orderInfo).then((res: any) => {
+      if (res.statusCode === 200 && res.data.status === 'success') {
+        if (res.data.returnDatas.length === this.pageSize) {
+          this.setState({
+            orderListDatas: res.data.returnDatas,
+            hasMore: true,
+            orderStatus: res.data.orderStatus,
+            orderInfo: res.data.orderInfo
           })
         } else {
-          this.setState({ 
+          this.setState({
             hasMore: false,
-            orderStatus:res.data.orderStatus,
-            orderInfo:res.data.orderInfo,
-            orderListDatas: res.data.returnDatas 
+            orderStatus: res.data.orderStatus,
+            orderInfo: res.data.orderInfo,
+            orderListDatas: res.data.returnDatas
           })
         }
       }
-  })
-  // if(this.$preloadData){
-  //   this.$preloadData.then((res)=>{
-  //     if (res.statusCode === 200 && res.data.status === 'success') {
-  //       if (res.data.returnDatas.length===this.pageSize) {
-  //         this.setState({ 
-  //           orderListDatas: res.data.returnDatas ,
-  //           hasMore:true,
-  //           orderStatus:res.data.orderStatus,
-  //           orderInfo:res.data.orderInfo
-  //         })
-  //       } else {
-  //         this.setState({ 
-  //           hasMore: false,
-  //           orderStatus:res.data.orderStatus,
-  //           orderInfo:res.data.orderInfo,
-  //           orderListDatas: res.data.returnDatas 
-  //         })
-  //       }
-  //     }
-  //   })
-  // }
-}
+    })
+    // if(this.$preloadData){
+    //   this.$preloadData.then((res)=>{
+    //     if (res.statusCode === 200 && res.data.status === 'success') {
+    //       if (res.data.returnDatas.length===this.pageSize) {
+    //         this.setState({ 
+    //           orderListDatas: res.data.returnDatas ,
+    //           hasMore:true,
+    //           orderStatus:res.data.orderStatus,
+    //           orderInfo:res.data.orderInfo
+    //         })
+    //       } else {
+    //         this.setState({ 
+    //           hasMore: false,
+    //           orderStatus:res.data.orderStatus,
+    //           orderInfo:res.data.orderInfo,
+    //           orderListDatas: res.data.returnDatas 
+    //         })
+    //       }
+    //     }
+    //   })
+    // }
+  }
   componentWillUnmount() { }
 
   componentDidShow() { }
@@ -159,7 +159,7 @@ componentWillMount(){
       })
     })
   }
-  fetchMore(){
+  fetchMore() {
     promiseApi(Taro.login)().then((loginResult) => {
       if (loginResult.code) {
         promiseApi(Taro.request)({
@@ -173,35 +173,35 @@ componentWillMount(){
           }
         }).then(res => {
           if (res.statusCode === 200 && res.data.status === 'success') {
-            if (res.data.returnDatas.length===this.pageSize) {
+            if (res.data.returnDatas.length === this.pageSize) {
               this.setState((prevState: PageState) => {
                 return {
-                  hasMore:true,
-                  loadMore:false,
+                  hasMore: true,
+                  loadMore: false,
                   orderListDatas: prevState.orderListDatas.concat(res.data.returnDatas)
                 }
               })
             } else {
-              this.setState({ 
+              this.setState({
                 hasMore: false,
-                loadMore:false,
+                loadMore: false,
               })
             }
-          } 
+          }
         })
       }
     })
   }
-  onReachBottom(){
-    if(this.state.hasMore){
-      this.setState({loadMore:true})
+  onReachBottom() {
+    if (this.state.hasMore) {
+      this.setState({ loadMore: true })
       this.fetchMore()
     }
   }
   render() {
     return (
-      <View className='order-status'>       
-        {this.state.orderListDatas.length>0?(<OrderStatusContent datas={this.state.orderListDatas}/>):(<NotFound/>)}
+      <View className='order-status'>
+        {this.state.orderListDatas.length > 0 ? (<OrderStatusContent datas={this.state.orderListDatas} />) : (<NotFound />)}
         {this.state.loadMore ? <View className='loading'>
           <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
         </View> : null}

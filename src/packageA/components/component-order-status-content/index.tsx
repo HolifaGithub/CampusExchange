@@ -89,9 +89,9 @@ class OrderStatusContent extends PureComponent {
     }
 
     componentDidHide() { }
-    onClick(orderId){
+    onClick(orderId) {
         promiseApi(Taro.navigateTo)({
-            url:`/pages/goods-info/goods-info?orderId=${orderId}`
+            url: `/pages/goods-info/goods-info?orderId=${orderId}`
         })
     }
     render() {
@@ -99,17 +99,18 @@ class OrderStatusContent extends PureComponent {
             <View>
                 {this.props.datas ? (this.props.datas.map((data, index) => {
                     return (
-                        <View className='goods-introduction' key={new Date().toString() + index} onClick={()=>{this.onClick(data.orderId)}}>
+                        <View className='goods-introduction' key={new Date().toString() + index} onClick={() => { this.onClick(data.orderId) }}>
                             <View className='order-id'>
                                 订单编号：{data.orderId}
-                        </View>
+                            </View>
                             <View className='goods-introduction-content'>
-                                <Image src={data.topPicSrc.length>0?data.topPicSrc:'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'} className='img'></Image>
+                                <Image src={data.topPicSrc.length > 0 ? data.topPicSrc : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'} className='img'></Image>
                                 <View className='introduction'>
                                     <View className='title'>{data.nameInput}</View>
+                                    <View className='sort'>{data.typeOne}/{data.typeTwo}/{data.typeThree}</View>
                                     <View className='degree-and-count'>
                                         <Tag title={data.newAndOldDegree + '新'} fontSize={'12px'} />
-                                        <View className='count'>X {data.goodsNumber}</View>
+                                        <View className='count'>数量： {data.goodsNumber}</View>
                                     </View>
                                 </View>
                             </View>

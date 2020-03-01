@@ -160,6 +160,7 @@ class UserInfo extends Component {
               }
               }
               className='login-and-register'
+              hoverClass='hover'
             >登录/注册</Button> : null}
             {this.state.isNewUser ? <AtModal
               isOpened

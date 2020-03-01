@@ -177,26 +177,26 @@ class OrderInfo extends Component {
         <View className='order-info-container'>
           <View className='order-info-header-title'>我的交易</View>
           <View className='order-info-content'>
-            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.released,orderInfoObject.released)}}>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.released,orderInfoObject.released)}} hoverClass='hover'>
               {isLogin ? <AtBadge value={this.state.orderInfo.released}>
                 <Image src={`${CDNWebSite}/icon/user-info/release.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/release.png`} className='icon'></Image>}
               <Text>我发布的</Text>
             </View>
-            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.trading,orderInfoObject.trading)}}>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.trading,orderInfoObject.trading)}} hoverClass='hover'>
               {isLogin ? <AtBadge value={this.state.orderInfo.trading}>
                 <Image src={`${CDNWebSite}/icon/user-info/transaction.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/transaction.png`} className='icon'></Image>
               }
               <Text>交易中的</Text>
             </View>
-            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.completed,orderInfoObject.bougth)}}>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.completed,orderInfoObject.bougth)}} hoverClass='hover'>
               {isLogin ? <AtBadge value={this.state.orderInfo.bougth}>
                 <Image src={`${CDNWebSite}/icon/user-info/buy.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/buy.png`} className='icon'></Image>}
               <Text>我买到的</Text>
             </View>
-            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.completed,orderInfoObject.saled)}}>
+            <View className='order-info-one' onClick={()=>{this.onClick(orderStatusObject.completed,orderInfoObject.saled)}} hoverClass='hover'>
               {isLogin ? <AtBadge value={this.state.orderInfo.saled}>
                 <Image src={`${CDNWebSite}/icon/user-info/sale.png`} className='icon'></Image>
               </AtBadge> : <Image src={`${CDNWebSite}/icon/user-info/sale.png`} className='icon'></Image>}

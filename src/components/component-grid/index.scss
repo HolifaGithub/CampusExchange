@@ -6,6 +6,9 @@ $grid-height:165px;
     border-radius: 20px;
     margin-top: 10px;
     background-color: $baseColor;
+    .hover{
+      transform: scale(0.85);
+    }
   .grid {
     text-align: center;
     height: $grid-height;

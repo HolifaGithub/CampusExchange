@@ -53,6 +53,7 @@ class App extends Component {
           'pages/recharge/recharge',
           'pages/register/register',
           'pages/show_user_info/show_user_info',
+          'pages/care-people/care-people'
         ]
       }
     ],
