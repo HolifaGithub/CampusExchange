@@ -1,0 +1,77 @@
+$width:720px;
+$height:1300px;
+$header-height:200px;
+$header-padding:10px;
+$header-font-size:24px;
+$header-middle-width:440px;
+$header-middle-padding-left:20px;
+$header-right-width:190px;
+$header-right-height:120px;
+$header-right-padding-top:62px;
+$care-width:120px;
+$care-icon-width:30px;
+$care-icon-height:$care-icon-width;
+$care-font-size:23px;
+$care-color:#fff;
+$care-margin-left:20px;
+$button-border-radius:80px;
+$text-margin-top:30px;
+$nick-name-font-size:32px;
+$icon-margin:20px;
+$base-color:#C41A16;
+
+.header{
+    width: $width;
+    height: $header-height;
+    margin: 0 auto;
+    padding-top: $header-padding;
+    display: flex;
+    align-items: center;
+    font-size: $header-font-size;
+    .header-middle{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: $header-middle-padding-left;
+        width:$header-middle-width;
+        .nick-name{
+            font-size:$nick-name-font-size;
+            font-weight: bold; 
+            display: flex;
+            .care{
+                width: $care-width;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: $base-color;
+                border-radius: $button-border-radius;
+                font-size: $care-font-size;
+                font-weight: normal;
+                color: $care-color;
+                margin-left: $care-margin-left;
+                .icon{
+                    width: $care-icon-width;
+                    height:$care-icon-height;
+                    margin-right: $icon-margin;
+                }
+                .text{
+                    position: relative;
+                    left: -10px;
+                }
+            }
+        }
+    }
+    .header-right{
+        width: $header-right-width;
+        height: $header-right-height;
+        font-size: $header-font-size;
+        padding-top: $header-right-padding-top;
+        .new-and-old-degree{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+            margin-top: $text-margin-top;
+        }
+    }
+}

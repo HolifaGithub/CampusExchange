@@ -5,7 +5,8 @@ import Tag from '../component-tag'
 import promiseApi from '../../utils/promiseApi'
 import { server, port } from '../../static-name/server'
 import formatDate from '../../utils/formatDate'
-import { AtNavBar, AtAvatar, AtDivider, AtToast } from 'taro-ui'
+import GoodsInfoHeader from '../component-goods-info-header'
+import { AtNavBar, AtDivider, AtToast } from 'taro-ui'
 import './index.scss'
 interface Props {
     data: {};
@@ -57,8 +58,6 @@ const initState: InitState = {
     isCollect: false
 }
 const SET_DATA = 'SET_DATA'
-const CARE = 'CARE'
-const CANCLE_CARE = 'CANCLE_CARE'
 const COLLECT = 'COLLECT'
 const CANCLE_COLLECT = 'CANCLE_COLLECT'
 function reducer(state = initState, action) {
@@ -85,10 +84,6 @@ function reducer(state = initState, action) {
                 avatarUrl: action.data.avatarUrl,
                 school: action.data.school
             })
-        case CARE:
-            return Object.assign({}, state, { isCare: true })
-        case CANCLE_CARE:
-            return Object.assign({}, state, { isCare: false })
         case COLLECT:
             return Object.assign({}, state, { isCollect: true })
         case CANCLE_COLLECT:
@@ -109,41 +104,6 @@ function GooodsInfoContent(props: Props) {
     useEffect(() => {
         setLoading(false)
         dispatch({ type: SET_DATA, data: props.data })
-        // Taro.login({
-        //     success(loginResult) {
-        //         const code = loginResult.code
-        //         if (code) {
-        //             Taro.request({
-        //                 url: `http://${server}:${port}/getgoodsinfo`,
-        //                 method: 'GET',
-        //                 data: {
-        //                     code: code,
-        //                     orderId: orderId
-        //                 },
-        //                 success(res) {
-        //                     if (res.statusCode === 200 && res.data.status === 'success') {
-        //                         let pics = res.data.picsLocation
-        //                         pics = pics.split(";")
-        //                         if (pics[pics.length - 1] === '') {
-        //                             pics.pop()
-        //                         }
-        //                         for (let i = 0; i < pics.length; i++) {
-        //                            if(pics[i]!==''){
-        //                             pics[i] = `https://${pics[i]}`
-        //                            }else{
-        //                                pics.splice(i,1)
-        //                            }                                                      
-        //                         }
-        //                         console.log(pics)
-        //                         const formatResult = formatDate(res.data.orderTime)
-        //                         let date = `${formatResult.year}/${formatResult.month}/${formatResult.day} ${formatResult.hour}:${formatResult.minute}:${formatResult.second}`
-        //                         dispatch({ type: SET_DATA, data: { ...res.data, picsLocation: pics, orderTime: date } })
-        //                     }
-        //                 }
-        //             })
-        //         }
-        //     }
-        // })
     }, [props.data])
     return (
         <Skeleton
@@ -158,39 +118,7 @@ function GooodsInfoContent(props: Props) {
                     title={state.nameInput}
                     border
                 />
-                <View className='header'>
-                    <AtAvatar circle image={state.avatarUrl} size='large'></AtAvatar>
-                    <View className='header-middle'>
-                        <View className='nick-name'>
-                            <View>{state.nickName}</View>
-                            <View className='care'>
-                                <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/goods-info/care.png' className='icon'></Image>
-                                <View className='text' onClick={() => {
-                                    if (state.isCare) {
-                                        dispatch({ type: CANCLE_CARE })
-                                    } else {
-                                        dispatch({ type: CARE })
-                                    }
-                                }}>{state.isCare ? '已关注' : '关注'}</View>
-                                <AtToast isOpened={state.isCare} text='关注成功！' status='success' duration={1000}></AtToast>
-                            </View>
-                        </View>
-                        <View>
-                            <View className='sort'>分 类：{state.typeOne}/{state.typeTwo}/{state.typeThree}</View>
-                            <View className='school'>发布于：{state.school} </View>
-                            <View className="time"> 时 间：{state.orderTime}</View>
-                        </View>
-                    </View>
-                    <View className='header-right'>
-                        <View className="count">
-                            数量：{state.goodsNumber}
-                        </View>
-                        <View className='new-and-old-degree'>
-                            <View>成色：</View>
-                            <Tag title={`${state.newAndOldDegree}新`} />
-                        </View>
-                    </View>
-                </View>
+                <GoodsInfoHeader datas={state}/>
                 <View className='body'>
                     <View className='price'>
                         {state.payForMePrice === 0 ? null : <View className='price-icon'>

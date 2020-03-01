@@ -78,10 +78,12 @@ class ConfirmOrderContent extends Component {
     }
     state = {
         loading: true,
-        isOpened: false
+        isSuccessOpened: false,
+        isFlaseOpened: false
     }
     text = '微信支付'
     isSuccess = true
+    isFalse = false
     static defaultProps = {
         datas: {
             avatarUrl: '',
@@ -111,10 +113,10 @@ class ConfirmOrderContent extends Component {
     componentDidShow() { }
 
     componentDidHide() { }
-    handlePay(orderId,payForMePrice,payForOtherPrice) {
+    handlePay(orderId, payForMePrice, payForOtherPrice) {
         this.text = '微信支付...'
         this.isSuccess = false
-        this.setState({ isOpened: true }, () => {
+        this.setState({ isSuccessOpened: true }, () => {
             promiseApi(Taro.login)().then((loginResult) => {
                 const code = loginResult.code
                 if (code) {
@@ -123,19 +125,19 @@ class ConfirmOrderContent extends Component {
                         method: 'POST',
                         data: {
                             code: code,
-                            orderId:orderId,
-                            payForMePrice:parseFloat(payForMePrice),
-                            payForOtherPrice:parseFloat(payForOtherPrice)
+                            orderId: orderId,
+                            payForMePrice: parseFloat(payForMePrice),
+                            payForOtherPrice: parseFloat(payForOtherPrice)
                         }
                     }).then((res) => {
-                        if(res.statusCode===200&&res.data.status==='success'){
+                        if (res.statusCode === 200 && res.data.status === 'success') {
                             this.text = '支付成功！'
                             this.isSuccess = true
-                            this.setState({ isOpened: true })
-                        }else{
+                            this.setState({ isSuccessOpened: true })
+                        } else {
                             this.text = '支付失败!'
-                            this.isSuccess = true
-                            this.setState({ isOpened: true })
+                            this.isFalse = true
+                            this.setState({ isFlaseOpened: true })
                         }
                     })
                 }
@@ -186,16 +188,17 @@ class ConfirmOrderContent extends Component {
                             {(mode === 'priceDifference' && objectOfPayment === 'payForOther') ? <View className='pay-for-other'>您将要收入：&yen; {payForOtherPrice}</View> : null}
                         </View>
                     </View>
-                    <View className='confirm-button' onClick={() => { this.handlePay(orderId,payForMePrice,payForOtherPrice) }}>
+                    <View className='confirm-button' onClick={() => { this.handlePay(orderId, payForMePrice, payForOtherPrice) }}>
                         确认交易
                     </View>
-                    <AtToast isOpened={this.state.isOpened} text={this.text} image={this.isSuccess ? '' : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/confirm-order/wechat-pay-white.png'} status={this.isSuccess ? 'success' : undefined} duration={1200} hasMask onClose={() => { 
-                        if(this.isSuccess){
+                    <AtToast isOpened={this.state.isSuccessOpened} text={this.text} image={this.isSuccess ? '' : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/confirm-order/wechat-pay-white.png'} status={this.isSuccess ? 'success' : undefined} duration={1200} hasMask onClose={() => {
+                        if (this.isSuccess) {
                             promiseApi(Taro.navigateTo)({
                                 url: `/pages/trading/trading?avatarUrl=${avatarUrl}&orderTime=${orderTime}&typeOne=${typeOne}&typeTwo=${typeTwo}&typeThree=${typeThree}&nameInput=${nameInput}&goodsNumber=${goodsNumber}&newAndOldDegree=${newAndOldDegree}&mode=${mode}&objectOfPayment=${objectOfPayment}&payForMePrice=${payForMePrice}&payForOtherPrice=${payForOtherPrice}&wantExchangeGoods=${wantExchangeGoods}&topPic=${topPic}&nickName=${nickName}&orderId=${orderId}&school=${school}`
-                             })
+                            })
                         }
-                     }}></AtToast>
+                    }}></AtToast>
+                    <AtToast isOpened={this.state.isFlaseOpened} text={this.text} status='error' duration={1200} hasMask ></AtToast>
                 </View>
             </Skeleton >
         )
