@@ -34,7 +34,8 @@ GooodsInfoContainer.defaultProps = {
         picsLocation: '',
         nickName: '',
         avatarUrl: '',
-        school: ''
+        school: '',
+        isCare:false
     }
 }
 export default Taro.memo(GooodsInfoContainer)

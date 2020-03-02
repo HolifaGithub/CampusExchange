@@ -56,7 +56,7 @@ type PageOwnProps = {
 
 type PageState = {
     loading: boolean;
-    isCare: boolean;
+    _isCare:boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -84,7 +84,7 @@ class GoodsInfoHeader extends Component {
     }
     state = {
         loading: true,
-        isCare: false
+        _isCare:false
     }
     static defaultProps = {
         datas: {
@@ -112,9 +112,13 @@ class GoodsInfoHeader extends Component {
         }
     }
     componentDidMount() {
-        this.setState({ loading: false })
+        this.setState({ 
+            loading: false,
+        })
     }
-
+    componentWillReceiveProps(nextProps){
+        this.setState({_isCare:nextProps.datas.isCare})
+    }
     componentDidHide() { }
 
     render() {
@@ -130,16 +134,31 @@ class GoodsInfoHeader extends Component {
                     <View className='header-middle'>
                         <View className='nick-name'>
                             <View>{this.props.datas.nickName}</View>
-                            <View className='care'>
-                                <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/goods-info/care.png' className='icon'></Image>
+                            <View className='care' style={{backgroundColor:this.state._isCare?'#eee':''}} hoverClass='hover'>
+                                <Image src={this.state._isCare?`${CDNWebSite}/icon/goods-info/cared.png`:`${CDNWebSite}/icon/goods-info/care.png`} className='icon'></Image>
                                 <View className='text' onClick={() => {
-                                    if (this.state.isCare) {
-                                        this.setState({ isCare: false })
-                                    } else {
-                                        this.setState({ isCare: true })
-                                    }
-                                }}>{this.state.isCare ? '已关注' : '关注'}</View>
-                                <AtToast isOpened={this.state.isCare} text='关注成功！' status='success' duration={1000}></AtToast>
+                                    promiseApi(Taro.login)().then(loginResult => {
+                                        if (loginResult.code) {
+                                            promiseApi(Taro.request)({
+                                                url: `${protocol}://${server}:${port}/care`,
+                                                method: 'POST',
+                                                data: {
+                                                    code: loginResult.code,
+                                                    orderId:this.props.datas.orderId
+                                                }
+                                            }).then(res => {
+                                                if(res.statusCode===200&&res.data.status==='success'){
+                                                    this.setState((prevState:PageState)=>{
+                                                        return {
+                                                            _isCare:!prevState._isCare
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                }}>{this.state._isCare ? '已关注' : '关注'}</View>
+                                <AtToast isOpened={this.state._isCare} text={'关注成功!'} status='success' duration={1000}></AtToast>
                             </View>
                         </View>
                         <View>

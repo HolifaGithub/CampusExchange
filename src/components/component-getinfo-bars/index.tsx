@@ -15,6 +15,11 @@ function onClickFollowPerson(){
     url:'/packageA/pages/care-people/care-people'
   })
 }
+function onClickCollection(){
+  promiseApi(Taro.navigateTo)({
+    url:'/packageA/pages/collect-goods/collect-goods'
+  })
+}
 function GetInfoBars(props) {
   let [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -42,7 +47,7 @@ function GetInfoBars(props) {
           <Image className='icon arrow' src={`${CDNWebSite}/icon/user-info/arrow.png`}>
           </Image>
         </View>
-        <View className='get-info-bar-container' hoverClass='hover' hoverStayTime={500}>
+        <View className='get-info-bar-container' hoverClass='hover' hoverStayTime={500} onClick={()=>{onClickCollection()}}>
           <Image className='icon' src={`${CDNWebSite}/icon/user-info/collection.png`}></Image>
           <Text>收藏</Text>
           <Image className='icon arrow' src={`${CDNWebSite}/icon/user-info/arrow.png`}>

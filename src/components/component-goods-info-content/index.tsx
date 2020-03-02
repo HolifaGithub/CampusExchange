@@ -4,7 +4,8 @@ import Skeleton from 'taro-skeleton'
 import promiseApi from '../../utils/promiseApi'
 import { server, port } from '../../static-name/server'
 import GoodsInfoHeader from '../component-goods-info-header'
-import { AtNavBar, AtDivider, AtToast } from 'taro-ui'
+import GoodsInfoFooter from '../component-goods-info-footer'
+import { AtNavBar, AtDivider } from 'taro-ui'
 import './index.scss'
 interface Props {
     data: {};
@@ -56,8 +57,6 @@ const initState: InitState = {
     isCollect: false
 }
 const SET_DATA = 'SET_DATA'
-const COLLECT = 'COLLECT'
-const CANCLE_COLLECT = 'CANCLE_COLLECT'
 function reducer(state = initState, action) {
     switch (action.type) {
         case SET_DATA:
@@ -80,12 +79,10 @@ function reducer(state = initState, action) {
                 picsLocation: action.data.picsLocation,
                 nickName: action.data.nickName,
                 avatarUrl: action.data.avatarUrl,
-                school: action.data.school
+                school: action.data.school,
+                isCare:action.data.isCare,
+                isCollect:action.data.isCollect
             })
-        case COLLECT:
-            return Object.assign({}, state, { isCollect: true })
-        case CANCLE_COLLECT:
-            return Object.assign({}, state, { isCollect: false })
         default:
             return state
     }
@@ -93,12 +90,7 @@ function reducer(state = initState, action) {
 function GooodsInfoContent(props: Props) {
     let [loading, setLoading] = useState(true)
     let [state, dispatch] = useReducer(reducer, initState)
-    let top = ''
-    Taro.getSystemInfo({
-        success(res) {
-            top = (res.windowHeight - 75) + 'px'
-        }
-    })
+
     useEffect(() => {
         setLoading(false)
         dispatch({ type: SET_DATA, data: props.data })
@@ -145,26 +137,7 @@ function GooodsInfoContent(props: Props) {
                     }) : <View>此商品无图片详情!</View>
                     }
                 </View>
-                <View className='footer' style={{ top: top }}>
-                    <View onClick={() => {
-                        if (state.isCollect) {
-                            dispatch({ type: CANCLE_COLLECT })
-                        } else {
-                            dispatch({ type: COLLECT })
-                        }
-                    }}>
-                        {state.isCollect ? <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collected.png' className='footer-icon'></Image> : <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collect.png' className='footer-icon'></Image>}
-                        <AtToast isOpened={state.isCollect} text='收藏成功！' status='success' duration={1000}></AtToast>
-                    </View>
-                    <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/chat-blue.png' className='footer-icon'></Image>
-                    <View className='button' onClick={()=>{
-                        let topPic=state.picsLocation.length>0?state.picsLocation[0]:'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'
-                        promiseApi(Taro.navigateTo)({
-                           url: `/pages/confirm-order/confirm-order?avatarUrl=${state.avatarUrl}&orderTime=${state.orderTime}&typeOne=${state.typeOne}&typeTwo=${state.typeTwo}&typeThree=${state.typeThree}&nameInput=${state.nameInput}&goodsNumber=${state.goodsNumber}&newAndOldDegree=${state.newAndOldDegree}&mode=${state.mode}&objectOfPayment=${state.objectOfPayment}&payForMePrice=${state.payForMePrice}&payForOtherPrice=${state.payForOtherPrice}&wantExchangeGoods=${state.wantExchangeGoods}&topPic=${topPic}&nickName=${state.nickName}&orderId=${state.orderId}&school=${state.school}`
-                        })
-                    }}>交易</View>
-                    <View className='blank'></View>
-                </View>
+                <GoodsInfoFooter datas={state}/>
             </View>
         </Skeleton>
     )

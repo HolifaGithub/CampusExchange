@@ -28,6 +28,9 @@ $base-color:#C41A16;
     display: flex;
     align-items: center;
     font-size: $header-font-size;
+    .hover{
+        transform: scale(0.9);
+    }
     .header-middle{
         display: flex;
         flex-direction: column;

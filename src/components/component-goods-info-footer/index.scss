@@ -1,0 +1,42 @@
+$footer-width:750px;
+$footer-background-color:#eee;
+$button-color:#fff;
+$button-width:560px;
+$button-height:100px;
+$button-border-radius:80px;
+$button-margin-left:10px;
+$footer-icon-width:50px;
+$footer-icon-height:$footer-icon-width;
+$blank-width:750px;
+$blank-height:55px;
+$icon-margin:20px;
+$base-color:#C41A16;
+.footer{
+    background-color:$footer-background-color;
+    margin: 0 auto;
+    position:fixed;
+    width: $footer-width;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    .button{
+        background-color: $base-color;
+        color:$button-color ;
+        height: $button-height;
+        width: $button-width;
+        border-radius: $button-border-radius;
+        text-align: center;
+        line-height: $button-height;
+        margin-left: $button-margin-left;
+    }
+    .footer-icon{
+        width: $footer-icon-width;
+        height: $footer-icon-height;
+        margin-left: $icon-margin;
+    }
+    .blank{
+        width: $blank-width;
+        height: $blank-height;
+    }
+}

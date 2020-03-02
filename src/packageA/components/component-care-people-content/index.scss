@@ -8,6 +8,10 @@
     background-color: #fff;
     height: 180px;
     padding-left: 20px;
+    margin-top: 10px;
+    .hover{
+        transform: scale(0.9);
+    }
     .content{
         font-size: 20px;
         margin-left: 20px;
@@ -20,17 +24,18 @@
     .icon{
         width: 35px;
         height: 35px;
+        margin-right: 5px;
     }
     .care{
         width: 130px;
-        height: 55px;
+        height: 59px;
         font-size: 25px;
-        border-radius: 30px;
+        border-radius: 25px;
         border-style: solid;
         border-width: 1px;
         border-color: #C41A16;
         color: #C41A16;
-        line-height: 45px;
+        line-height: 59px;
         text-align: center;
         display: flex;
         justify-content: center;
@@ -38,14 +43,14 @@
     }
     .cared{
         width: 130px;
-        height: 55px;
+        height: 59px;
         font-size: 25px;
-        border-radius: 30px;
+        border-radius: 25px;
         border-style: solid;
         border-width: 1px;
         border-color: #aaaaaa;
         color: #aaaaaa;
-        line-height: 45px;
+        line-height: 59px;
         text-align: center;
         display: flex;
         justify-content: center;

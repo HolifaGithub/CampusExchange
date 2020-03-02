@@ -1,0 +1,94 @@
+.goods-introduction {
+    background-color: #ffffff;
+    border-radius: 20px;
+    width: 720px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    .hover{
+      transform: scale(0.9);
+    }
+    .order-id {
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-bottom-color: #eeeeee;
+      color: #C41A16;
+      height: 60px;
+      padding-left: 20px;
+      font-size: 28px;
+      line-height: 60px;
+    }
+
+    .goods-introduction-content {
+      height: 170px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .sort{
+        font-size: 22px;
+        color: #666;
+      }
+      .img {
+        width: 160px;
+        height: 160px;
+        border-radius: 20px;
+      }
+
+      .introduction {
+        width: 400px;
+        .title {
+          font-size: 30px;
+          height: 40px;
+          line-height: 40px;
+          font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .degree-and-count {
+          display: flex;
+          align-items: center;
+          margin-top: 15px;
+          .count {
+            font-size: 22px;
+            padding-left: 180px;
+          }
+        }
+      }
+    }
+    .icon{
+        width: 35px;
+        height: 35px;
+        margin-right: 5px;
+    }
+    .care{
+        width: 130px;
+        height: 59px;
+        font-size: 25px;
+        border-radius: 25px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #C41A16;
+        color: #C41A16;
+        line-height: 59px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .cared{
+        width: 130px;
+        height: 59px;
+        font-size: 25px;
+        border-radius: 25px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #aaaaaa;
+        color: #aaaaaa;
+        line-height: 59px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+  }

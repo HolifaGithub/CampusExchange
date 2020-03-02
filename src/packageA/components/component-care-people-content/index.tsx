@@ -25,11 +25,21 @@ type PageStateProps = {
 type PageDispatchProps = {
 
 }
-
+interface CareListDatas {
+    nickName: string;
+    avatarUrl: string;
+    collage: string;
+    userClass: string;
+    concernedOrderId:string;
+}
 type PageOwnProps = {
+    data: CareListDatas
 }
 
-type PageState = {}
+type PageState = {
+    loading: boolean;
+    isCare:  boolean;
+}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
@@ -51,6 +61,38 @@ class CarePeopleContent extends Component {
     }
     state = {
         loading: true,
+        isCare: true
+    }
+    static defaultProps = {
+        data: {
+            nickName: '',
+            avatarUrl: '',
+            collage: '',
+            userClass: '',
+            concernedOrderId:''
+        }
+    }
+    onClick(concernedOrderId){
+        promiseApi(Taro.login)().then(loginResult => {
+            if (loginResult.code) {
+                promiseApi(Taro.request)({
+                    url: `${protocol}://${server}:${port}/care`,
+                    method: 'POST',
+                    data: {
+                        code: loginResult.code,
+                        orderId:concernedOrderId
+                    }
+                }).then(res => {
+                    if(res.statusCode===200&&res.data.status==='success'){
+                        this.setState((prevState:PageState)=>{
+                            return {
+                                isCare:!prevState.isCare
+                            }
+                        })
+                    }
+                })
+            }
+        })
     }
     componentDidMount() {
         this.setState({
@@ -58,6 +100,7 @@ class CarePeopleContent extends Component {
         })
     }
     render() {
+        const { nickName, avatarUrl, collage, userClass,concernedOrderId } = this.props.data
         return (
             <Skeleton
                 row={1}
@@ -66,19 +109,21 @@ class CarePeopleContent extends Component {
                 loading={this.state.loading}
             >
                 <View className='care-people-content'>
-                    <AtAvatar circle image='https://www.xiaoyuanhuan.xyz:3002/img/banner1.png' size='large'></AtAvatar>
+                    <AtAvatar circle image={avatarUrl} size='large'></AtAvatar>
                     <View className='content'>
-                        <View className='nick-name'>Holifa</View>
-                        <View>计算机科学与网络工程学院</View>
-                        <View>网络161班</View>
-                    </View> 
-                    {/* <View className='cared'>
-                        <Image src={`${CDNWebSite}/icon/care-people/cared.png`} className='icon'></Image>
-                        <View>已关注</View>
-                    </View> */}
-                    <View className='care'>
-                        <Image src={`${CDNWebSite}/icon/care-people/care.png`} className='icon'></Image>
-                        <View>关注</View>
+                        <View className='nick-name'>{nickName}</View>
+                        <View>{collage}</View>
+                        <View>{userClass}</View>
+                    </View>
+                    <View onClick={()=>{this.onClick(concernedOrderId)}} hoverClass='hover'>
+                        {this.state.isCare ? (<View className='cared'>
+                            <Image src={`${CDNWebSite}/icon/care-people/cared.png`} className='icon'></Image>
+                            <View>已关注</View>
+                        </View>) :
+                            (<View className='care'>
+                                <Image src={`${CDNWebSite}/icon/care-people/care.png`} className='icon'></Image>
+                                <View>关注</View>
+                            </View>)}
                     </View>
                 </View>
             </Skeleton>
