@@ -5,6 +5,7 @@ import { CDNWebSite } from '../../static-name/web-site'
 import { server, port, protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
 import promiseApi from '../../utils/promiseApi'
+import NotFound from '../../components/componnent-not-found'
 import AtSearchBarComponent from '../component-at-search-bar'
 import { AtSearchBar, AtDivider, AtActivityIndicator } from 'taro-ui'
 import WaterFall from '../component-waterfall'
@@ -81,7 +82,7 @@ class SearchContent extends Component {
         loading: true,
         value: '',
     }
-    pageSize=6
+    pageSize = 6
     static defaultProps = {
         datas: [[{
             orderId: '',
@@ -139,13 +140,13 @@ class SearchContent extends Component {
                 loading={this.state.loading}
             >
                 <View className='search-container'>
-                    <AtSearchBarComponent/>
+                    <AtSearchBarComponent />
                     <View className='water-fall'>
-                        <WaterFall datas={this.props.datas} />
+                        {(this.props.datas && this.props.datas.length > 0) ? (<WaterFall datas={this.props.datas} />) : (<NotFound />)}
                         {this.props.loadMore ? <View className='loading'>
                             <AtActivityIndicator content='加载中...' color='#C41A16' mode='center' size={36}></AtActivityIndicator>
                         </View> : null}
-                        {this.props.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#C41A16' />}
+                        {this.props.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#eee' />}
                     </View>
                 </View>
             </Skeleton>

@@ -130,7 +130,6 @@ class CollectListContent extends Component {
                                             orderId: orderId
                                         }
                                     }).then(res => {
-                                        console.log(res)
                                         if (res.statusCode === 200 && res.data.status === 'success') {
                                             this.setState((prevState: PageState) => {
                                                 return {

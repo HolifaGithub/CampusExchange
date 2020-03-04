@@ -97,7 +97,7 @@ class GoodsInfo extends PureComponent {
                   pics.splice(i, 1)
                 }
               }
-              console.log(pics)
+              // console.log(pics)
               const formatResult = formatDate(res.data.orderTime)
               let date = `${formatResult.year}/${formatResult.month}/${formatResult.day} ${formatResult.hour}:${formatResult.minute}:${formatResult.second}`
               fetchDataResult = { ...res.data, picsLocation: pics, orderTime: date }

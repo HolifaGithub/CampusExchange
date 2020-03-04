@@ -1,6 +1,7 @@
 import Taro, { PureComponent } from '@tarojs/taro'
 import { ComponentClass } from 'react'
 import { connect } from '@tarojs/redux'
+import { server, port, protocol } from '../../../static-name/server'
 import promiseApi from '../../../utils/promiseApi'
 import './index.scss'
 import { View, Image } from '@tarojs/components'
@@ -35,7 +36,8 @@ interface OrderListReturnDatas {
     goodsNumber: string;
 }
 type PageOwnProps = {
-    datas: OrderListReturnDatas[]
+    datas: OrderListReturnDatas[],
+    orderInfo:string;
 }
 
 type PageState = {
@@ -89,17 +91,59 @@ class OrderStatusContent extends PureComponent {
     }
 
     componentDidHide() { }
-    onClick(orderId) {
-        promiseApi(Taro.navigateTo)({
-            url: `/pages/goods-info/goods-info?orderId=${orderId}`
-        })
+    onClick(orderId,orderInfo) {
+        if(orderInfo !== 'trading'){
+            promiseApi(Taro.navigateTo)({
+                url: `/pages/goods-info/goods-info?orderId=${orderId}`
+            })
+        }else{
+            // promiseApi(Taro.navigateTo)({
+            //     url: `/pages/trading/trading`
+            // })
+            let fetchDataResult:any = {}
+            promiseApi(Taro.login)().then((loginResult) => {
+                const code = loginResult.code
+                if (code) {
+                  promiseApi(Taro.request)({
+                    url: `${protocol}://${server}:${port}/getgoodsinfo`,
+                    method: 'GET',
+                    data: {
+                      code: code,
+                      orderId: orderId
+                    }
+                  }).then((res) => {
+                    if (res.statusCode === 200 && res.data.status === 'success') {
+                      let pics = res.data.picsLocation
+                      pics = pics.split(";")
+                      if (pics[pics.length - 1] === '') {
+                        pics.pop()
+                      }
+                      for (let i = 0; i < pics.length; i++) {
+                        if (pics[i] !== '') {
+                          pics[i] = `https://${pics[i]}`
+                        } else {
+                          pics.splice(i, 1)
+                        }
+                      }
+                      let topPic = pics.length > 0 ? pics[0] : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'
+                      fetchDataResult = { ...res.data}
+                      const {avatarUrl,orderTime,typeOne,typeTwo,typeThree,nameInput,goodsNumber,newAndOldDegree,mode,objectOfPayment,payForMePrice,payForOtherPrice,wantExchangeGoods,nickName,orderId,school}=fetchDataResult
+                      promiseApi(Taro.navigateTo)({
+                        url: `/pages/trading/trading?avatarUrl=${avatarUrl}&orderTime=${orderTime}&typeOne=${typeOne}&typeTwo=${typeTwo}&typeThree=${typeThree}&nameInput=${nameInput}&goodsNumber=${goodsNumber}&newAndOldDegree=${newAndOldDegree}&mode=${mode}&objectOfPayment=${objectOfPayment}&payForMePrice=${payForMePrice}&payForOtherPrice=${payForOtherPrice}&wantExchangeGoods=${wantExchangeGoods}&topPic=${topPic}&nickName=${nickName}&orderId=${orderId}&school=${school}`
+                    })
+                    }
+                  })
+                }
+              })
+        }
     }
     render() {
+        const orderInfo = this.props.orderInfo
         return (
             <View>
                 {this.props.datas ? (this.props.datas.map((data, index) => {
                     return (
-                        <View className='goods-introduction' key={new Date().toString() + index} onClick={() => { this.onClick(data.orderId) }}>
+                        <View className='goods-introduction' key={new Date().toString() + index} onClick={() => { this.onClick(data.orderId,orderInfo) }}>
                             <View className='order-id'>
                                 订单编号：{data.orderId}
                             </View>

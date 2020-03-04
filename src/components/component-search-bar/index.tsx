@@ -44,8 +44,9 @@ function SearchBar() {
           ></Input>
         </View>
         {showSearchButton ? <Button size={"mini"} plain className='search-bar-button' onClick={() => {
+          const searchStart='nameInput'
           promiseApi(Taro.navigateTo)({
-            url: `/pages/search/search?value=${value}`
+            url: `/pages/search/search?value=${value}&searchStart=${searchStart}`
           })
         }}>搜索</Button> : null}
       </View>

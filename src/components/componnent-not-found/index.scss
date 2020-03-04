@@ -1,5 +1,5 @@
 $not-found-conatiner-width:750px;
-$not-found-conatiner-height:1200px;
+$not-found-conatiner-height:1500px;
 $icon-width:140px;
 $icon-height:$icon-width;
 $font-color:#C41A16;
@@ -7,7 +7,7 @@ $font-size:38px;
 $text-width:500px;
 .not-found-conatiner{
     width: $not-found-conatiner-width;
-    height: $not-found-conatiner-height;
+    // height: $not-found-conatiner-height;
     display: flex;
     justify-content: center;
     align-items: center;

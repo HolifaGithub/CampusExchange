@@ -83,7 +83,7 @@ class Search extends Component {
   //   console.log(this.props, nextProps)
   // }
 
-  fetchSearchData(value) {
+  fetchSearchData(value,searchStart) {
     this.setState({ value: value })
     return new Promise((resolve, reject) => {
       promiseApi(Taro.request)({
@@ -91,7 +91,8 @@ class Search extends Component {
         method: 'GET',
         data: {
           value: value,
-          page: 1
+          page: 1,
+          searchStart:searchStart
         }
       }).then(res => {
         resolve(res)
@@ -160,7 +161,7 @@ class Search extends Component {
 
   componentDidHide() { }
   componentWillPreload(params) {
-    return this.fetchSearchData(params.value)
+    return this.fetchSearchData(params.value,params.searchStart)
   }
   render() {
     const windowHeight = getSystemInfo().windowHeight+'px'

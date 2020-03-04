@@ -57,6 +57,7 @@ type PageOwnProps = {
 type PageState = {
     loading: boolean;
     _isCare:boolean;
+    isOnClick:boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -84,7 +85,8 @@ class GoodsInfoHeader extends Component {
     }
     state = {
         loading: true,
-        _isCare:false
+        _isCare:false,
+        isOnClick:false
     }
     static defaultProps = {
         datas: {
@@ -113,7 +115,7 @@ class GoodsInfoHeader extends Component {
     }
     componentDidMount() {
         this.setState({ 
-            loading: false,
+            loading: false
         })
     }
     componentWillReceiveProps(nextProps){
@@ -150,7 +152,8 @@ class GoodsInfoHeader extends Component {
                                                 if(res.statusCode===200&&res.data.status==='success'){
                                                     this.setState((prevState:PageState)=>{
                                                         return {
-                                                            _isCare:!prevState._isCare
+                                                            _isCare:!prevState._isCare,
+                                                            isOnClick:true
                                                         }
                                                     })
                                                 }
@@ -158,7 +161,7 @@ class GoodsInfoHeader extends Component {
                                         }
                                     })
                                 }}>{this.state._isCare ? '已关注' : '关注'}</View>
-                                <AtToast isOpened={this.state._isCare} text={'关注成功!'} status='success' duration={1000}></AtToast>
+                               <AtToast isOpened={(this.props.datas.isCare&&(!this.state.isOnClick))?false:this.state._isCare} text={'关注成功!'} status='success' duration={1000}></AtToast>
                             </View>
                         </View>
                         <View>

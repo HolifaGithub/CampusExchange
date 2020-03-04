@@ -59,8 +59,9 @@ class AtSearchBarComponent extends PureComponent {
         value: '',
     }
     onActionClick() {
+        const searchStart='nameInput'
         promiseApi(Taro.navigateTo)({
-            url:`/pages/search/search?value=${this.state.value}`
+            url:`/pages/search/search?value=${this.state.value}&&searchStart=${searchStart}`
         })
     }
     onChange(val) {

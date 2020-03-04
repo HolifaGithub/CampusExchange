@@ -35,7 +35,7 @@
         padding-left: 20px;
 
         .title {
-          font-size: 35px;
+          font-size: 30px;
           height: 60px;
           font-weight: 600;
           overflow: hidden;
@@ -52,7 +52,7 @@
         }
 
         .price-info {
-          font-size: 28px;
+          font-size: 24px;
 
           .want-exchange,
           .pay-for-me,
@@ -142,6 +142,14 @@
       .tip{
           color: #ffffff;
           font-size: 22px;
+      }
+      .camera{
+        width: 70px;
+        height: 70px;
+        margin-top: 20px;
+      }
+      .hover{
+        transform: scale(0.85);
       }
   }
 

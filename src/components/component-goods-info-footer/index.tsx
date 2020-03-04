@@ -58,6 +58,7 @@ type PageState = {
     loading: boolean;
     top: string;
     _isCollage: boolean;
+    isOnClick:boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -86,7 +87,8 @@ class GoodsInfoFooter extends Component {
     state = {
         loading: true,
         top: '',
-        _isCollage: false
+        _isCollage: false,
+        isOnClick:false
     }
     static defaultProps = {
         datas: {
@@ -127,7 +129,8 @@ class GoodsInfoFooter extends Component {
                     if (res.statusCode === 200 && res.data.status === 'success') {
                         this.setState((prevState: PageState) => {
                             return {
-                                _isCollage: !prevState._isCollage
+                                _isCollage: !prevState._isCollage,
+                                isOnClick:true
                             }
                         })
                     }
@@ -161,7 +164,7 @@ class GoodsInfoFooter extends Component {
                         this.onclick()
                     }}>
                         {this.state._isCollage ? <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collected.png' className='footer-icon'></Image> : <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collect.png' className='footer-icon'></Image>}
-                        <AtToast isOpened={this.state._isCollage} text='收藏成功！' status='success' duration={1000}></AtToast>
+                        <AtToast isOpened={(this.props.datas.isCollect&&(!this.state.isOnClick))?false:this.state._isCollage} text='收藏成功！' status='success' duration={1000}></AtToast>
                     </View>
                     <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/chat-blue.png' className='footer-icon'></Image>
                     <View className='button' onClick={() => {

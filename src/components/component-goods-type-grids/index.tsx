@@ -65,8 +65,9 @@ function GoodsTypeGrids(props: Props) {
                                         key={new Date().toString() + index2}
                                     >
                                         <View className='goods-type-grid' onClick={()=>{
+                                            const searchStart='typeThree'
                                             promiseApi(Taro.navigateTo)({
-                                                url:`/pages/search/search?value=${typeThree}`
+                                                url:`/pages/search/search?value=${typeThree}&searchStart=${searchStart}`
                                             })
                                         }}>
                                             <Image

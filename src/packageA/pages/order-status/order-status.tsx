@@ -81,9 +81,6 @@ class OrderStatus extends Component {
     orderInfo: '',
   }
   pageSize = 7
-  // componentWillReceiveProps(nextProps) {
-  //   console.log(this.props, nextProps)
-  // }
   componentWillMount() {
     const orderStatus = this.$router.preload!.orderStatus
     const orderInfo = this.$router.preload!.orderInfo
@@ -106,38 +103,12 @@ class OrderStatus extends Component {
         }
       }
     })
-    // if(this.$preloadData){
-    //   this.$preloadData.then((res)=>{
-    //     if (res.statusCode === 200 && res.data.status === 'success') {
-    //       if (res.data.returnDatas.length===this.pageSize) {
-    //         this.setState({ 
-    //           orderListDatas: res.data.returnDatas ,
-    //           hasMore:true,
-    //           orderStatus:res.data.orderStatus,
-    //           orderInfo:res.data.orderInfo
-    //         })
-    //       } else {
-    //         this.setState({ 
-    //           hasMore: false,
-    //           orderStatus:res.data.orderStatus,
-    //           orderInfo:res.data.orderInfo,
-    //           orderListDatas: res.data.returnDatas 
-    //         })
-    //       }
-    //     }
-    //   })
-    // }
   }
   componentWillUnmount() { }
 
   componentDidShow() { }
 
   componentDidHide() { }
-  // componentWillPreload(params) {
-  //   if (params.orderStatus && params.orderInfo) {
-  //     return this.fetchOrderList(params.orderStatus, params.orderInfo)
-  //   }
-  // }
   fetchOrderList(orderStatus, orderInfo) {
     return new Promise((resolve, reject) => {
       promiseApi(Taro.login)().then((loginResult) => {
@@ -201,11 +172,11 @@ class OrderStatus extends Component {
   render() {
     return (
       <View className='order-status'>
-        {this.state.orderListDatas.length > 0 ? (<OrderStatusContent datas={this.state.orderListDatas} />) : (<NotFound />)}
+        {this.state.orderListDatas.length > 0 ? (<OrderStatusContent datas={this.state.orderListDatas} orderInfo={this.state.orderInfo} />) : (<NotFound />)}
         {this.state.loadMore ? <View className='loading'>
           <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
         </View> : null}
-        {this.state.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#C41A16' />}
+        {this.state.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#eee' />}
       </View>
     )
   }

@@ -42,8 +42,9 @@ function Grid(props: Props) {
                                 loading={loading}
                             >
                                 <View className='grid-content' onClick={()=>{
+                                    const searchStart = 'typeOne'
                                     Taro.navigateTo({
-                                        url:`/pages/search/search?value=${item.value}`
+                                        url:`/pages/search/search?value=${item.value}&searchStart=${searchStart}`
                                     })
                                 }}
                                 hoverClass='hover'

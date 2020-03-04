@@ -191,6 +191,9 @@ class TradingContent extends Component {
                             typeNumber={3}
                         />
                         <View className='tip'>Tip:请双方扫码完成本次交易！</View>
+                        <View hoverClass='hover'>
+                        <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/trading/camera.png' className='camera'></Image>
+                        </View>
                     </View>
                 </View>
             </Skeleton>
