@@ -4,6 +4,7 @@ import { View, Text, Image } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
 import { server, port, protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
+import { AtToast } from "taro-ui"
 import promiseApi from '../../utils/promiseApi'
 import { QRCode } from 'taro-code'
 import Tag from '../component-tag'
@@ -53,7 +54,7 @@ type PageOwnProps = {
         buierAddress: string;
         buierAvatarUrl: string;
         orderCode: string;
-        buierNickName:string;
+        buierNickName: string;
     }
 }
 
@@ -84,8 +85,10 @@ class TradingContent extends Component {
     }
     state = {
         loading: true,
+        tradeSuccess:false,
+        tradeFail:false
     }
-    static defaultProps ={
+    static defaultProps = {
         datas: {
             avatarUrl: '',
             nickName: '',
@@ -104,26 +107,78 @@ class TradingContent extends Component {
             topPic: '',
             orderId: '',
             school: '',
-            salederPhone:'',
-            salederAddress:'',
-            buierPhone:'',
-            buierAddress:'',
-            buierAvatarUrl:'',
-            orderCode:'',
-            buierNickName:''
+            salederPhone: '',
+            salederAddress: '',
+            buierPhone: '',
+            buierAddress: '',
+            buierAvatarUrl: '',
+            orderCode: '',
+            buierNickName: ''
         }
     }
     componentDidMount() {
         this.setState({ loading: false })
+        promiseApi(Taro.login)().then(loginResult => {
+            if (loginResult.code) {
+                Taro.connectSocket({
+                    url: `wss://${server}:${port}`
+                }).then(task => {
+                    task.onOpen(function () {
+                        task.send({
+                            data: loginResult.code
+                        })
+                    })
+                    task.onMessage( (msg)=>{
+                        // console.log('onMessage: ', msg)
+                        const res = JSON.parse(msg.data)
+                        if(res.status==='success'){
+                            this.setState({tradeSuccess:true})
+                            task.close({})
+                        }
+                    })
+                    task.onError(function () {
+                        console.log('onError')
+                    })
+                    task.onClose(function (e) {
+                        console.log('onClose: ', e)
+                    })
+                })
+            }
+        })
     }
-    componentWillUnmount() { }
-
-    componentDidShow() { }
-
-    componentDidHide() { }
-
+    onClick() {
+        promiseApi(Taro.scanCode)({
+            onlyFromCamera: true,
+            scanType: 'qrCode'
+        }).then((res) => {
+            const scanResult = res.result
+            promiseApi(Taro.login)().then((loginResult) => {
+                const code = loginResult.code
+                if (code) {
+                    promiseApi(Taro.request)({
+                        url: `${protocol}://${server}:${port}/tradingscancode`,
+                        method: 'POST',
+                        data: {
+                            code: code,
+                            scanResult: scanResult
+                        }
+                    }).then((res) => {
+                        if(res.statusCode!==200||res.data.status!=='success'){
+                            this.setState({tradeFail:true})
+                        }
+                    })
+                }
+            })
+        })
+    }
+    onClose(){
+        const currentPage = Taro.getCurrentPages().length
+        promiseApi(Taro.navigateBack)({
+            delta:currentPage
+        })
+    }
     render() {
-        const {avatarUrl, nickName, nameInput, goodsNumber, newAndOldDegree, payForMePrice, payForOtherPrice, wantExchangeGoods, topPic, orderId, school,salederPhone,salederAddress,buierPhone,buierAddress,buierAvatarUrl,orderCode,buierNickName} =this.props.datas
+        const { avatarUrl, nickName, nameInput, goodsNumber, newAndOldDegree, payForMePrice, payForOtherPrice, wantExchangeGoods, topPic, orderId, school, salederPhone, salederAddress, buierPhone, buierAddress, buierAvatarUrl, orderCode, buierNickName } = this.props.datas
         return (
             <Skeleton
                 row={1}
@@ -141,7 +196,7 @@ class TradingContent extends Component {
                             <View className='introduction'>
                                 <View className='title'>{nameInput}</View>
                                 <View className='degree-and-count'>
-                                    <Tag title={newAndOldDegree+'新'} fontSize={'12px'} />
+                                    <Tag title={newAndOldDegree + '新'} fontSize={'12px'} />
                                     <View className='count'>X {goodsNumber}</View>
                                 </View>
                                 <View className='price-info'>
@@ -157,7 +212,7 @@ class TradingContent extends Component {
                         <View className='main'>
                             <View className='col'>
                                 <View className='nick-name'>{buierNickName}</View>
-                                <Image src={buierAvatarUrl}className='avatar'></Image>
+                                <Image src={buierAvatarUrl} className='avatar'></Image>
                                 <View className='left'>
                                     <View>手机：{buierPhone}</View>
                                     <View>地址：{buierAddress}</View>
@@ -191,9 +246,11 @@ class TradingContent extends Component {
                             typeNumber={3}
                         />
                         <View className='tip'>Tip:请双方扫码完成本次交易！</View>
-                        <View hoverClass='hover'>
-                        <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/trading/camera.png' className='camera'></Image>
+                        <View hoverClass='hover' className='camera-conatiner' onClick={() => { this.onClick() }}>
+                            <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/trading/camera.png' className='camera'></Image>
                         </View>
+                        <AtToast isOpened={this.state.tradeSuccess} text="交易成功！" icon="check" onClose={()=>{this.onClose()}}></AtToast>
+                        <AtToast isOpened={this.state.tradeFail} text="交易失败！" icon="close"></AtToast>
                     </View>
                 </View>
             </Skeleton>

@@ -143,10 +143,19 @@
           color: #ffffff;
           font-size: 22px;
       }
-      .camera{
-        width: 70px;
-        height: 70px;
-        margin-top: 20px;
+      .camera-conatiner{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #efb336;
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .camera{
+          width: 60px;
+          height: 55px;
+        }
       }
       .hover{
         transform: scale(0.85);
