@@ -173,7 +173,7 @@ class TradingContent extends Component {
     }
     onClose(){
         promiseApi(Taro.navigateTo)({
-            url:'pages/trade-success/trade-success'
+            url:'/pages/trade-success/trade-success'
         })
     }
     render() {

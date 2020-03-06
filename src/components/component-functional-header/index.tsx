@@ -82,7 +82,7 @@ function FunctionalHeader(props: Props) {
         </View>
         <AtToast isOpened={tradeSuccess} text="交易成功！" icon="check" onClose={() => {
           promiseApi(Taro.navigateTo)({
-            url: 'pages/trade-success/trade-success'
+            url: '/pages/trade-success/trade-success'
           })
         }}></AtToast>
         <AtToast isOpened={tradeFail} text="交易失败！" icon="close"></AtToast>

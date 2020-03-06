@@ -208,7 +208,7 @@ class UserInfo extends Component {
           </View>
           <AtToast isOpened={this.state.tradeSuccess} text="交易成功！" icon="check" onClose={() => {
             promiseApi(Taro.navigateTo)({
-              url: 'pages/trade-success/trade-success'
+              url: '/pages/trade-success/trade-success'
             })
           }}></AtToast>
           <AtToast isOpened={this.state.tradeFail} text="交易失败！" icon="close"></AtToast>

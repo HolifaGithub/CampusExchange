@@ -4,7 +4,7 @@ import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import getSystemInfo from '../../utils/getSystemInfo'
 import TradeSuccessContent from '../../components/component-trade-success-content'
-import './tarde-success.scss'
+import './trade-success.scss'
 
 // #region 书写注意
 //
@@ -30,7 +30,7 @@ type PageState = {}
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
 
-interface TardeSuccess {
+interface TradeSuccess {
   props: IProps;
 }
 
@@ -39,7 +39,7 @@ interface TardeSuccess {
 }), (dispatch) => ({
 
 }))
-class TardeSuccess extends Component {
+class TradeSuccess extends Component {
 
   /**
  * 指定config的类型声明为: Taro.Config
@@ -68,4 +68,4 @@ class TardeSuccess extends Component {
 //
 // #endregion
 
-export default TardeSuccess as ComponentClass<PageOwnProps, PageState>
+export default TradeSuccess as ComponentClass<PageOwnProps, PageState>

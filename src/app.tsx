@@ -43,7 +43,7 @@ class App extends Component {
       'pages/search/search',
       'pages/not-found/not-found',
       'pages/goods-info/goods-info',
-      'pages/tarde-success/tarde-success',
+      'pages/trade-success/trade-success',
     ],
     subPackages:[
       {
