@@ -172,9 +172,8 @@ class TradingContent extends Component {
         })
     }
     onClose(){
-        const currentPage = Taro.getCurrentPages().length
-        promiseApi(Taro.navigateBack)({
-            delta:currentPage
+        promiseApi(Taro.navigateTo)({
+            url:'pages/trade-success/trade-success'
         })
     }
     render() {

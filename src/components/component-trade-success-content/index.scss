@@ -1,0 +1,33 @@
+.trade-success-content{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .hover{
+        transform: scale(0.85);
+    }
+    .icon{
+        width: 240px;
+        height: 240px;
+        margin-bottom: 10px;
+    }
+    .title{
+        font-size: 38px;
+        font-weight: bold;
+        margin-bottom: 100px;
+        text-align: center;
+    }
+    .btn{
+        background-color: #09BB07;
+        width: 450px;
+        height: 90px;
+        border-radius: 30px;
+        color: #fff;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 80px;
+    }
+}

@@ -10,7 +10,7 @@ $water-fall-item-radius:10px;
 $water-fall-item-interval:10px;
 $water-fall-item-image-height:300px;
 $water-fall-item-title-height:80px;
-$water-fall-item-avater-image-size:30px;
+$water-fall-item-avater-image-size:40px;
 $water-fall-item-nick-name-width:160px;
 $water-fall-content-color:#666666;
 $water-fall-content-font-size:25px;
@@ -101,6 +101,7 @@ $water-fall-item-avater-image-marigin-right:10px;
         width: $water-fall-item-avater-image-size;
         height: $water-fall-item-avater-image-size;
         border-radius: $water-fall-item-avater-image-size/2;
+        margin-left: 2px;
       }
 
       .water-fall-nick-name {

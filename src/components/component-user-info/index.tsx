@@ -1,13 +1,13 @@
 import Taro, { Component } from '@tarojs/taro'
 import { ComponentClass } from 'react'
-import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
+import { AtModal, AtToast } from "taro-ui"
 import { View, Text, Image, Button, OpenData } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { CDNWebSite } from '../../static-name/web-site'
 import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
 import { needRelogin, notNeedRelogin } from '../../actions/checkIsNeedRelogin'
-import { server, port,protocol } from '../../static-name/server'
+import { server, port, protocol } from '../../static-name/server'
 import './index.scss'
 
 
@@ -72,6 +72,8 @@ class UserInfo extends Component {
   state = {
     loading: true,
     isNewUser: false,
+    tradeSuccess: false,
+    tradeFail: false
   }
 
   componentWillMount() {
@@ -86,7 +88,41 @@ class UserInfo extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-
+  qrCodeOnClick() {
+    promiseApi(Taro.scanCode)({
+      onlyFromCamera: true,
+      scanType: 'qrCode'
+    }).then((res) => {
+      const scanResult = res.result
+      promiseApi(Taro.login)().then((loginResult) => {
+        const code = loginResult.code
+        if (code) {
+          promiseApi(Taro.request)({
+            url: `${protocol}://${server}:${port}/tradingscancode`,
+            method: 'POST',
+            data: {
+              code: code,
+              scanResult: scanResult
+            }
+          }).then((res) => {
+            if (res.statusCode === 200 && res.data.status === 'success') {
+              this.setState({ tradeSuccess: true })
+            } else {
+              this.setState({ tradeFail: true })
+            }
+          })
+        }
+      })
+    })
+  }
+  settingOnClick() {
+    promiseApi(Taro.login)().then((loginResult) => {
+      if (loginResult.code) {
+        this.$preload('code', loginResult.code)
+        promiseApi(Taro.navigateTo)({ url: `/packageA/pages/show_user_info/show_user_info` })
+      }
+    })
+  }
   render() {
     const isLogin = this.props.isSessionEffective && !this.props.checkIsNeedRelogin.isNeedRelogin
     // console.log('isSessionEffective ',this.props.isSessionEffective ,'isNeedRelogin',this.props.checkIsNeedRelogin.isNeedRelogin)
@@ -99,18 +135,13 @@ class UserInfo extends Component {
       >
         <View className='user-info-container'>
           <View className='user-info-functional'>
-            <View onClick={() => {
-              promiseApi(Taro.login)().then((loginResult) => {
-                if (loginResult.code) {
-                  this.$preload('code',loginResult.code)
-                  promiseApi(Taro.navigateTo)({ url: `/packageA/pages/show_user_info/show_user_info` })
-                }
-              })
-            }}>
+            <View onClick={() => { this.settingOnClick() }} hoverClass='hover'>
               <Image src={`${CDNWebSite}/icon/user-info/setting.png`} className='setting-image'></Image>
             </View>
 
-            <Image src={`${CDNWebSite}/icon/user-info/qr-code.png`} className='qr-code-image'></Image>
+            <View onClick={() => { this.qrCodeOnClick() }} hoverClass='hover'>
+              <Image src={`${CDNWebSite}/icon/user-info/qr-code.png`} className='qr-code-image'></Image>
+            </View>
           </View>
           <View className='user-info'>
             {isLogin ? <OpenData
@@ -139,9 +170,9 @@ class UserInfo extends Component {
                           console.log("用户登录请求成功！返回数据：", res)
                           if (res.data.status === 'success' && res.statusCode === 200) {
                             this.props.dispatchNotNeedRelogin()
-                            this.setState({ 
+                            this.setState({
                               isSessionEffective: true,
-                              isNewUser: res.data.isNewUser 
+                              isNewUser: res.data.isNewUser
                             })
                           } else {
                             console.log("用户登录失败！")
@@ -175,6 +206,12 @@ class UserInfo extends Component {
               content='Hello！新用户，欢迎来到校园换，现在需要填写一些关于您的详细信息，谢谢您的配合！'
             /> : null}
           </View>
+          <AtToast isOpened={this.state.tradeSuccess} text="交易成功！" icon="check" onClose={() => {
+            promiseApi(Taro.navigateTo)({
+              url: 'pages/trade-success/trade-success'
+            })
+          }}></AtToast>
+          <AtToast isOpened={this.state.tradeFail} text="交易失败！" icon="close"></AtToast>
         </View>
       </Skeleton>
     )

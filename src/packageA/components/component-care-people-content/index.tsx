@@ -30,7 +30,7 @@ interface CareListDatas {
     avatarUrl: string;
     collage: string;
     userClass: string;
-    concernedOrderId:string;
+    concernedOrderId: string;
 }
 type PageOwnProps = {
     data: CareListDatas
@@ -38,7 +38,7 @@ type PageOwnProps = {
 
 type PageState = {
     loading: boolean;
-    isCare:  boolean;
+    isCare: boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -69,10 +69,10 @@ class CarePeopleContent extends Component {
             avatarUrl: '',
             collage: '',
             userClass: '',
-            concernedOrderId:''
+            concernedOrderId: ''
         }
     }
-    onClick(concernedOrderId){
+    onClick(concernedOrderId) {
         promiseApi(Taro.login)().then(loginResult => {
             if (loginResult.code) {
                 promiseApi(Taro.request)({
@@ -80,13 +80,13 @@ class CarePeopleContent extends Component {
                     method: 'POST',
                     data: {
                         code: loginResult.code,
-                        orderId:concernedOrderId
+                        orderId: concernedOrderId
                     }
                 }).then(res => {
-                    if(res.statusCode===200&&res.data.status==='success'){
-                        this.setState((prevState:PageState)=>{
+                    if (res.statusCode === 200 && res.data.status === 'success') {
+                        this.setState((prevState: PageState) => {
                             return {
-                                isCare:!prevState.isCare
+                                isCare: !prevState.isCare
                             }
                         })
                     }
@@ -94,39 +94,51 @@ class CarePeopleContent extends Component {
             }
         })
     }
+    timer
     componentDidMount() {
-        this.setState({
-            loading: false
-        })
+        this.timer = setTimeout(() => {
+            this.setState({
+                loading: false
+            })
+        }, 500)
+    }
+    componentWillUnmount() {
+        clearTimeout(this.timer)
     }
     render() {
-        const { nickName, avatarUrl, collage, userClass,concernedOrderId } = this.props.data
+        const { nickName, avatarUrl, collage, userClass, concernedOrderId } = this.props.data
         return (
-            <Skeleton
-                row={1}
-                rowHeight={60}
-                animate
-                loading={this.state.loading}
-            >
-                <View className='care-people-content'>
-                    <AtAvatar circle image={avatarUrl} size='large'></AtAvatar>
-                    <View className='content'>
-                        <View className='nick-name'>{nickName}</View>
-                        <View>{collage}</View>
-                        <View>{userClass}</View>
+
+            <View className='care-people-content-container'>
+                <Skeleton
+                    row={3}
+                    avatar
+                    avatarSize={120}
+                    rowHeight={20}
+                    action
+                    animate
+                    loading={this.state.loading}
+                >
+                    <View className='care-people-content'>
+                        <AtAvatar circle image={avatarUrl} size='large'></AtAvatar>
+                        <View className='content'>
+                            <View className='nick-name'>{nickName}</View>
+                            <View>{collage}</View>
+                            <View>{userClass}</View>
+                        </View>
+                        <View onClick={() => { this.onClick(concernedOrderId) }} hoverClass='hover'>
+                            {this.state.isCare ? (<View className='cared'>
+                                <Image src={`${CDNWebSite}/icon/care-people/cared.png`} className='icon'></Image>
+                                <View>已关注</View>
+                            </View>) :
+                                (<View className='care'>
+                                    <Image src={`${CDNWebSite}/icon/care-people/care.png`} className='icon'></Image>
+                                    <View>关注</View>
+                                </View>)}
+                        </View>
                     </View>
-                    <View onClick={()=>{this.onClick(concernedOrderId)}} hoverClass='hover'>
-                        {this.state.isCare ? (<View className='cared'>
-                            <Image src={`${CDNWebSite}/icon/care-people/cared.png`} className='icon'></Image>
-                            <View>已关注</View>
-                        </View>) :
-                            (<View className='care'>
-                                <Image src={`${CDNWebSite}/icon/care-people/care.png`} className='icon'></Image>
-                                <View>关注</View>
-                            </View>)}
-                    </View>
-                </View>
-            </Skeleton>
+                </Skeleton>
+            </View >
         )
     }
 }

@@ -79,10 +79,17 @@ class CollectListContent extends Component {
             goodsNumber: '',
         }
     }
+    timer
     componentDidMount() {
-        this.setState({
-            loading: false
-        })
+        this.timer = setTimeout(() => {
+            this.setState({
+                loading: false
+            })
+        }, 500);
+
+    }
+    componentWillUnmount() {
+        clearTimeout(this.timer)
     }
     render() {
         const { orderId,
@@ -94,20 +101,32 @@ class CollectListContent extends Component {
             typeThree,
             goodsNumber } = this.props.data
         return (
-            <Skeleton
+
+            <View className='goods-introduction' onClick={() => {
+                promiseApi(Taro.navigateTo)(
+                    { url: `/pages/goods-info/goods-info?orderId=${orderId}` }
+                )
+            }}>
+                <Skeleton
                 row={1}
-                rowHeight={60}
+                rowHeight={40}
                 animate
                 loading={this.state.loading}
-            >
-                <View className='goods-introduction' onClick={() => {
-                    promiseApi(Taro.navigateTo)(
-                        { url: `/pages/goods-info/goods-info?orderId=${orderId}` }
-                    )
-                }}>
-                    <View className='order-id'>
-                        订单编号：{orderId}
-                    </View>
+                >
+                <View className='order-id'>
+                    订单编号：{orderId}
+                </View>
+                </Skeleton>
+
+                <Skeleton
+                    avatar
+                    avatarSize={120}
+                    action
+                    row={3}
+                    rowHeight={30}
+                    animate
+                    loading={this.state.loading}
+                >
                     <View className='goods-introduction-content'>
                         <Image src={topPicSrc.length > 0 ? topPicSrc : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'} className='img'></Image>
                         <View className='introduction'>
@@ -151,10 +170,8 @@ class CollectListContent extends Component {
                                 </View>)}
                         </View>
                     </View>
-                </View>
-
-
-            </Skeleton>
+                </Skeleton>
+            </View>
         )
     }
 }

@@ -1,29 +1,26 @@
 import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
-import { AtNoticebar } from 'taro-ui'
+import { AtNoticebar, AtToast } from 'taro-ui'
 import Skeleton from 'taro-skeleton'
+import promiseApi from '../../utils/promiseApi'
+import { server, port, protocol } from '../../static-name/server'
 import getDate from '../../utils/getDate'
 import './index.scss'
 
 interface Props {
   location: string;
 }
-function onClick() {
-  Taro.scanCode({
-    success(res) {
-      console.log(res)
-    }
-  })
-}
 
 function FunctionalHeader(props: Props) {
   let [loading, setLoading] = useState(true)
+  let [tradeSuccess, setTradeSuccess] = useState(false)
+  let [tradeFail, setTradeFail] = useState(false)
   var timer
   useEffect(() => {
-    timer=setTimeout(() => {
+    timer = setTimeout(() => {
       setLoading(false)
     }, 1000)
-    return ()=>{
+    return () => {
       clearTimeout(timer)
     }
   }, [])
@@ -51,12 +48,44 @@ function FunctionalHeader(props: Props) {
             ></Image>
             <Text>{getDate()}</Text>
           </View>
-          <View className='functional-header-qrcode-container' onClick={onClick}>
+          <View className='functional-header-qrcode-container' onClick={() => {
+            promiseApi(Taro.scanCode)({
+              onlyFromCamera: true,
+              scanType: 'qrCode'
+            }).then((res) => {
+              const scanResult = res.result
+              promiseApi(Taro.login)().then((loginResult) => {
+                const code = loginResult.code
+                if (code) {
+                  promiseApi(Taro.request)({
+                    url: `${protocol}://${server}:${port}/tradingscancode`,
+                    method: 'POST',
+                    data: {
+                      code: code,
+                      scanResult: scanResult
+                    }
+                  }).then((res) => {
+                    if (res.statusCode === 200 && res.data.status === 'success') {
+                      setTradeSuccess(true)
+                    } else {
+                      setTradeFail(true)
+                    }
+                  })
+                }
+              })
+            })
+          }}>
             <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/functional-header/qrcode-white.png'
               className='functional-header-qrcode-image'
             ></Image>
           </View>
         </View>
+        <AtToast isOpened={tradeSuccess} text="交易成功！" icon="check" onClose={() => {
+          promiseApi(Taro.navigateTo)({
+            url: 'pages/trade-success/trade-success'
+          })
+        }}></AtToast>
+        <AtToast isOpened={tradeFail} text="交易失败！" icon="close"></AtToast>
       </View>
     </Skeleton>
   )
