@@ -92,7 +92,6 @@ class Search extends Component {
           page: ++this.state.page
         }
       }).then(res => {
-        // console.log(res)
         if (res.statusCode === 200 && res.data.status === 'success') {
           if (res.data.returnDatas.length < this.pageSize) {
             this.setState((prevState: PageState) => {
@@ -111,10 +110,16 @@ class Search extends Component {
             })
           }
         } else {
-          this.setState({ hasMore: false })
+          this.setState({ 
+            hasMore: false,
+            loadMore:false
+          })
         }
       })
     }
+  }
+  componentWillPreload(params) {
+    return this.fetchSearchData(params.value,params.searchStart)
   }
   componentWillMount() {
     this.$preloadData
@@ -142,13 +147,14 @@ class Search extends Component {
   componentDidShow() { }
 
   componentDidHide() { }
-  componentWillPreload(params) {
-    return this.fetchSearchData(params.value,params.searchStart)
-  }
   render() {
     const windowHeight = getSystemInfo().windowHeight+'px'
     return (
-      <ScrollView className='search' enableFlex scrollY onScrollToLower={()=>{this.fetchMore()}} style={{height:windowHeight}}>
+      <ScrollView className='search' enableFlex scrollY onScrollToLower={()=>{
+        if(this.state.hasMore){
+          this.fetchMore()
+        }
+      }} style={{height:windowHeight}}>
         <SearchContent datas={this.state.waterFallDatas} hasMore={this.state.hasMore} loadMore={this.state.loadMore} />
       </ScrollView>
     )

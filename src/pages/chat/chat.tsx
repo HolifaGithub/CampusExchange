@@ -1,7 +1,9 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text,ScrollView } from '@tarojs/components'
+import getSystemInfo from '../../utils/getSystemInfo'
 import { connect } from '@tarojs/redux'
+import  ChatList from '../../components/component-chat-list'
 import './chat.scss'
 
 type PageStateProps = {
@@ -29,11 +31,9 @@ interface Chat {
 }))
 class Chat extends Component {
     config: Config = {
-    navigationBarTitleText: '聊天页'
-  }
-
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+    navigationBarTitleText: '聊天列表',
+    navigationBarBackgroundColor:'#C41A16',
+    navigationBarTextStyle:'white'
   }
 
   componentWillUnmount () { }
@@ -43,10 +43,11 @@ class Chat extends Component {
   componentDidHide () { }
 
   render () {
+    const windowHeight = (getSystemInfo().windowHeight-getSystemInfo().tabBarHeight) + 'px'
     return (
-      <View className='chat'>
-        <View><Text>Chat Page</Text></View>
-      </View>
+      <ScrollView className='chat' enableFlex scrollY onScrollToLower={() => { }} style={{ height: windowHeight }}>
+          <ChatList/>
+      </ScrollView>
     )
   }
 }

@@ -144,29 +144,29 @@ class TabBar extends PureComponent {
             tabList={[
               {
                 title: '首页',
-                image: `${CDNWebSite}/icon/tabbar/home.png`,
-                selectedImage: `${CDNWebSite}/icon/tabbar/home-selected.png`,
+                image: `${CDNWebSite}/icon/tabbar_ys/home.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar_ys/home-selected.png`,
               },
               {
                 title: '分类',
-                image: `${CDNWebSite}/icon/tabbar/sort.png`,
-                selectedImage: `${CDNWebSite}/icon/tabbar/sort-selected.png`,
+                image: `${CDNWebSite}/icon/tabbar_ys/sort.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar_ys/sort-selected.png`,
               },
               {
                 title: '发布',
-                image: `${CDNWebSite}/icon/tabbar/release-goods.png`,
+                image: `${CDNWebSite}/icon/tabbar_ys/release-goods.png`,
               },
               {
                 title: '聊天',
-                image: `${CDNWebSite}/icon/tabbar/chat.png`,
-                selectedImage: `${CDNWebSite}/icon/tabbar/chat-selected.png`,
+                image: `${CDNWebSite}/icon/tabbar_ys/chat.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar_ys/chat-selected.png`,
                 text: '100',
                 max: 99
               },
               {
                 title: '个人中心',
-                image: `${CDNWebSite}/icon/tabbar/person.png`,
-                selectedImage: `${CDNWebSite}/icon/tabbar/person-selected.png`,
+                image: `${CDNWebSite}/icon/tabbar_ys/person.png`,
+                selectedImage: `${CDNWebSite}/icon/tabbar_ys/person-selected.png`,
               }
             ]}
             onClick={(current) => {

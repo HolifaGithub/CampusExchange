@@ -85,7 +85,7 @@ class CarePeople extends Component {
     componentDidShow() { }
 
     componentDidHide() { }
-    onReachBottom() {
+    onScrollToLower() {
         this.setState({ loadMore: true })
         promiseApi(Taro.login)().then((loginResult) => {
             if (loginResult.code) {
@@ -120,7 +120,9 @@ class CarePeople extends Component {
     render() {
         const windowHeight = getSystemInfo().windowHeight + 'px'
         return (
-            <ScrollView className='care-people' enableFlex scrollY onScrollToLower={() => { }} style={{ height: windowHeight }}>
+            <ScrollView className='care-people' enableFlex scrollY onScrollToLower={() => {
+                this.onScrollToLower()
+             }} style={{ height: windowHeight }}>
                 {(this.state.careListDatas && this.state.careListDatas.length > 0) ? this.state.careListDatas.map((data, index) => {
                     return (<CarePeopleContent data={data} key={new Date().toString() + index} />)
                 }) : <NotFound />}

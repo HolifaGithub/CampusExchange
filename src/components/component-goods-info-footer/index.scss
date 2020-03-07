@@ -30,6 +30,17 @@ $base-color:#C41A16;
         line-height: $button-height;
         margin-left: $button-margin-left;
     }
+    .off{
+        background-color: #bbbbbb;
+        color: #fff;
+        height: $button-height;
+        width: $button-width;
+        border-radius: $button-border-radius;
+        text-align: center;
+        line-height: $button-height;
+        margin-left: $button-margin-left;
+
+    }
     .footer-icon{
         width: $footer-icon-width;
         height: $footer-icon-height;

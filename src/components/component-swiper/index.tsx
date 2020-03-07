@@ -35,21 +35,21 @@ function CustomSwiper() {
           <SwiperItem className='swiper-item'>
             <Image
               className='swiper-img'
-              src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg'
+              src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner_ys/banner1.jpg'
               mode='widthFix'
             />
           </SwiperItem>
           <SwiperItem className='swiper-item'>
             <Image
               className='swiper-img'
-              src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner2.jpg'
+              src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner_ys/banner2.jpg'
               mode='widthFix'
             />
           </SwiperItem>
           <SwiperItem className='swiper-item'>
             <Image
               className='swiper-img'
-              src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner3.jpg'
+              src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner_ys/banner3.jpg'
               mode='widthFix'
             />
           </SwiperItem>

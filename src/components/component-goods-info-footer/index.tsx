@@ -50,7 +50,7 @@ interface PropsType {
     school: string;
     isCare: boolean;
     isCollect: boolean;
-    isMe:boolean;
+    isMe: boolean;
 }
 type PageOwnProps = {
     datas: PropsType
@@ -59,7 +59,7 @@ type PageState = {
     loading: boolean;
     top: string;
     _isCollage: boolean;
-    isOnClick:boolean;
+    isOnClick: boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -89,7 +89,7 @@ class GoodsInfoFooter extends Component {
         loading: true,
         top: '',
         _isCollage: false,
-        isOnClick:false
+        isOnClick: false
     }
     static defaultProps = {
         datas: {
@@ -114,7 +114,7 @@ class GoodsInfoFooter extends Component {
             school: '',
             isCare: false,
             isCollect: false,
-            isMe:false
+            isMe: false
         }
     }
     onclick() {
@@ -132,7 +132,7 @@ class GoodsInfoFooter extends Component {
                         this.setState((prevState: PageState) => {
                             return {
                                 _isCollage: !prevState._isCollage,
-                                isOnClick:true
+                                isOnClick: true
                             }
                         })
                     }
@@ -148,8 +148,8 @@ class GoodsInfoFooter extends Component {
     componentDidMount() {
         this.setState({ loading: false })
     }
-    componentWillReceiveProps(nextProps){
-        this.setState({_isCollage:nextProps.datas.isCollect})
+    componentWillReceiveProps(nextProps) {
+        this.setState({ _isCollage: nextProps.datas.isCollect })
     }
 
     render() {
@@ -166,15 +166,15 @@ class GoodsInfoFooter extends Component {
                         this.onclick()
                     }}>
                         {this.state._isCollage ? <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collected.png' className='footer-icon'></Image> : <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collect.png' className='footer-icon'></Image>}
-                        <AtToast isOpened={(this.props.datas.isCollect&&(!this.state.isOnClick))?false:this.state._isCollage} text='收藏成功！' status='success' duration={1000}></AtToast>
+                        <AtToast isOpened={(isCollect && (!this.state.isOnClick)) ? false : this.state._isCollage} text='收藏成功！' status='success' duration={1000}></AtToast>
                     </View>
                     <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/chat-blue.png' className='footer-icon'></Image>
-                    <View className='button' onClick={() => {
+                    {orderStatus === 'released' ? (<View className='button' onClick={() => {
                         let topPic = picsLocation.length > 0 ? picsLocation[0] : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'
                         promiseApi(Taro.navigateTo)({
                             url: `/pages/confirm-order/confirm-order?avatarUrl=${avatarUrl}&orderTime=${orderTime}&typeOne=${typeOne}&typeTwo=${typeTwo}&typeThree=${typeThree}&nameInput=${nameInput}&goodsNumber=${goodsNumber}&newAndOldDegree=${newAndOldDegree}&mode=${mode}&objectOfPayment=${objectOfPayment}&payForMePrice=${payForMePrice}&payForOtherPrice=${payForOtherPrice}&wantExchangeGoods=${wantExchangeGoods}&topPic=${topPic}&nickName=${nickName}&orderId=${orderId}&school=${school}`
                         })
-                    }}>交易</View>
+                    }}>交易</View>) : <View className='off'>已下架</View>}
                     <View className='blank'></View>
                 </View>
             </Skeleton>
