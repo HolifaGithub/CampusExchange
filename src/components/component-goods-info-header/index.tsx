@@ -49,6 +49,7 @@ interface PropsType {
     school: string;
     isCare: boolean;
     isCollect: boolean;
+    isMe: boolean;
 }
 type PageOwnProps = {
     datas: PropsType
@@ -56,8 +57,8 @@ type PageOwnProps = {
 
 type PageState = {
     loading: boolean;
-    _isCare:boolean;
-    isOnClick:boolean;
+    _isCare: boolean;
+    isOnClick: boolean;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -72,21 +73,13 @@ interface GoodsInfoHeader {
 
 }))
 class GoodsInfoHeader extends Component {
-
-    /**
-   * 指定config的类型声明为: Taro.Config
-   *
-   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-   */
     constructor(props) {
         super(props)
     }
     state = {
         loading: true,
-        _isCare:false,
-        isOnClick:false
+        _isCare: false,
+        isOnClick: false
     }
     static defaultProps = {
         datas: {
@@ -110,16 +103,17 @@ class GoodsInfoHeader extends Component {
             avatarUrl: '',
             school: '',
             isCare: false,
-            isCollect: false
+            isCollect: false,
+            isMe: false
         }
     }
     componentDidMount() {
-        this.setState({ 
+        this.setState({
             loading: false
         })
     }
-    componentWillReceiveProps(nextProps){
-        this.setState({_isCare:nextProps.datas.isCare})
+    componentWillReceiveProps(nextProps) {
+        this.setState({ _isCare: nextProps.datas.isCare })
     }
     componentDidHide() { }
 
@@ -136,8 +130,8 @@ class GoodsInfoHeader extends Component {
                     <View className='header-middle'>
                         <View className='nick-name'>
                             <View>{this.props.datas.nickName}</View>
-                            <View className='care' style={{backgroundColor:this.state._isCare?'#eee':''}} hoverClass='hover'>
-                                <Image src={this.state._isCare?`${CDNWebSite}/icon/goods-info/cared.png`:`${CDNWebSite}/icon/goods-info/care.png`} className='icon'></Image>
+                            {this.props.datas.isMe ? null:(<View className='care' style={{ backgroundColor: this.state._isCare ? '#eee' : '' }} hoverClass='hover'>
+                                <Image src={this.state._isCare ? `${CDNWebSite}/icon/goods-info/cared.png` : `${CDNWebSite}/icon/goods-info/care.png`} className='icon'></Image>
                                 <View className='text' onClick={() => {
                                     promiseApi(Taro.login)().then(loginResult => {
                                         if (loginResult.code) {
@@ -146,14 +140,14 @@ class GoodsInfoHeader extends Component {
                                                 method: 'POST',
                                                 data: {
                                                     code: loginResult.code,
-                                                    orderId:this.props.datas.orderId
+                                                    orderId: this.props.datas.orderId
                                                 }
                                             }).then(res => {
-                                                if(res.statusCode===200&&res.data.status==='success'){
-                                                    this.setState((prevState:PageState)=>{
+                                                if (res.statusCode === 200 && res.data.status === 'success') {
+                                                    this.setState((prevState: PageState) => {
                                                         return {
-                                                            _isCare:!prevState._isCare,
-                                                            isOnClick:true
+                                                            _isCare: !prevState._isCare,
+                                                            isOnClick: true
                                                         }
                                                     })
                                                 }
@@ -161,8 +155,8 @@ class GoodsInfoHeader extends Component {
                                         }
                                     })
                                 }}>{this.state._isCare ? '已关注' : '关注'}</View>
-                               <AtToast isOpened={(this.props.datas.isCare&&(!this.state.isOnClick))?false:this.state._isCare} text={'关注成功!'} status='success' duration={1000}></AtToast>
-                            </View>
+                                <AtToast isOpened={(this.props.datas.isCare && (!this.state.isOnClick)) ? false : this.state._isCare} text={'关注成功!'} status='success' duration={1000}></AtToast>
+                            </View>)}
                         </View>
                         <View>
                             <View className='sort'>分 类：{this.props.datas.typeOne}/{this.props.datas.typeTwo}/{this.props.datas.typeThree}</View>
@@ -184,12 +178,4 @@ class GoodsInfoHeader extends Component {
         )
     }
 }
-
-// #region 导出注意
-//
-// 经过上面的声明后需要将导出的 Taro.Component 子类修改为子类本身的 props 属性
-// 这样在使用这个子类时 Ts 才不会提示缺少 JSX 类型参数错误
-//
-// #endregion
-
 export default GoodsInfoHeader as ComponentClass<PageOwnProps, PageState>

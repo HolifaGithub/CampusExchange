@@ -50,6 +50,7 @@ interface PropsType {
     school: string;
     isCare: boolean;
     isCollect: boolean;
+    isMe:boolean;
 }
 type PageOwnProps = {
     datas: PropsType
@@ -112,7 +113,8 @@ class GoodsInfoFooter extends Component {
             avatarUrl: '',
             school: '',
             isCare: false,
-            isCollect: false
+            isCollect: false,
+            isMe:false
         }
     }
     onclick() {

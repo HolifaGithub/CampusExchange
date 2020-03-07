@@ -13,7 +13,6 @@ interface Props {
 
 function FunctionalHeader(props: Props) {
   let [loading, setLoading] = useState(true)
-  let [tradeSuccess, setTradeSuccess] = useState(false)
   let [tradeFail, setTradeFail] = useState(false)
   var timer
   useEffect(() => {
@@ -66,7 +65,9 @@ function FunctionalHeader(props: Props) {
                     }
                   }).then((res) => {
                     if (res.statusCode === 200 && res.data.status === 'success') {
-                      setTradeSuccess(true)
+                      promiseApi(Taro.navigateTo)({
+                        url: '/pages/trade-success/trade-success'
+                      })
                     } else {
                       setTradeFail(true)
                     }
@@ -80,11 +81,6 @@ function FunctionalHeader(props: Props) {
             ></Image>
           </View>
         </View>
-        <AtToast isOpened={tradeSuccess} text="交易成功！" icon="check" onClose={() => {
-          promiseApi(Taro.navigateTo)({
-            url: '/pages/trade-success/trade-success'
-          })
-        }}></AtToast>
         <AtToast isOpened={tradeFail} text="交易失败！" icon="close"></AtToast>
       </View>
     </Skeleton>

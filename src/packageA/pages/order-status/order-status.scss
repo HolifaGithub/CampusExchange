@@ -1,5 +1,4 @@
 $loading-height:50px;
-$loading-background-color:#C41A16;
 $loading-border-radius:10px;
 
 .order-status {
@@ -11,8 +10,13 @@ $loading-border-radius:10px;
   .loading {
     position: relative;
     height: $loading-height;
-    background-color: $loading-background-color;
     border-bottom-right-radius: $loading-border-radius;
     border-bottom-left-radius: $loading-border-radius;
+  }
+  .not-more{
+    font-size: 24px;
+    color: #999999;
+    width: 100%;
+    text-align: center;
   }
 }

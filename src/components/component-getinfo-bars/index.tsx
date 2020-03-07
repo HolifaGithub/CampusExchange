@@ -20,6 +20,12 @@ function onClickCollection(){
     url:'/packageA/pages/collect-goods/collect-goods'
   })
 }
+
+function onClickCardTicket(){
+  promiseApi(Taro.navigateTo)({
+    url:'/pages/not-found/not-found'
+  })
+}
 function GetInfoBars(props) {
   let [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -53,7 +59,9 @@ function GetInfoBars(props) {
           <Image className='icon arrow' src={`${CDNWebSite}/icon/user-info/arrow.png`}>
           </Image>
         </View>
-        <View className='get-info-bar-container' hoverClass='hover' hoverStayTime={500}>
+        <View className='get-info-bar-container' hoverClass='hover' hoverStayTime={500}
+        onClick={()=>{onClickCardTicket()}}
+        >
           <Image className='icon' src={`${CDNWebSite}/icon/user-info/card-ticket.png`}></Image>
           <Text>卡券</Text>
           <Image className='icon arrow' src={`${CDNWebSite}/icon/user-info/arrow.png`}>

@@ -32,6 +32,7 @@ interface InitState {
     school: string;
     isCare: boolean;
     isCollect: boolean;
+    isMe:boolean;
 }
 const initState: InitState = {
     orderId: '',
@@ -54,7 +55,8 @@ const initState: InitState = {
     avatarUrl: '',
     school: '',
     isCare: false,
-    isCollect: false
+    isCollect: false,
+    isMe:false
 }
 const SET_DATA = 'SET_DATA'
 function reducer(state = initState, action) {
@@ -81,7 +83,8 @@ function reducer(state = initState, action) {
                 avatarUrl: action.data.avatarUrl,
                 school: action.data.school,
                 isCare:action.data.isCare,
-                isCollect:action.data.isCollect
+                isCollect:action.data.isCollect,
+                isMe:action.data.isMe
             })
         default:
             return state
@@ -137,7 +140,7 @@ function GooodsInfoContent(props: Props) {
                     }) : <View>此商品无图片详情!</View>
                     }
                 </View>
-                <GoodsInfoFooter datas={state}/>
+               { state.isMe?null:(<GoodsInfoFooter datas={state}/>)}
             </View>
         </Skeleton>
     )

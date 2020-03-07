@@ -1,6 +1,5 @@
 import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Input, Icon, Button } from '@tarojs/components'
-// import { AtSearchBar } from 'taro-ui'
 import promiseApi from '../../utils/promiseApi'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
@@ -25,11 +24,6 @@ function SearchBar() {
     >
       <View className='container'>
         <View className='search-bar-container'>
-          {/* <AtSearchBar
-          value={value}
-          placeholder={placeholder}
-          onChange={() => { setValue(value) }}
-        /> */}
           <Icon className='search-bar-icon' type='search' color='#C41A16' size='18px'></Icon>
           <Input placeholder={placeholder}
             className='search-bar'

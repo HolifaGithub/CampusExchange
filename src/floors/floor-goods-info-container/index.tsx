@@ -35,7 +35,9 @@ GooodsInfoContainer.defaultProps = {
         nickName: '',
         avatarUrl: '',
         school: '',
-        isCare:false
+        isCare:false,
+        isCollect:false,
+        isMe:false
     }
 }
 export default Taro.memo(GooodsInfoContainer)
