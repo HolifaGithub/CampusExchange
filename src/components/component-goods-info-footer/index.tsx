@@ -143,10 +143,10 @@ class GoodsInfoFooter extends Component {
     }
     componentWillMount() {
         const top = (getSystemInfo().windowHeight - 75) + 'px'
-        this.setState({ top: top })
-    }
-    componentDidMount() {
-        this.setState({ loading: false })
+        this.setState({ 
+            top: top,
+            loading: false 
+        })
     }
     componentWillReceiveProps(nextProps) {
         this.setState({ _isCollage: nextProps.datas.isCollect })

@@ -6,6 +6,7 @@ import { server, port, protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
 import getSystemInfo from '../../utils/getSystemInfo'
 import promiseApi from '../../utils/promiseApi'
+import formatDate from '../../utils/formatDate'
 import Tag from '../component-tag'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
@@ -71,7 +72,7 @@ class ChatContent extends Component {
           orderId:''
         }
     }
-    componentDidMount() {
+    componentWillMount() {
         this.setState({ loading: false })
     }
     render() {
@@ -109,14 +110,18 @@ class ChatContent extends Component {
                         <View className='main'>
                             {this.props.chatInfo&&this.props.chatInfo.length>0?(
                                 this.props.chatInfo.map((chat,index)=>{
+                                    const date = formatDate(chat.chatTime)
+                                    const time = `${date.year}年${date.month}月${date.day}日 ${date.hour}:${date.minute}:${date.second}`
                                     if(chat.type === 0 ){
                                         return (
+                                            <View className='send-by-me-conatiner'>
                                             <View className='send-by-me' key={chat.chatTime}>
                                             <View className='send-container'>
-                                                <View className='send-time'>{chat.chatTime}</View>
+                                                <View className='send-time'>{time}</View>
                                                 <View className='send-content me'>{chat.content}</View>
                                             </View>
                                             <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg' className='avatar'></Image>
+                                        </View>
                                         </View>
                                         )
                                     }else if (chat.type===1){
@@ -127,7 +132,7 @@ class ChatContent extends Component {
                                                 <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg' className='avatar'></Image>
                                             </View>
                                             <View className='send-container'>
-                                                <View className='send-time'>{chat.chatTime}</View>
+                                                <View className='send-time'>{time}</View>
                                                 <View className='send-content other'>{chat.content}</View>
                                             </View>
                                         </View>

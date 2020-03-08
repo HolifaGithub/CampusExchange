@@ -62,7 +62,7 @@ class CollectListContent extends Component {
         }
     }
     timer
-    componentDidMount() {
+    componentWillMount() {
         this.timer = setTimeout(() => {
             this.setState({
                 loading: false

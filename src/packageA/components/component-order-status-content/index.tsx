@@ -68,7 +68,7 @@ class OrderStatusContent extends PureComponent {
         ]
     }
     timer
-    componentDidMount() {
+    componentWillMount() {
         this.timer = setTimeout(() => {
             this.setState({ loading: false })
         }, 500);

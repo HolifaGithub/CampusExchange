@@ -107,7 +107,7 @@ class GoodsInfoHeader extends Component {
             isMe: false
         }
     }
-    componentDidMount() {
+    componentWillMount() {
         this.setState({
             loading: false
         })

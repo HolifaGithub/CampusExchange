@@ -18,14 +18,14 @@
     
         .goods-introduction-content {
 
-          height: 230px;
+          height: 210px;
           display: flex;
           justify-content: space-around;
           align-items: center;
     
           .img {
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 20px;
             margin-left: 20px;
           }
@@ -78,11 +78,21 @@
         }
       }
     .main{
+      display: flex;
+      flex-direction: column;
+      .send-by-me-conatiner{
+        width: 750px;
+      }
+      .send-by-me::after{
+        clear: both;
+        content: '';
+        display: block;
+      }
         .send-by-other,.send-by-me{
             display: flex;
             justify-content: flex-start;
             margin-top: 20px;
-            max-width: 750px;
+            max-width: 730px;
         }
         .avatar{
             width: 100px;
@@ -100,8 +110,9 @@
             }
         }
         .send-by-me{
-            // position: absolute;
+            float: right;
             // right: 20px;
+            // position: absolute;
             .send-container{
                 margin-right: 20px;
                 position: relative;
@@ -118,6 +129,7 @@
                 font-size: 23px;
                 color: #888;
                 margin-bottom: 10px;
+                width: 240px;
             }
             .send-content{
                 max-width: 530px;
