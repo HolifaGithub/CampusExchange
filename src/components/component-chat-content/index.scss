@@ -1,0 +1,97 @@
+.chat-content{
+    background-color: #eee;
+    .main{
+        .send-by-other,.send-by-me{
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 20px;
+            max-width: 750px;
+        }
+        .avatar{
+            width: 100px;
+            height: 100px;
+        }
+        .send-by-other{
+            margin-left: 20px;
+            .nick-name{
+                font-size: 20px;
+                color: #000;
+            }
+            .send-container{
+                margin-top: 25px;
+                margin-left: 20px;
+            }
+        }
+        .send-by-me{
+            position: absolute;
+            right: 20px;
+            .send-container{
+                margin-right: 20px;
+                position: relative;
+                margin-top: 28px;
+                .send-time{
+                    position: absolute;
+                    right: 0;
+                    top: -30px;                    
+                }
+            }
+        }
+        .send-container{
+            .send-time{
+                font-size: 19px;
+                color: #888;
+                margin-bottom: 10px;
+            }
+            .send-content{
+                max-width: 530px;
+                border-radius: 20px;
+                color: #000000;
+                font-size: 28px;
+                line-height: 100%;
+                word-wrap: break-word;
+                word-break: break-all;
+            }
+            .me{
+                background-color:#A3E651;
+                padding: 20px;  
+            }
+            .other{
+                background-color: #fff;
+                padding: 20px;
+            }
+        }
+    }
+}
+.send{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 80px;
+    background-color: #fff;
+    padding-top: 8px;
+    .placeholder{
+        font-size: 25px;
+    }
+    .input{
+        width: 520px;
+        height: 100%; 
+        border-width: 1px;
+        border-style: solid;
+        border-color: #aaa;
+        border-radius: 20px; 
+        padding-left: 20px;       
+    }
+    .send-btn{
+        width: 180px;
+        height: 100%;
+        background-color: #C41A16;
+        border-radius: 20px;
+        line-height: 80px;
+        color: #fff;
+        text-align: center;
+    }
+}
+.blank{
+    height: 50px;
+    width: 100%;
+}

@@ -33,6 +33,7 @@ class App extends Component {
 
   config: Config = {
     pages: [
+      'pages/chat-info/chat-info',
       'pages/index/index',
       'pages/sort/sort',
       'pages/release-goods/release-goods',

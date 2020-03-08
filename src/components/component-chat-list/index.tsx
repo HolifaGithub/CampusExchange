@@ -62,24 +62,6 @@ class ChatList extends Component {
                         </View>
                         <Image className='top-pic' src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg'></Image>
                     </View>
-                    <View className='chat-list'>
-                        <Image className='avatar' src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg'></Image>
-                        <View className='content'>
-                            <View className='nick-name'>Holifa</View>
-                            <View className='chat-content'>成色怎么样</View>
-                            <View className='date'>11天前</View>
-                        </View>
-                        <Image className='top-pic' src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg'></Image>
-                    </View>
-                    <View className='chat-list'>
-                        <Image className='avatar' src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg'></Image>
-                        <View className='content'>
-                            <View className='nick-name'>Holifa</View>
-                            <View className='chat-content'>成色怎么样</View>
-                            <View className='date'>11天前</View>
-                        </View>
-                        <Image className='top-pic' src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg'></Image>
-                    </View>
                 </View>
             </Skeleton>
         )
