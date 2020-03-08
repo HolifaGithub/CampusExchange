@@ -33,7 +33,6 @@ class App extends Component {
 
   config: Config = {
     pages: [
-      'pages/chat-info/chat-info',
       'pages/index/index',
       'pages/sort/sort',
       'pages/release-goods/release-goods',
@@ -45,6 +44,7 @@ class App extends Component {
       'pages/not-found/not-found',
       'pages/goods-info/goods-info',
       'pages/trade-success/trade-success',
+      'pages/chat-info/chat-info',
     ],
     subPackages:[
       {

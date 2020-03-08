@@ -151,7 +151,12 @@ class GoodsInfoFooter extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({ _isCollage: nextProps.datas.isCollect })
     }
-
+    onChatClick(orderId){
+        this.$preload('orderId', orderId)
+        promiseApi(Taro.navigateTo)({
+            url:'/pages/chat-info/chat-info'
+        })
+    }
     render() {
         const { avatarUrl, orderTime, orderStatus, orderId, typeOne, typeTwo, typeThree, nameInput, goodsNumber, newAndOldDegree, mode, objectOfPayment, payForMePrice, payForOtherPrice, wantExchangeGoods, picsLocation, nickName, school, isCollect } = this.props.datas
         return (
@@ -168,7 +173,9 @@ class GoodsInfoFooter extends Component {
                         {this.state._isCollage ? <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collected.png' className='footer-icon'></Image> : <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/collect.png' className='footer-icon'></Image>}
                         <AtToast isOpened={(isCollect && (!this.state.isOnClick)) ? false : this.state._isCollage} text='收藏成功！' status='success' duration={1000}></AtToast>
                     </View>
-                    <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/chat-blue.png' className='footer-icon'></Image>
+                    <Image src='https://xiaoyuanhuan-1301020050.file.myqcloud.com/icon/goods-info/chat-blue.png' className='footer-icon' onClick={()=>{
+                        this.onChatClick(orderId)
+                    }}></Image>
                     {orderStatus === 'released' ? (<View className='button' onClick={() => {
                         let topPic = picsLocation.length > 0 ? picsLocation[0] : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/default.png'
                         promiseApi(Taro.navigateTo)({
