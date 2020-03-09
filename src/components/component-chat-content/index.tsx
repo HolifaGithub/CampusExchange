@@ -35,7 +35,10 @@ interface GoodsInfo{
 }
 type PageOwnProps = {
     chatInfo:ChatInfo[],
-    goodsInfo:GoodsInfo
+    goodsInfo:GoodsInfo,
+    chatNickName:string;
+    chatAvatarUrl:string;
+    myAvatarUrl:string;
 }
 
 type PageState = {}
@@ -70,10 +73,31 @@ class ChatContent extends Component {
           nameInput: '',
           topPicSrc:'',
           orderId:''
-        }
+        },
+        chatNickName:'',
+        chatAvatarUrl:'',
+        myAvatarUrl:''
     }
     componentWillMount() {
         this.setState({ loading: false })
+    }
+    onClick(orderId){
+        promiseApi(Taro.login)().then((loginResult) => {
+            const code = loginResult.code
+            if (code) {
+              promiseApi(Taro.request)({
+                url: `${protocol}://${server}:${port}/sendchatinfo`,
+                method: 'POST',
+                data: {
+                  code: code,
+                  orderId: orderId,
+                  value:this.state.value
+                }
+              }).then((res) => {
+                console.log(res);
+              })
+            }
+        })
     }
     render() {
         const windowHeight = (getSystemInfo().windowHeight - 70) + 'px'
@@ -120,7 +144,7 @@ class ChatContent extends Component {
                                                 <View className='send-time'>{time}</View>
                                                 <View className='send-content me'>{chat.content}</View>
                                             </View>
-                                            <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg' className='avatar'></Image>
+                                            <Image src={this.props.myAvatarUrl} className='avatar'></Image>
                                         </View>
                                         </View>
                                         )
@@ -128,8 +152,8 @@ class ChatContent extends Component {
                                         return (
                                             <View className='send-by-other' key={chat.chatTime}>
                                             <View>
-                                                <View className='nick-name'>Holifa</View>
-                                                <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/banner/banner1.jpg' className='avatar'></Image>
+                                                <View className='nick-name'>{this.props.chatNickName}</View>
+                                                <Image src={this.props.chatAvatarUrl} className='avatar'></Image>
                                             </View>
                                             <View className='send-container'>
                                                 <View className='send-time'>{time}</View>
@@ -147,7 +171,7 @@ class ChatContent extends Component {
                         <Input placeholder='想跟TA说点什么呢' className='input' placeholderClass='placeholder' value={this.state.value} onInput={(event) => {
                             this.setState({value:event.detail.value})
                         }}></Input>
-                        <View className='send-btn'>发送</View>
+                        <View className='send-btn' hoverClass='hover' onClick={()=>{this.onClick(orderId)}}>发送</View>
                     </View>
                     <View className='blank'></View>
                 </View>

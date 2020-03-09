@@ -5,20 +5,21 @@
         border-radius: 20px;
         width: 720px;
         margin: 0 auto;
+        margin-top: 10px;
         
         .order-id {
           border-bottom-width: 1px;
           border-bottom-style: solid;
           border-bottom-color: #eeeeee;
-          height: 60px;
+          height: 50px;
           padding-left: 20px;
-          font-size: 28px;
-          line-height: 60px;
+          font-size: 26px;
+          line-height: 50px;
         }
     
         .goods-introduction-content {
 
-          height: 210px;
+          height: 200px;
           display: flex;
           justify-content: space-around;
           align-items: center;
@@ -34,8 +35,8 @@
             padding-left: 20px;
     
             .title {
-              font-size: 30px;
-              height: 60px;
+              font-size: 28px;
+              height: 50px;
               font-weight: 600;
               overflow: hidden;
               text-overflow: ellipsis;
@@ -44,7 +45,7 @@
             .degree-and-count {
               display: flex;
               align-items: center;
-              font-size: 27px;
+              font-size: 26px;
               .count {
                 padding-left: 200px;
               }
@@ -56,7 +57,7 @@
               .want-exchange,
               .pay-for-me,
               .pay-for-other {
-                margin-bottom: 10px;
+                margin-bottom: 3px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -102,7 +103,7 @@
             margin-left: 20px;
             .nick-name{
                 font-size: 20px;
-                color: #000;
+                color: #555;
             }
             .send-container{
                 margin-top: 25px;
@@ -111,6 +112,7 @@
         }
         .send-by-me{
             float: right;
+            margin-right: 20px;
             // right: 20px;
             // position: absolute;
             .send-container{
@@ -129,7 +131,7 @@
                 font-size: 23px;
                 color: #888;
                 margin-bottom: 10px;
-                width: 240px;
+                width: 270px;
             }
             .send-content{
                 max-width: 530px;
@@ -183,4 +185,7 @@
 .blank{
     height: 50px;
     width: 100%;
+}
+.hover{
+  transform: scale(0.85);
 }
