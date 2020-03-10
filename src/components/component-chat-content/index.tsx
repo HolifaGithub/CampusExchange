@@ -46,6 +46,7 @@ type PageState = {
     value: string;
     componentChatInfo: ChatInfo[],
     orderId:string;
+    toLast:string;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -67,7 +68,8 @@ class ChatContent extends Component {
         loading: true,
         value: '',
         componentChatInfo: [],
-        orderId:''
+        orderId:'',
+        toLast:'chat'
     }
     static defaultProps = {
         chatInfo: [],
@@ -103,8 +105,12 @@ class ChatContent extends Component {
                         if (res.status === 'success') {
                             const chatInfo = res.chatInfo
                             this.setState((prevState: PageState) => {
+                               const componentChatInfo= prevState.componentChatInfo.concat(chatInfo)
+                               const len = componentChatInfo.length - 1
                                 return {
-                                    componentChatInfo: prevState.componentChatInfo.concat(chatInfo)
+                                    componentChatInfo,
+                                    value:'',
+                                    toLast:'chat'+len
                                 }
                             })
                             promiseApi(Taro.getStorageInfo)().then((storageInfoRes) => {
@@ -135,9 +141,11 @@ class ChatContent extends Component {
         })
     }
     componentWillReceiveProps(nextProps) {
+        const len = nextProps.chatInfo.length-1
         this.setState({ 
             componentChatInfo: nextProps.chatInfo,
-            orderId:nextProps.goodsInfo.orderId
+            orderId:nextProps.goodsInfo.orderId,
+            toLast:'chat'+len
         })
     }
     onClick(orderId) {
@@ -164,10 +172,6 @@ class ChatContent extends Component {
         const windowHeight = (getSystemInfo().windowHeight - 70) + 'px'
         const { payForMePrice, payForOtherPrice, goodsNumber, newAndOldDegree, wantExchangeGoods, nameInput, topPicSrc, orderId } = this.props.goodsInfo
         const { componentChatInfo } = this.state
-        const len=componentChatInfo.length
-        if(len>0){
-            var {chatTime,type}=componentChatInfo[len-1]
-        }
         return (
             <Skeleton
                 row={1}
@@ -176,7 +180,7 @@ class ChatContent extends Component {
                 loading={this.state.loading}
             >
                 <View>
-                    <ScrollView className='chat-content' scrollY enableFlex style={{ height: windowHeight }} scrollIntoView={`${chatTime}${type}`}>
+                    <ScrollView className='chat-content' scrollY enableFlex style={{ height: windowHeight }} scrollIntoView={this.state.toLast}>
                         <View className='goods-introduction'>
                             <View className='order-id'>
                                 订单编号：{orderId}
@@ -204,7 +208,7 @@ class ChatContent extends Component {
                                     const time = `${date.year}年${date.month}月${date.day}日 ${date.hour}:${date.minute}:${date.second}`
                                     if (chat.type === 0) {
                                         return (
-                                            <View className='send-by-me-conatiner' key={chat.chatTime} id={chat.chatTime+chat.type}>
+                                            <View className='send-by-me-conatiner' key={chat.chatTime} id={'chat'+index}>
                                                 <View className='send-by-me' >
                                                     <View className='send-container'>
                                                         <View className='send-time'>{time}</View>
@@ -216,7 +220,9 @@ class ChatContent extends Component {
                                         )
                                     } else if (chat.type === 1) {
                                         return (
-                                            <View className='send-by-other' key={chat.chatTime}>
+                                            <View className='send-by-other' key={chat.chatTime}
+                                            id={'chat'+index}
+                                            >
                                                 <View>
                                                     <View className='nick-name'>{this.props.chatNickName}</View>
                                                     <Image src={this.props.chatAvatarUrl} className='avatar'></Image>
