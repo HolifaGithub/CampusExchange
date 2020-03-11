@@ -93,7 +93,6 @@ class ChatInfo extends Component {
           }
         }).then((res) => {
           if (res.statusCode === 200 && res.data.status === 'success') {
-            // console.log(res.data.chatInfo);
             const allChatInfo = this.ChatInfoInStorage.concat(res.data.chatInfo)
             promiseApi(Taro.getStorageInfo)().then((storageInfoRes) => {
               if (storageInfoRes.currentSize < storageInfoRes.limitSize) {

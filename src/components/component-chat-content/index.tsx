@@ -22,6 +22,7 @@ interface ChatInfo {
     type: number;
     chatTime: string;
     content: string;
+    isWarn:boolean;
 }
 interface GoodsInfo {
     payForMePrice: number;
@@ -127,8 +128,14 @@ class ChatContent extends Component {
                                         //如果本地有缓存该订单的聊天记录
                                         promiseApi(Taro.setStorage)({
                                             key: orderId,
-                                            data: storageChatInfo.concat(chatInfo)
+                                            data: storageChatInfo.concat([{
+                                                type: chatInfo[0].type,
+                                                chatTime: chatInfo[0].chatTime,
+                                                content: chatInfo[0].content
+                                            }])
                                         })
+                                    }).catch(()=>{
+                                        
                                     })
                                 }
                             })
@@ -224,6 +231,7 @@ class ChatContent extends Component {
                                                     </View>
                                                     <Image src={this.props.myAvatarUrl} className='avatar'></Image>
                                                 </View>
+                                                {chat.isWarn?<View className='warn'>注意：请文明聊天，禁说脏话！</View>:null}
                                             </View>
                                         )
                                     } else if (chat.type === 1) {
@@ -239,6 +247,7 @@ class ChatContent extends Component {
                                                     <View className='send-time'>{time}</View>
                                                     <View className='send-content other'>{chat.content}</View>
                                                 </View>
+                                                {chat.isWarn?<View className='warn'>注意：请文明聊天，禁说脏话！</View>:null}
                                             </View>
                                         )
                                     }

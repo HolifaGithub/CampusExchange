@@ -1,5 +1,17 @@
 .chat-content{
     background-color: #eee;
+    .warn{
+      position: relative;
+      top:140px;
+      right: -120px;
+      width: 320px;
+      margin: 0 auto;
+      background-color: #C41A16;
+      color: #ffffff;
+      text-align: center;
+      border-radius: 20px;
+      font-size: 20px;
+    }
     .goods-introduction {
         background-color: #ffffff;
         border-radius: 20px;
