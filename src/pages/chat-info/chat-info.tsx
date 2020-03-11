@@ -37,6 +37,7 @@ type PageState = {
   chatNickName: string;
   chatAvatarUrl: string;
   myAvatarUrl: string;
+  otherOpenId:string;
 }
 
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -67,16 +68,17 @@ class ChatInfo extends Component {
       wantExchangeGoods: '',
       nameInput: '',
       topPicSrc: '',
-      orderId: ''
+      orderId: '',
     },
     chatNickName: '',
     chatAvatarUrl: '',
     myAvatarUrl: '',
+    otherOpenId:''
   }
   ChatInfoInStorage = []
   getChatInfoStartTime = ''
 
-  fetchChatInfo(orderId) {
+  fetchChatInfo(orderId,otherOpenId) {
     promiseApi(Taro.login)().then((loginResult) => {
       const code = loginResult.code
       if (code) {
@@ -86,6 +88,7 @@ class ChatInfo extends Component {
           data: {
             code: code,
             orderId: orderId,
+            otherOpenId:otherOpenId,
             getChatInfoStartTime: this.getChatInfoStartTime
           }
         }).then((res) => {
@@ -109,7 +112,8 @@ class ChatInfo extends Component {
                     goodsInfo: res.data.goodsInfo,
                     chatNickName: res.data.chatNickName,
                     chatAvatarUrl: res.data.chatAvatarUrl,
-                    myAvatarUrl: res.data.myAvatarUrl
+                    myAvatarUrl: res.data.myAvatarUrl,
+                    otherOpenId:otherOpenId
                   })
                 })
               }else{
@@ -118,7 +122,8 @@ class ChatInfo extends Component {
                   goodsInfo: res.data.goodsInfo,
                   chatNickName: res.data.chatNickName,
                   chatAvatarUrl: res.data.chatAvatarUrl,
-                  myAvatarUrl: res.data.myAvatarUrl
+                  myAvatarUrl: res.data.myAvatarUrl,
+                  otherOpenId:otherOpenId
                 })
               }
             })
@@ -129,6 +134,7 @@ class ChatInfo extends Component {
   }
   componentWillMount() {
     const orderId = this.$router.preload!.orderId
+    const otherOpenId = this.$router.preload!.otherOpenId
     if (orderId) {
       promiseApi(Taro.getStorage)({
         key: orderId
@@ -140,20 +146,20 @@ class ChatInfo extends Component {
         const dateObj = formatDate(lastestChatTime)
         const { year, month, day, hour, minute, second } = dateObj
         this.getChatInfoStartTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`
-        this.fetchChatInfo(orderId)
+        this.fetchChatInfo(orderId,otherOpenId)
       }).catch(() => {
         //如果本地没有缓存该订单的聊天记录
         this.ChatInfoInStorage = []
         this.getChatInfoStartTime = ''
-        this.fetchChatInfo(orderId)
+        this.fetchChatInfo(orderId,otherOpenId)
       })
     }
   }
   render() {
-    const { chatInfo, goodsInfo, chatNickName, chatAvatarUrl, myAvatarUrl } = this.state
+    const { chatInfo, goodsInfo, chatNickName, chatAvatarUrl, myAvatarUrl,otherOpenId } = this.state
     return (
       <View className='chat-info'>
-        <ChatContent chatInfo={chatInfo} goodsInfo={goodsInfo} chatNickName={chatNickName} chatAvatarUrl={chatAvatarUrl} myAvatarUrl={myAvatarUrl} />
+        <ChatContent chatInfo={chatInfo} goodsInfo={goodsInfo} chatNickName={chatNickName} chatAvatarUrl={chatAvatarUrl} myAvatarUrl={myAvatarUrl} otherOpenId={otherOpenId}/>
       </View>
     )
   }

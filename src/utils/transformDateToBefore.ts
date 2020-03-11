@@ -2,9 +2,8 @@ function transformDateToBefore(str:string) {
     const time =Math.floor((new Date(str).getTime())/1000)
     const nowTime =Math.floor((new Date().getTime())/1000)
     const subSecond = nowTime - time
-
     let returnStr = ''
-    if(subSecond>=0&&subSecond<60){
+    if(subSecond<60){
         return returnStr = '刚刚'
     } 
     const subMinute = Math.floor(subSecond/60)

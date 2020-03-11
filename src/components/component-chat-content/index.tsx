@@ -39,6 +39,7 @@ type PageOwnProps = {
     chatNickName: string;
     chatAvatarUrl: string;
     myAvatarUrl: string;
+    otherOpenId:string;
 }
 
 type PageState = {
@@ -69,7 +70,7 @@ class ChatContent extends Component {
         value: '',
         componentChatInfo: [],
         orderId:'',
-        toLast:'chat'
+        toLast:'chat',
     }
     static defaultProps = {
         chatInfo: [],
@@ -85,8 +86,10 @@ class ChatContent extends Component {
         },
         chatNickName: '',
         chatAvatarUrl: '',
-        myAvatarUrl: ''
+        myAvatarUrl: '',
+        otherOpenId:'',
     }
+    task:Taro.SocketTask
     componentWillMount() {
         this.setState({ loading: false })
         promiseApi(Taro.login)().then(loginResult => {
@@ -94,6 +97,7 @@ class ChatContent extends Component {
                 Taro.connectSocket({
                     url: `wss://${server}:${port}`
                 }).then(task => {
+                    this.task = task
                     task.onOpen(function () {
                         task.send({
                             data: loginResult.code
@@ -110,7 +114,7 @@ class ChatContent extends Component {
                                 return {
                                     componentChatInfo,
                                     value:'',
-                                    toLast:'chat'+len
+                                    toLast:'chat'+len,
                                 }
                             })
                             promiseApi(Taro.getStorageInfo)().then((storageInfoRes) => {
@@ -134,7 +138,7 @@ class ChatContent extends Component {
                         console.log('onError')
                     })
                     task.onClose(function (e) {
-                        console.log('onClose: ', e)
+                        console.log('chatContentWebSocketClose')
                     })
                 })
             }
@@ -148,7 +152,7 @@ class ChatContent extends Component {
             toLast:'chat'+len
         })
     }
-    onClick(orderId) {
+    onClick(orderId,otherOpenId) {
         promiseApi(Taro.login)().then((loginResult) => {
             const code = loginResult.code
             if (code) {
@@ -158,7 +162,8 @@ class ChatContent extends Component {
                     data: {
                         code: code,
                         orderId: orderId,
-                        value: this.state.value
+                        value: this.state.value,
+                        otherOpenId:otherOpenId
                     }
                 }).then((res) => {
                     if (res.statusCode !== 200 || res.data.status !== 'success') {
@@ -167,6 +172,9 @@ class ChatContent extends Component {
                 })
             }
         })
+    }
+    componentWillUnmount(){
+        this.task.close({})
     }
     render() {
         const windowHeight = (getSystemInfo().windowHeight - 70) + 'px'
@@ -243,7 +251,7 @@ class ChatContent extends Component {
                         <Input placeholder='想跟TA说点什么呢' className='input' placeholderClass='placeholder' value={this.state.value} onInput={(event) => {
                             this.setState({ value: event.detail.value })
                         }}></Input>
-                        <View className='send-btn' hoverClass='hover' onClick={() => { this.onClick(orderId) }}>发送</View>
+                        <View className='send-btn' hoverClass='hover' onClick={() => { this.onClick(orderId,this.props.otherOpenId) }}>发送</View>
                     </View>
                     <View className='blank'></View>
                 </View>

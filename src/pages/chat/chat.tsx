@@ -27,6 +27,7 @@ interface ChatListReturnDatas {
   lastChatContent: string;
   lastChatTime: string;
   orderId: string;
+  otherOpenId:string;
 }
 type PageState = {
   page: number;
@@ -62,7 +63,8 @@ class Chat extends Component {
     loadMore: false,
     chatListDatas: [],
   }
-  componentWillMount() {
+  task:Taro.SocketTask
+  fetchChatListDatas(){
     promiseApi(Taro.login)().then((loginResult) => {
       const code = loginResult.code
       if (code) {
@@ -91,7 +93,6 @@ class Chat extends Component {
       }
     })
   }
-
   onScrollToLower() {
     this.setState({ loadMore: true })
     promiseApi(Taro.login)().then((loginResult) => {
@@ -124,11 +125,41 @@ class Chat extends Component {
       }
     })
   }
-  componentWillUnmount() { }
 
-  componentDidShow() { }
+  componentDidShow() { 
+    this.fetchChatListDatas()
+    promiseApi(Taro.login)().then(loginResult => {
+      if (loginResult.code) {
+          Taro.connectSocket({
+              url: `wss://${server}:${port}`
+          }).then(task => {
+              this.task = task
+              task.onOpen(function () {
+                  task.send({
+                      data: loginResult.code
+                  })
+              })
+              task.onMessage((msg) => {
+                  // console.log('onMessage: ', msg)
+                  const res = JSON.parse(msg.data)
+                  if (res.status === 'success') {
+                    this.fetchChatListDatas()
+                  }
+              })
+              task.onError(function () {
+                  console.log('onError')
+              })
+              task.onClose(function (e) {
+                  console.log('chatListWebSocketClose')
+              })
+          })
+      }
+  })
+  }
 
-  componentDidHide() { }
+  componentDidHide() {
+    this.task.close({})
+   }
 
   render() {
     const { chatListDatas, loadMore, hasMore } = this.state

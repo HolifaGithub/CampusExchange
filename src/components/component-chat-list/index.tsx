@@ -3,6 +3,7 @@ import { ComponentClass } from 'react'
 import { View, Text, Image } from '@tarojs/components'
 import { CDNWebSite } from '../../static-name/web-site'
 import { server, port, protocol } from '../../static-name/server'
+import { AtBadge } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import transformDateToBefore from '../../utils/transformDateToBefore'
 import promiseApi from '../../utils/promiseApi'
@@ -23,6 +24,7 @@ interface ChatListReturnDatas {
     lastChatContent: string;
     lastChatTime: string;
     orderId: string;
+    otherOpenId: string;
 }
 type PageOwnProps = {
     datas: ChatListReturnDatas[]
@@ -55,10 +57,13 @@ class ChatList extends Component {
     componentWillMount() {
         this.setState({ loading: false })
     }
-    onClick(orderId){
-        this.$preload('orderId', orderId)
+    onClick(orderId, otherOpenId) {
+        this.$preload({
+            orderId,
+            otherOpenId
+        })
         promiseApi(Taro.navigateTo)({
-            url:'/pages/chat-info/chat-info'
+            url: '/pages/chat-info/chat-info'
         })
     }
     render() {
@@ -72,11 +77,18 @@ class ChatList extends Component {
             >
                 <View>
                     {(datas && datas.length > 0) ? datas.map((data, index) => {
-                        const { avatarUrl, orderId, nickName, lastChatContent, lastChatTime, topPicSrc } = data
+                        const { avatarUrl, orderId, nickName, lastChatContent, lastChatTime, topPicSrc, otherOpenId } = data
+                        // Taro.getStorage({key:orderId,
+                        // success(res){
+                        //     console.log(res.data);
+                        // }
+                        // })
                         const transformDate = transformDateToBefore(lastChatTime)
                         return (
-                            <View className='chat-list' key={new Date().toString() + index} onClick={()=>{this.onClick(orderId)}}>
-                                <Image className='avatar' src={avatarUrl}></Image>
+                            <View className='chat-list' key={new Date().toString() + index} onClick={() => { this.onClick(orderId, otherOpenId) }}>
+                                <AtBadge value={10} maxValue={99}>
+                                    <Image className='avatar' src={avatarUrl}></Image>
+                                </AtBadge>
                                 <View className='content'>
                                     <View className='nick-name'>{nickName}</View>
                                     <View className='chat-content'>{lastChatContent}</View>
