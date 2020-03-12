@@ -6,6 +6,7 @@ import { server, port, protocol } from '../../static-name/server'
 import { connect } from '@tarojs/redux'
 import getSystemInfo from '../../utils/getSystemInfo'
 import promiseApi from '../../utils/promiseApi'
+import ChatSendMsg from '../component-chat-send-msg'
 import formatDate from '../../utils/formatDate'
 import Tag from '../component-tag'
 import Skeleton from 'taro-skeleton'
@@ -45,7 +46,6 @@ type PageOwnProps = {
 
 type PageState = {
     loading: boolean;
-    value: string;
     componentChatInfo: ChatInfo[],
     orderId:string;
     toLast:string;
@@ -68,7 +68,6 @@ class ChatContent extends Component {
     }
     state = {
         loading: true,
-        value: '',
         componentChatInfo: [],
         orderId:'',
         toLast:'chat',
@@ -114,7 +113,6 @@ class ChatContent extends Component {
                                const len = componentChatInfo.length - 1
                                 return {
                                     componentChatInfo,
-                                    value:'',
                                     toLast:'chat'+len,
                                 }
                             })
@@ -157,27 +155,6 @@ class ChatContent extends Component {
             componentChatInfo: nextProps.chatInfo,
             orderId:nextProps.goodsInfo.orderId,
             toLast:'chat'+len
-        })
-    }
-    onClick(orderId,otherOpenId) {
-        promiseApi(Taro.login)().then((loginResult) => {
-            const code = loginResult.code
-            if (code) {
-                promiseApi(Taro.request)({
-                    url: `${protocol}://${server}:${port}/sendchatinfo`,
-                    method: 'POST',
-                    data: {
-                        code: code,
-                        orderId: orderId,
-                        value: this.state.value,
-                        otherOpenId:otherOpenId
-                    }
-                }).then((res) => {
-                    if (res.statusCode !== 200 || res.data.status !== 'success') {
-                        promiseApi(Taro.showToast)({ title: '发送失败！' })
-                    }
-                })
-            }
         })
     }
     componentWillUnmount(){
@@ -227,11 +204,12 @@ class ChatContent extends Component {
                                                 <View className='send-by-me' >
                                                     <View className='send-container'>
                                                         <View className='send-time'>{time}</View>
-                                                        <View className='send-content me'>{chat.content}</View>
+                                                        <View className='send-content me'>{chat.content}
+                                                        {chat.isWarn?<View className='warn'>请文明聊天，禁说脏话！</View>:null}
+                                                        </View>
                                                     </View>
                                                     <Image src={this.props.myAvatarUrl} className='avatar'></Image>
                                                 </View>
-                                                {chat.isWarn?<View className='warn'>注意：请文明聊天，禁说脏话！</View>:null}
                                             </View>
                                         )
                                     } else if (chat.type === 1) {
@@ -247,7 +225,6 @@ class ChatContent extends Component {
                                                     <View className='send-time'>{time}</View>
                                                     <View className='send-content other'>{chat.content}</View>
                                                 </View>
-                                                {chat.isWarn?<View className='warn'>注意：请文明聊天，禁说脏话！</View>:null}
                                             </View>
                                         )
                                     }
@@ -256,12 +233,7 @@ class ChatContent extends Component {
 
                         </View>
                     </ScrollView>
-                    <View className='send'>
-                        <Input placeholder='想跟TA说点什么呢' className='input' placeholderClass='placeholder' value={this.state.value} onInput={(event) => {
-                            this.setState({ value: event.detail.value })
-                        }}></Input>
-                        <View className='send-btn' hoverClass='hover' onClick={() => { this.onClick(orderId,this.props.otherOpenId) }}>发送</View>
-                    </View>
+                    <ChatSendMsg orderId={orderId} otherOpenId={this.props.otherOpenId}/>
                     <View className='blank'></View>
                 </View>
             </Skeleton>

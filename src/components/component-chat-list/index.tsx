@@ -7,15 +7,17 @@ import { AtBadge } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import transformDateToBefore from '../../utils/transformDateToBefore'
 import promiseApi from '../../utils/promiseApi'
+import { resetItemMessageNum } from '../../actions/chatListMessageNum'
 import Skeleton from 'taro-skeleton'
 import './index.scss'
 
 type PageStateProps = {
-
+    chatListMessageNum: any
 }
 
 type PageDispatchProps = {
-
+    dispatchAddItem: (id) => any;
+    dispatchResetItemMessageNum: (id) => any;
 }
 interface ChatListReturnDatas {
     avatarUrl: string;
@@ -25,6 +27,7 @@ interface ChatListReturnDatas {
     lastChatTime: string;
     orderId: string;
     otherOpenId: string;
+    id: number;
 }
 type PageOwnProps = {
     datas: ChatListReturnDatas[]
@@ -38,17 +41,22 @@ interface ChatList {
     props: IProps;
 }
 
-@connect(({ }) => ({
 
+@connect(({ chatListMessageNum }) => ({
+    chatListMessageNum
 }), (dispatch) => ({
-
+    dispatchResetItemMessageNum(id) {
+        dispatch(resetItemMessageNum(id))
+    }
 }))
 class ChatList extends Component {
     constructor(props) {
         super(props)
     }
     static defaultProps = {
-        datas: []
+        datas: [],
+        chatListMessageNum: {},
+        dispatchResetItemMessageNum() { }
     }
     state = {
         loading: true,
@@ -57,17 +65,18 @@ class ChatList extends Component {
     componentWillMount() {
         this.setState({ loading: false })
     }
-    onClick(orderId, otherOpenId) {
+    onClick(orderId, otherOpenId, id) {
         this.$preload({
             orderId,
             otherOpenId
         })
+        this.props.dispatchResetItemMessageNum(id)
         promiseApi(Taro.navigateTo)({
             url: '/pages/chat-info/chat-info'
         })
     }
     render() {
-        const { datas } = this.props
+        const { datas, chatListMessageNum } = this.props
         return (
             <Skeleton
                 row={1}
@@ -77,18 +86,13 @@ class ChatList extends Component {
             >
                 <View>
                     {(datas && datas.length > 0) ? datas.map((data, index) => {
-                        const { avatarUrl, orderId, nickName, lastChatContent, lastChatTime, topPicSrc, otherOpenId } = data
-                        // Taro.getStorage({key:orderId,
-                        // success(res){
-                        //     console.log(res.data);
-                        // }
-                        // })
+                        const { avatarUrl, orderId, nickName, lastChatContent, lastChatTime, topPicSrc, otherOpenId, id } = data
                         const transformDate = transformDateToBefore(lastChatTime)
                         return (
-                            <View className='chat-list' key={new Date().toString() + index} onClick={() => { this.onClick(orderId, otherOpenId) }}>
-                                <AtBadge value={10} maxValue={99}>
+                            <View className='chat-list' key={id} onClick={() => { this.onClick(orderId, otherOpenId, id) }}>
+                                {chatListMessageNum[id] !== 0 ? (<AtBadge value={chatListMessageNum[id]} maxValue={99}>
                                     <Image className='avatar' src={avatarUrl}></Image>
-                                </AtBadge>
+                                </AtBadge>) : <Image className='avatar' src={avatarUrl}></Image>}
                                 <View className='content'>
                                     <View className='nick-name'>{nickName}</View>
                                     <View className='chat-content'>{lastChatContent}</View>

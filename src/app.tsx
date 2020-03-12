@@ -2,7 +2,10 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
 import Index from './pages/index'
 import configStore from './store'
+import { server, port, protocol } from './static-name/server'
+import promiseApi from './utils/promiseApi'
 import './app.scss'
+import {addSumMessageNum} from './actions/chatListMessageNum'
 import './custom-variables.scss'
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -22,15 +25,42 @@ class App extends Component {
    * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
    * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
    */
-
-  componentDidMount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  componentDidCatchError() { }
-
+  componentWillMount(){
+    promiseApi(Taro.login)().then(loginResult => {
+      if (loginResult.code) {
+          Taro.connectSocket({
+              url: `wss://${server}:${port}`
+          }).then(task => {
+              task.onOpen(function () {
+                  task.send({
+                      data: loginResult.code
+                  })
+              })
+              task.onMessage((msg) => {
+                  const res = JSON.parse(msg.data)
+                  if (res.status === 'success') {
+                       const id = res.chatInfo[0].id
+                       let pages=Taro.getCurrentPages()
+                       let currentPage:Taro.Page
+                       if(pages.length){
+                          currentPage = pages[pages.length-1]
+                          const pagePath=currentPage.route
+                          if(pagePath !== 'pages/chat-info/chat-info'){
+                            store.dispatch(addSumMessageNum(id))
+                          }
+                       }
+                  }
+              })
+              task.onError(function () {
+                  console.log('onError')
+              })
+              task.onClose(function (e) {
+                  console.log('chatListWebSocketClose')
+              })
+          })
+      }
+  })
+  }
   config: Config = {
     pages: [
       'pages/index/index',

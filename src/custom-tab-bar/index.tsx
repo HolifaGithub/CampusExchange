@@ -22,7 +22,8 @@ type PageStateProps = {
   },
   checkIsNeedRelogin: {
     isNeedRelogin: boolean;
-  }
+  },
+  chatListMessageNum:{sumMessage:number}
 }
 
 type PageDispatchProps = {
@@ -46,9 +47,10 @@ interface TabBar {
 }
 
 
-@connect(({ switchTarBar, checkIsNeedRelogin }) => ({
+@connect(({ switchTarBar, checkIsNeedRelogin,chatListMessageNum }) => ({
   switchTarBar,
-  checkIsNeedRelogin
+  checkIsNeedRelogin,
+  chatListMessageNum
 }), (dispatch) => ({
   switchTabHome() {
     dispatch(switchTabHome())
@@ -129,14 +131,14 @@ class TabBar extends PureComponent {
   }
  }
   shouldComponentUpdate(nextProps,nextState){
-    // console.log(nextProps.switchTarBar.current,this.props.switchTarBar.current)
-    if(nextProps.switchTarBar.current!==this.props.switchTarBar.current){
+    if(nextProps.switchTarBar.current!==this.props.switchTarBar.current||nextProps.chatListMessageNum.sumMessage !== this.props.chatListMessageNum.sumMessage){
       return true
     }else{
       return false
     }
   }
   render() {
+    const {sumMessage}=this.props.chatListMessageNum
     return (
         <View>
           <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
@@ -160,7 +162,7 @@ class TabBar extends PureComponent {
                 title: '聊天',
                 image: `${CDNWebSite}/icon/tabbar_ys/chat.png`,
                 selectedImage: `${CDNWebSite}/icon/tabbar_ys/chat-selected.png`,
-                text: '100',
+                text: `${sumMessage}`,
                 max: 99
               },
               {

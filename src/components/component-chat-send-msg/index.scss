@@ -1,0 +1,29 @@
+.send{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 80px;
+    background-color: #fff;
+    padding-top: 8px;
+    .placeholder{
+        font-size: 25px;
+    }
+    .input{
+        width: 520px;
+        height: 100%; 
+        border-width: 1px;
+        border-style: solid;
+        border-color: #aaa;
+        border-radius: 20px; 
+        padding-left: 20px;       
+    }
+    .send-btn{
+        width: 180px;
+        height: 100%;
+        background-color: #C41A16;
+        border-radius: 20px;
+        line-height: 80px;
+        color: #fff;
+        text-align: center;
+    }
+}

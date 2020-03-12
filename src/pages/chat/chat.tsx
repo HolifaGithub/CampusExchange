@@ -8,14 +8,16 @@ import { AtActivityIndicator } from "taro-ui"
 import NotFound from '../../components/componnent-not-found'
 import { connect } from '@tarojs/redux'
 import ChatList from '../../components/component-chat-list'
+import {addItem} from '../../actions/chatListMessageNum'
 import './chat.scss'
 
 type PageStateProps = {
-
+  chatListMessageNum:any
 }
 
 type PageDispatchProps = {
-
+  dispatchAddItem:(id)=>any;
+  dispatchResetItemMessageNum:(id)=>any;
 }
 
 type PageOwnProps = {}
@@ -28,6 +30,7 @@ interface ChatListReturnDatas {
   lastChatTime: string;
   orderId: string;
   otherOpenId:string;
+  id:number;
 }
 type PageState = {
   page: number;
@@ -42,10 +45,12 @@ interface Chat {
   props: IProps;
 }
 
-@connect(({ }) => ({
-
+@connect(({chatListMessageNum }) => ({
+  chatListMessageNum
 }), (dispatch) => ({
-
+  dispatchAddItem(id){
+    dispatch(addItem(id))
+  }
 }))
 class Chat extends Component {
   constructor(props) {
@@ -78,7 +83,15 @@ class Chat extends Component {
           }
         }).then((res) => {
           if (res.statusCode === 200 && res.data.status === 'success') {
-            if (res.data.returnDatas.length === this.pageSize) {
+            const len =res.data.returnDatas.length
+            const chatListMessageNum= this.props.chatListMessageNum
+            for(let i=0;i<len;i++){
+              const id = res.data.returnDatas[i].id
+              if(!chatListMessageNum.hasOwnProperty(id)){
+                  this.props.dispatchAddItem(id)
+              }
+            }
+            if (len === this.pageSize) {
               this.setState({
                 chatListDatas: res.data.returnDatas,
                 hasMore: true,
@@ -116,9 +129,12 @@ class Chat extends Component {
                 }
               })
             } else {
-              this.setState({
-                hasMore: false,
-                loadMore: false,
+              this.setState((prevState: PageState) => {
+                return {
+                  hasMore: false,
+                  loadMore: false,
+                  chatListDatas: prevState.chatListDatas.concat(res.data.returnDatas)
+                }
               })
             }
           }
@@ -141,7 +157,6 @@ class Chat extends Component {
                   })
               })
               task.onMessage((msg) => {
-                  // console.log('onMessage: ', msg)
                   const res = JSON.parse(msg.data)
                   if (res.status === 'success') {
                     this.fetchChatListDatas()
