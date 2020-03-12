@@ -114,39 +114,39 @@ class Index extends PureComponent {
           const district = address_component.district
           if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
             // this.setState({ location: `${province}${city}${district}` })
-            promiseApi(Taro.checkSession)().then(() => {
-              this.setState({
-                isSessionEffective: true,
-                location: `${province}${city}${district}`
-              }, () => {
-                if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
-                  setTimeout(() => {
-                    Taro.switchTab({
-                      url: '/pages/person/person',
-                      success: () => {
-                        this.props.switchTabPerson()
-                      }
-                    })
-                  }, 300)
-                }
-              })
+              promiseApi(Taro.checkSession)().then(() => {
+                this.setState({
+                  isSessionEffective: true,
+                  location: `${province}${city}${district}`
+                }, () => {
+                  if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
+                    setTimeout(() => {
+                      Taro.switchTab({
+                        url: '/pages/person/person',
+                        success: () => {
+                          this.props.switchTabPerson()
+                        }
+                      })
+                    }, 300)
+                  }
+                })
+              }).catch(()=>{
+                this.setState({
+                  isSessionEffective: false,
+                  location: `${province}${city}${district}`
+                }, () => {
+                  if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
+                    setTimeout(() => {
+                      Taro.switchTab({
+                        url: '/pages/person/person',
+                        success: () => {
+                          this.props.switchTabPerson()
+                        }
+                      })
+                    }, 300)
+                  }
+                })
             })
-            this.setState({
-              isSessionEffective: false,
-              location: `${province}${city}${district}`
-            }, () => {
-              if (this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective) {
-                setTimeout(() => {
-                  Taro.switchTab({
-                    url: '/pages/person/person',
-                    success: () => {
-                      this.props.switchTabPerson()
-                    }
-                  })
-                }, 300)
-              }
-            })
-
             // console.log(this.props.checkIsNeedRelogin.isNeedRelogin,this.state.isSessionEffective)
           }
         }
