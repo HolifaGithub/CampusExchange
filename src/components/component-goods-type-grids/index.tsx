@@ -7,6 +7,7 @@ import promiseApi from '../../utils/promiseApi'
 
 interface Props {
     datas: {
+        id:string;
         typeTwo: string;
         trademark: string;
         typeTwoDatas: {
@@ -22,7 +23,7 @@ function GoodsTypeGrids(props: Props) {
     useEffect(() => {
         timer=setTimeout(() => {
             setLoading(false)
-        }, 500)
+        }, 300)
         return ()=>{
             clearTimeout(timer)
         }
@@ -32,7 +33,7 @@ function GoodsTypeGrids(props: Props) {
             {props.datas && props.datas.length > 0 ? props.datas.map((data, index) => {
                 const { typeTwo, trademark, typeTwoDatas } = data
                 return (
-                    <View className='goods-type-grids-main-container' key={new Date().toString() + index}>
+                    <View className='goods-type-grids-main-container' key={data.id}>
                         <Skeleton
                             row={1}
                             rowHeight={50}
@@ -62,7 +63,7 @@ function GoodsTypeGrids(props: Props) {
                                         rowHeight={30}
                                         animate
                                         loading={loading}
-                                        key={new Date().toString() + index2}
+                                        key={ data.id+ index2}
                                     >
                                         <View className='goods-type-grid' onClick={()=>{
                                             const searchStart='typeThree'
@@ -91,7 +92,7 @@ function GoodsTypeGrids(props: Props) {
 }
 GoodsTypeGrids.defaultProps = {
     datas: [
-        {
+        {   id:'',
             typeTwo: '',
             trademark: '',
             typeTwoDatas: [

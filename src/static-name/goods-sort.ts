@@ -3,7 +3,7 @@ const goodsTypeGridsDatas = [
   {
     typeOne: `手机`,
     typeOneDatas: [
-      {
+      { id:'one1',
         typeTwo: "iphone",
         trademark: `${CDNWebSite}/icon/goods-type-grids_ys/phone/iphone/iphone-trademark.png`,
         typeTwoDatas: [
@@ -73,6 +73,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one2',
         typeTwo: "小米",
         trademark: `${CDNWebSite}/icon/goods-type-grids_ys/phone/xiaomi/xiaomi-trademark.png`,
         typeTwoDatas: [
@@ -126,6 +127,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one3',
         typeTwo: "华为",
         trademark: `${CDNWebSite}/icon/goods-type-grids_ys/phone/huawei/huawei-trademark.png`,
         typeTwoDatas: [
@@ -155,6 +157,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one4',
         typeTwo: "oppo",
         trademark: `${CDNWebSite}/icon/goods-type-grids_ys/phone/oppo/oppo-trademark.png`,
         typeTwoDatas: [
@@ -188,6 +191,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one5',
         typeTwo: "vivo",
         trademark: `${CDNWebSite}/icon/goods-type-grids_ys/phone/vivo/vivo-trademark.png`,
         typeTwoDatas: [
@@ -235,6 +239,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one6',
         typeTwo: "魅族",
         trademark: `${CDNWebSite}/icon/goods-type-grids_ys/phone/meizu/meizu-trademark.png`,
         typeTwoDatas: [
@@ -278,6 +283,7 @@ const goodsTypeGridsDatas = [
     typeOne: `电脑`,
     typeOneDatas: [
       {
+        id:'one7',
         typeTwo: `台式电脑`,
         trademark: ``,
         typeTwoDatas: [
@@ -303,6 +309,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one8',
         typeTwo: `笔记本电脑`,
         trademark: ``,
         typeTwoDatas: [
@@ -322,6 +329,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one9',
         typeTwo: `平板电脑`,
         trademark: ``,
         typeTwoDatas: [
@@ -343,6 +351,7 @@ const goodsTypeGridsDatas = [
     typeOne: `书籍`,
     typeOneDatas: [
       {
+        id:'one10',
         typeTwo: `大学书籍`,
         trademark: ``,
         typeTwoDatas: [
@@ -371,6 +380,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one11',
         typeTwo: `专业书籍`,
         trademark: ``,
         typeTwoDatas: [
@@ -387,6 +397,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one12',
         typeTwo: `名人典故`,
         trademark: ``,
         typeTwoDatas: [
@@ -406,6 +417,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one13',
         typeTwo: `报纸杂志`,
         trademark: ``,
         typeTwoDatas: [
@@ -425,6 +437,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one14',
         typeTwo: `小说`,
         trademark: ``,
         typeTwoDatas: [
@@ -446,6 +459,7 @@ const goodsTypeGridsDatas = [
     typeOne: `食品`,
     typeOneDatas: [
       {
+        id:'one15',
         typeTwo: `水果`,
         trademark: ``,
         typeTwoDatas: [
@@ -474,6 +488,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one16',
         typeTwo: `饮品`,
         trademark: ``,
         typeTwoDatas: [
@@ -492,7 +507,8 @@ const goodsTypeGridsDatas = [
           }
         ]
       },
-      {
+      { 
+        id:'one17',
         typeTwo: `零食`,
         trademark: ``,
         typeTwoDatas: [
@@ -523,7 +539,8 @@ const goodsTypeGridsDatas = [
           }
         ]
       },
-      {
+      { 
+        id:'one18',
         typeTwo: `乳品`,
         trademark: ``,
         typeTwoDatas: [
@@ -549,6 +566,7 @@ const goodsTypeGridsDatas = [
     typeOne: `数码家电`,
     typeOneDatas: [
       {
+        id:'one19',
         typeTwo: `数码家电集合`,
         trademark: ``,
         typeTwoDatas: [
@@ -585,6 +603,7 @@ const goodsTypeGridsDatas = [
     typeOne: `运动户外`,
     typeOneDatas: [
       {
+        id:'one20',
         typeTwo: `运动户外集合`,
         trademark: ``,
         typeTwoDatas: [
@@ -620,7 +639,8 @@ const goodsTypeGridsDatas = [
   {
     typeOne: `服饰鞋靴`,
     typeOneDatas: [
-      {
+      { 
+        id:'one21',
         typeTwo: `帽子`,
         trademark: ``,
         typeTwoDatas: [
@@ -640,6 +660,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one22',
         typeTwo: `上衣`,
         trademark: ``,
         typeTwoDatas: [
@@ -662,6 +683,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one23',
         typeTwo: `裤子/裙子`,
         trademark: ``,
         typeTwoDatas: [
@@ -684,6 +706,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one24',
         typeTwo: `鞋靴`,
         trademark: ``,
         typeTwoDatas: [
@@ -720,6 +743,7 @@ const goodsTypeGridsDatas = [
     typeOne: `美妆个护`,
     typeOneDatas: [
       {
+        id:'one25',
         typeTwo: `彩妆香氛`,
         trademark: ``,
         typeTwoDatas: [
@@ -751,6 +775,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one26',
         typeTwo: `身体护理`,
         trademark: ``,
         typeTwoDatas: [
@@ -787,6 +812,7 @@ const goodsTypeGridsDatas = [
     typeOne: `箱包礼品`,
     typeOneDatas: [
       {
+        id:'one27',
         typeTwo: `箱包礼品集合`,
         trademark: ``,
         typeTwoDatas: [
@@ -817,6 +843,7 @@ const goodsTypeGridsDatas = [
     typeOne: `宿舍用品`,
     typeOneDatas: [
       {
+        id:'one28',
         typeTwo: `宿舍小电器`,
         trademark: ``,
         typeTwoDatas: [
@@ -839,6 +866,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one29',
         typeTwo: `宿舍杂物`,
         trademark: ``,
         typeTwoDatas: [
@@ -881,6 +909,7 @@ const goodsTypeGridsDatas = [
     typeOne: `学习文具`,
     typeOneDatas: [
       {
+        id:'one30',
         typeTwo: `学习文具集合`,
         trademark: ``,
         typeTwoDatas: [
@@ -911,6 +940,7 @@ const goodsTypeGridsDatas = [
     typeOne: `医疗药品`,
     typeOneDatas: [
       {
+        id:'one31',
         typeTwo: `外部用药`,
         trademark: ``,
         typeTwoDatas: [
@@ -933,6 +963,7 @@ const goodsTypeGridsDatas = [
         ]
       },
       {
+        id:'one32',
         typeTwo: `内服用药`,
         trademark: ``,
         typeTwoDatas: [
@@ -960,6 +991,7 @@ const goodsTypeGridsDatas = [
     typeOne: `腕表首饰`,
     typeOneDatas: [
       {
+        id:'one33',
         typeTwo: `腕表首饰集合`,
         trademark: ``,
         typeTwoDatas: [
@@ -987,6 +1019,7 @@ const goodsTypeGridsDatas = [
     typeOne: `虚拟物品`,
     typeOneDatas: [
       {
+        id:'one34',
         typeTwo: `虚拟物品集合`,
         trademark: ``,
         typeTwoDatas: [

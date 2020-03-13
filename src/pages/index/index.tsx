@@ -102,9 +102,8 @@ class Index extends PureComponent {
     page: 1,
     hasMore: true
   }
-  componentDidMount() {
+  componentWillMount() {
     this.fetchWaterFallData()
-    // this.props.dispatchFetchPageData();
     getLocation().then((res: LocationResult) => {
       if (!isNullOrUndefined(res.result.address_component)) {
         const address_component = res.result.address_component
@@ -185,7 +184,7 @@ class Index extends PureComponent {
           method: 'GET',
           data: {
             code: loginResult.code,
-            page: this.state.page
+            page: 1
           }
         }).then(res => {
           if (res.statusCode === 200 && res.data.status === 'success') {
@@ -194,10 +193,14 @@ class Index extends PureComponent {
                 // console.log('prevState',prevState)     
                 return { waterFallDatas: [res.data.returnDatas] }
               })
+            }else{
+              console.log('获取瀑布流数据成功但无数据！');
             }
           } else {
             console.log('获取瀑布流数据失败！')
           }
+        }).catch(()=>{
+          console.log('aaa');
         })
       }
     })

@@ -10,6 +10,7 @@ interface Props {
     datas: {
         typeOne: string;
         typeOneDatas: {
+            id:string;
             typeTwo: string;
             trademark: string;
             typeTwoDatas: {
@@ -30,9 +31,9 @@ function SortVerticalTabs(props: Props) {
     const tabList: TabList[] = []
     let windowHeight
     for (let data of datas) {
-            tabList.push({ title: data.typeOne })
-        }
-        windowHeight = (getSystemInfo().windowHeight - getSystemInfo().tabBarHeight) + 'px'
+        tabList.push({ title: data.typeOne })
+    }
+    windowHeight = (getSystemInfo().windowHeight - getSystemInfo().tabBarHeight) + 'px'
     return (
         <ScrollView className='sort-vertical-tabs-container' enableFlex scrollY style={{ height: windowHeight }}>
             <AtSearchBarComponent></AtSearchBarComponent>
@@ -53,13 +54,11 @@ function SortVerticalTabs(props: Props) {
                 {datas && datas.length > 0 ? datas.map((data, index) => {
                     const { typeOneDatas } = data
                     return (
-                        <AtTabsPane tabDirection='vertical' current={current} index={index} key={new Date().toString() + index}>
-                            <View style='font-size:18px;text-align:start;height:400px;'>
-                                <GoodsTypeGrids datas={typeOneDatas}></GoodsTypeGrids>
-                            </View>
+                        <AtTabsPane tabDirection='vertical' current={current} index={index} key={index}>
+                            <GoodsTypeGrids datas={typeOneDatas}></GoodsTypeGrids>
                         </AtTabsPane>
                     )
-                }) : null}
+                }):null} 
             </AtTabs>
         </ScrollView>
     )
@@ -69,6 +68,7 @@ SortVerticalTabs.defaultProps = {
         {
             typeOne: '',
             typeOneDatas: [{
+                id:'',
                 typeTwo: '',
                 trademark: '',
                 typeTwoDatas: [{

@@ -51,7 +51,7 @@ function Waterfall(props: Props) {
                                             url: `/pages/goods-info/goods-info?orderId=${orderId}`
                                         })
                                     }}
-                                        key={new Date().toString() + index2}
+                                        key={orderId}
                                     >
                                         <Skeleton
                                             row={1}

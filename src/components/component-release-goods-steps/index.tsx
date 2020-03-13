@@ -171,13 +171,16 @@ function ReleaseGoodsSteps() {
   let _typeTwoList: TypeAtRadioOptionsList[] = []
   let _typeThreeList: TypeAtRadioOptionsList[] = []
   useEffect(() => {
-    setTimeout(() => {
+    let timer=setTimeout(() => {
       dispatch({ type: LOADING_SUCCESS })
     }, 1000)
     for (let i of goodsTypeGridsDatas) {
       _typeOneList.push({ label: i.typeOne, value: i.typeOne })
     }
     dispatch({ type: TYPE_ONE_LIST_PUSH_OPTIONS, data: _typeOneList })
+    return ()=>{
+      clearTimeout(timer)
+    }
   }, [_typeOneList])
   const items = [
     {

@@ -135,7 +135,7 @@ function GooodsInfoContent(props: Props) {
                     <AtDivider content='图片详情' fontColor='#C41A16' lineColor='#C41A16' />
                     {state.picsLocation&&state.picsLocation.length > 0 ? state.picsLocation.map((pic, index) => {
                         return (
-                            <Image className='goods-img' src={pic} key={new Date().toString()}></Image>
+                            <Image className='goods-img' src={pic} key={pic}></Image>
                         )
                     }) : <View>此商品无图片详情!</View>
                     }
