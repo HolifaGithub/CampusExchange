@@ -3,6 +3,7 @@ import Taro, { PureComponent } from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { AtTabBar, AtToast } from 'taro-ui'
+import { ClTabBar } from "mp-colorui"
 import { CDNWebSite } from '../static-name/web-site'
 import { baseColor, tabBarSelectedColor } from '../static-name/xiaoyuanhuan-color'
 import {
@@ -23,7 +24,7 @@ type PageStateProps = {
   checkIsNeedRelogin: {
     isNeedRelogin: boolean;
   },
-  chatListMessageNum:{sumMessage:number}
+  chatListMessageNum: { sumMessage: number }
 }
 
 type PageDispatchProps = {
@@ -46,8 +47,14 @@ interface TabBar {
   props: IProps;
 }
 
+interface Tab{
+  badge: number | boolean;
+  icon:'home'|'community'|'my'|'add'|'sort';
+  title: string;
+  action: boolean;
+}
 
-@connect(({ switchTarBar, checkIsNeedRelogin,chatListMessageNum }) => ({
+@connect(({ switchTarBar, checkIsNeedRelogin, chatListMessageNum }) => ({
   switchTarBar,
   checkIsNeedRelogin,
   chatListMessageNum
@@ -71,78 +78,110 @@ interface TabBar {
   }
 }))
 class TabBar extends PureComponent {
-  state = {
-    isSessionEffective: false
+  constructor(props) {
+    super(props)
   }
+  state = {
+    isSessionEffective: true
+  }
+  defaultTabs:Tab[] = [
+    {
+      badge: false,
+      icon:'home',
+      title: '首页',
+      action: false
+    },
+    {
+      badge: false,
+      icon:'sort',
+      title: '分类',
+      action: false
+    },
+    {
+      badge: false,
+      icon:'add',
+      title: '发布',
+      action: true
+    }, {
+      badge: false,
+      icon:'community',
+      title: '聊天',
+      action: false
+    },
+    {
+      badge: false,
+      icon:'my',
+      title: '个人中心',
+      action: false
+    },
+  ]
+
   componentWillMount() {
-    setTimeout(() => {
-      this.setState({ loading: false })
-    }, 200);
     promiseApi(Taro.checkSession)().then(() => {
       this.setState({ isSessionEffective: true })
     }).catch(() => {
       this.setState({ isSessionEffective: false })
     })
   }
- jumpTab(current){
-  switch (current) {
-    case 0: Taro.switchTab({
-      url: '/pages/index/index',
-      success: () => {
-        this.props.switchTabHome()
-      }
-    })
-      break
-    case 1: Taro.switchTab({
-      url: '/pages/sort/sort',
-      success: () => {
-        this.props.switchTabSort()
-      }
-    })
-      break
-    case 2: Taro.switchTab({
-      url: '/pages/release-goods/release-goods',
-      success: () => {
-        this.props.switchTabReleaseGoods()
-      }
-    })
-      break
-    case 3: Taro.switchTab({
-      url: '/pages/chat/chat',
-      success: () => {
-        this.props.switchTabChat()
-      }
-    })
-      break
-    case 4: Taro.switchTab({
-      url: '/pages/person/person',
-      success: () => {
-        this.props.switchTabPerson()
-      }
-    })
-      break
-    default: Taro.switchTab({
-      url: '/pages/index/index',
-      success: () => {
-        this.props.switchTabHome()
-      }
-    })
-      break
+  jumpTab(current) {
+    switch (current) {
+      case 0: Taro.switchTab({
+        url: '/pages/index/index',
+        success: () => {
+          this.props.switchTabHome()
+        }
+      })
+        break
+      case 1: Taro.switchTab({
+        url: '/pages/sort/sort',
+        success: () => {
+          this.props.switchTabSort()
+        }
+      })
+        break
+      case 2: Taro.switchTab({
+        url: '/pages/release-goods/release-goods',
+        success: () => {
+          this.props.switchTabReleaseGoods()
+        }
+      })
+        break
+      case 3: Taro.switchTab({
+        url: '/pages/chat/chat',
+        success: () => {
+          this.props.switchTabChat()
+        }
+      })
+        break
+      case 4: Taro.switchTab({
+        url: '/pages/person/person',
+        success: () => {
+          this.props.switchTabPerson()
+        }
+      })
+        break
+      default: Taro.switchTab({
+        url: '/pages/index/index',
+        success: () => {
+          this.props.switchTabHome()
+        }
+      })
+        break
+    }
   }
- }
-  shouldComponentUpdate(nextProps,nextState){
-    if(nextProps.switchTarBar.current!==this.props.switchTarBar.current||nextProps.chatListMessageNum.sumMessage !== this.props.chatListMessageNum.sumMessage){
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.switchTarBar.current !== this.props.switchTarBar.current || nextProps.chatListMessageNum.sumMessage !== this.props.chatListMessageNum.sumMessage) {
       return true
-    }else{
+    } else {
       return false
     }
   }
   render() {
-    const {sumMessage}=this.props.chatListMessageNum
+    const { sumMessage } = this.props.chatListMessageNum
     return (
-        <View>
-          <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
-          <AtTabBar
+      <View>
+        <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
+        {/* <AtTabBar
             tabList={[
               {
                 title: '首页',
@@ -172,14 +211,15 @@ class TabBar extends PureComponent {
               }
             ]}
             onClick={(current) => {
+              console.log(this.state.isSessionEffective);
               if (!this.props.checkIsNeedRelogin.isNeedRelogin && this.state.isSessionEffective) {
                   this.jumpTab(current)
               } else {
-                promiseApi(Taro.checkSession)().then(() => {
-                  this.setState({ isSessionEffective: true })
-                  this.jumpTab(current)
-                }).catch(() => {
-                  this.setState({ isSessionEffective: false })
+                // promiseApi(Taro.checkSession)().then(() => {
+                //   this.setState({ isSessionEffective: true })
+                //   this.jumpTab(current)
+                // }).catch(() => {
+                //   this.setState({ isSessionEffective: false })
                   setTimeout(() => {
                     this.setState({ isSessionEffective: true })
                     Taro.switchTab({
@@ -189,7 +229,7 @@ class TabBar extends PureComponent {
                       }
                     })
                   }, 200)
-                })
+                // })
               }
             }}
             current={this.props.switchTarBar.current}
@@ -200,8 +240,39 @@ class TabBar extends PureComponent {
             fontSize={13}
             fixed
             key={1}
-          />
-        </View>
+          /> */}
+
+        <ClTabBar
+          active={this.props.switchTarBar.current}
+          bgColor={'white'}
+          activeColor={'red'}
+          tabs={this.defaultTabs}
+          safeArea
+          onClick={(current) => {
+            console.log(this.state.isSessionEffective);
+            if (!this.props.checkIsNeedRelogin.isNeedRelogin && this.state.isSessionEffective) {
+                this.jumpTab(current)
+            } else {
+              // promiseApi(Taro.checkSession)().then(() => {
+              //   this.setState({ isSessionEffective: true })
+              //   this.jumpTab(current)
+              // }).catch(() => {
+              //   this.setState({ isSessionEffective: false })
+                setTimeout(() => {
+                  this.setState({ isSessionEffective: true })
+                  Taro.switchTab({
+                    url: '/pages/person/person',
+                    success: () => {
+                      this.props.switchTabPerson()
+                    }
+                  })
+                }, 200)
+              // })
+            }
+          }}
+          fix
+        />
+      </View>
     )
   }
 }

@@ -48,16 +48,13 @@ class Person extends PureComponent {
     backgroundColor: '#eeeeee'
   }
 
-  componentWillMount() {
-    // this.checkSessionEffective().then((res: boolean) => {
-    //   this.setState({ isSessionEffective: res })
-    // })
-    promiseApi(Taro.checkSession)().then(() => {
-      this.setState({ isSessionEffective: true })
-    }).catch(() => {
-      this.setState({ isSessionEffective: false })
-    })
-  }
+  // componentWillMount() {
+  //   promiseApi(Taro.checkSession)().then(() => {
+  //     this.setState({ isSessionEffective: true })
+  //   }).catch(() => {
+  //     this.setState({ isSessionEffective: false })
+  //   })
+  // }
   componentWillReceiveProps() {
 
   }

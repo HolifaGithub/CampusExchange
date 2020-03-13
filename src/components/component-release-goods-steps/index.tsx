@@ -171,16 +171,10 @@ function ReleaseGoodsSteps() {
   let _typeTwoList: TypeAtRadioOptionsList[] = []
   let _typeThreeList: TypeAtRadioOptionsList[] = []
   useEffect(() => {
-    let timer=setTimeout(() => {
-      dispatch({ type: LOADING_SUCCESS })
-    }, 1000)
     for (let i of goodsTypeGridsDatas) {
       _typeOneList.push({ label: i.typeOne, value: i.typeOne })
     }
     dispatch({ type: TYPE_ONE_LIST_PUSH_OPTIONS, data: _typeOneList })
-    return ()=>{
-      clearTimeout(timer)
-    }
   }, [_typeOneList])
   const items = [
     {
@@ -198,12 +192,6 @@ function ReleaseGoodsSteps() {
     }
   ]
   return (
-    <Skeleton
-      row={1}
-      rowHeight={60}
-      animate
-      loading={state.loading}
-    >
       <View className='release-goods-steps'>
         <AtSteps
           items={items}
@@ -553,7 +541,6 @@ function ReleaseGoodsSteps() {
         </View> : null}
         <AtToast isOpened={state.isRelease} text={state.isRelease?'发布成功':'发布失败！请检查后再提交！'} status={state.isRelease?'success':'error'} duration={1000}></AtToast>
       </View>
-    </Skeleton>
   )
 }
 

@@ -44,7 +44,7 @@
     "@tarojs/taro-weapp": "2.0.1",
     "acorn": "^7.1.0",
     "babel-runtime": "^6.26.0",
-    "mp-colorui": "^0.6.7",
+    "mp-colorui": "^0.6.11",
     "nerv-devtools": "^1.5.5",
     "nervjs": "^1.5.5",
     "redux": "^4.0.0",

@@ -129,7 +129,7 @@ class Index extends PureComponent {
                     }, 300)
                   }
                 })
-              }).catch(()=>{
+              })
                 this.setState({
                   isSessionEffective: false,
                   location: `${province}${city}${district}`
@@ -145,7 +145,7 @@ class Index extends PureComponent {
                     }, 300)
                   }
                 })
-            })
+
             // console.log(this.props.checkIsNeedRelogin.isNeedRelogin,this.state.isSessionEffective)
           }
         }
@@ -284,7 +284,7 @@ class Index extends PureComponent {
   // }
   render() {
     // console.log(this.state.page, this.state.waterFallDatas)
-    const tarBarHeight = (getSystemInfo().tabBarHeight + 10) + 'px'
+    const tarBarHeight = (getSystemInfo().tabBarHeight + 35) + 'px'
     return (
       <View
         className='index'
