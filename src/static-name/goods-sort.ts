@@ -1,6 +1,7 @@
 import {CDNWebSite} from './web-site'
 const goodsTypeGridsDatas = [
   {
+    id:1,
     typeOne: `手机`,
     typeOneDatas: [
       { id:'one1',
@@ -280,6 +281,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:2,
     typeOne: `电脑`,
     typeOneDatas: [
       {
@@ -348,6 +350,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:3,
     typeOne: `书籍`,
     typeOneDatas: [
       {
@@ -456,6 +459,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:4,
     typeOne: `食品`,
     typeOneDatas: [
       {
@@ -563,6 +567,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:5,
     typeOne: `数码家电`,
     typeOneDatas: [
       {
@@ -600,6 +605,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:6,
     typeOne: `运动户外`,
     typeOneDatas: [
       {
@@ -637,6 +643,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:7,
     typeOne: `服饰鞋靴`,
     typeOneDatas: [
       { 
@@ -740,6 +747,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:8,
     typeOne: `美妆个护`,
     typeOneDatas: [
       {
@@ -809,6 +817,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:9,
     typeOne: `箱包礼品`,
     typeOneDatas: [
       {
@@ -840,6 +849,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:10,
     typeOne: `宿舍用品`,
     typeOneDatas: [
       {
@@ -906,6 +916,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:11,
     typeOne: `学习文具`,
     typeOneDatas: [
       {
@@ -937,6 +948,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:12,
     typeOne: `医疗药品`,
     typeOneDatas: [
       {
@@ -988,6 +1000,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:13,
     typeOne: `腕表首饰`,
     typeOneDatas: [
       {
@@ -1016,6 +1029,7 @@ const goodsTypeGridsDatas = [
     ]
   },
   {
+    id:14,
     typeOne: `虚拟物品`,
     typeOneDatas: [
       {
