@@ -550,8 +550,8 @@
 import Taro, { Component } from '@tarojs/taro'
 import { ComponentClass } from 'react'
 import promiseApi from '../../utils/promiseApi'
-import { ClStep, ClButton, ClSelect, ClInput, ClRadio, ClMessage, ClTip } from "mp-colorui"
-import { AtImagePicker, AtTextarea, AtInputNumber, AtInput } from 'taro-ui'
+import { ClStep, ClButton, ClSelect, ClInput, ClRadio, ClMessage, ClTip, ClLoading,ClCard } from "mp-colorui"
+import { AtImagePicker, AtTextarea, AtInputNumber, AtInput, AtToast } from 'taro-ui'
 import { View, Image, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import goodsTypeGridsDatas from '../../static-name/goods-sort'
@@ -575,7 +575,13 @@ interface radioGroup {
   key: string;
   value: string;
 }
-
+interface Files {
+  file: {
+    path: string;
+    size: number;
+  };
+  url: string;
+}
 type PageState = {
   step: number;
   typeTwoList: string[];
@@ -593,9 +599,12 @@ type PageState = {
   objectOfPayment: string;
   payForOtherPrice: number;
   describe: string;
-  files: any[];
   isRelease: boolean;
   isShowMessage: boolean;
+  selectedTypeOneIndex: number;
+  commonContentLoading: boolean;
+  isSlectedFiles: boolean;
+  // files:Files[];
 }
 type MessageType = "success" | "error" | "warn" | "info" | "custom"
 type IProps = PageStateProps & PageDispatchProps & PageOwnProps
@@ -613,6 +622,9 @@ class ReleaseGoodsSteps extends Component {
   constructor(props) {
     super(props)
   }
+  componentDidUpdate() {
+    this.setState({ isShowMessage: false })
+  }
   state = {
     step: 0,
     typeTwoList: ['iphone', '小米', '华为', 'oppo', 'vivo', '魅族'],
@@ -627,6 +639,7 @@ class ReleaseGoodsSteps extends Component {
       { key: '8 plus', value: '8 plus' },
       { key: '8', value: '8' },
     ],
+    selectedTypeOneIndex: 0,
     typeOne: '手机',
     typeTwo: 'iphone',
     typeThree: '',
@@ -640,10 +653,13 @@ class ReleaseGoodsSteps extends Component {
     objectOfPayment: 'payForMe',
     payForOtherPrice: 0,
     describe: '',
-    files: [],
     isRelease: false,
     isShowMessage: false,
+    commonContentLoading: false,
+    isSlectedFiles: false
   }
+  nameInput = ''
+  files: Files[] = []
   message = ''
   messageType: MessageType = 'success'
   steps = [
@@ -687,7 +703,10 @@ class ReleaseGoodsSteps extends Component {
       for (let i = 0; i < typeOneDatas.length; i++) {
         _typeTwoList.push(typeOneDatas[i].typeTwo)
       }
-      this.setState({ typeTwoList: _typeTwoList })
+      this.setState({
+        selectedTypeOneIndex: value,
+        typeTwoList: _typeTwoList,
+      })
     }
   }
   onChange(e) {
@@ -712,17 +731,19 @@ class ReleaseGoodsSteps extends Component {
     this.setState({ typeTree: value })
   }
   onNameInputChange(value) {
-    this.setState({ nameInput: value })
+    this.nameInput = value
+    // this.setState({ nameInput: value })
   }
   onStepOneClick() {
-    const { typeOne, typeTwo, typeThree, nameInput } = this.state
+    const { typeOne, typeTwo, typeThree } = this.state
     Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
     // console.log(typeOne, typeTwo, typeThree, nameInput);
-    if (typeOne && typeTwo && typeThree && nameInput) {
+    if (typeOne && typeTwo && typeThree && this.nameInput) {
       this.setState((prevState: PageState) => {
         return {
           step: prevState.step + 1,
-          isShowMessage: false
+          isShowMessage: false,
+          nameInput: this.nameInput
         }
       })
     } else {
@@ -780,21 +801,28 @@ class ReleaseGoodsSteps extends Component {
     this.setState({ describe: value })
   }
   onFilesChange(value) {
-    this.setState({ files: value })
+    this.setState({ isSlectedFiles: true })
+    this.files = value
   }
   onReleasedClick() {
+    this.setState((prevState: PageState) => {
+      return {
+        step: prevState.step +1,
+        commonContentLoading:true
+      }
+    })
     Taro.login({
-      success:(loginResult)=>{
+      success: (loginResult) => {
         const code = loginResult.code
         const orderId = productOrderId()
         const orderStatus = orderStatusObject.released
         let picsLocation = ''
         new Promise((resolve, reject) => {
-          if (this.state.files.length > 0) {
-            for (let i = 0; i < this.state.files.length; i++) {
+          if (this.files.length > 0) {
+            for (let i = 0; i < this.files.length; i++) {
               Taro.uploadFile({
                 url: `${protocol}://${server}:${port}/releasegoodspics`,
-                filePath: this.state.files[i].url,
+                filePath: this.files[i].url,
                 name: 'pic',
                 header: {
                   'Content-Type': 'multipart/form-data',
@@ -802,11 +830,11 @@ class ReleaseGoodsSteps extends Component {
                 formData: {
                   orderId: orderId
                 },
-                success:(res)=>{
+                success: (res) => {
                   const data = JSON.parse(res.data)
                   if (res.statusCode === 200 && data.status === 'success') {
                     picsLocation += `${data.location};`
-                    if (i === this.state.files.length - 1) {
+                    if (i === this.files.length - 1) {
                       resolve(picsLocation)
                     }
                   }
@@ -834,7 +862,7 @@ class ReleaseGoodsSteps extends Component {
               mode: this.state.mode,
               objectOfPayment: this.state.objectOfPayment,
               payForMePrice: this.state.payForMePrice,
-              payForOtherPrice:this.state.payForOtherPrice,
+              payForOtherPrice: this.state.payForOtherPrice,
               wantExchangeGoods: this.state.wantExchangeGoods,
               describe: this.state.describe,
               picsLocation: picsLocation,
@@ -842,17 +870,50 @@ class ReleaseGoodsSteps extends Component {
               code: code,
               orderStatus: orderStatus
             },
-            success:(res)=>{
+            success: (res) => {
               if (res.statusCode === 200 && res.data.status === 'success') {
-                console.log(res);
-                // dispatch({ type: RELEASED })
-                setTimeout(() => {
-                  // dispatch({ type: RESET })
+                this.setState({
+                  step: 0,
+                  typeTwoList: ['iphone', '小米', '华为', 'oppo', 'vivo', '魅族'],
+                  typeThreeList: [
+                    { key: '11pro max', value: '11pro max' },
+                    { key: '11pro', value: '11pro' },
+                    { key: '11', value: '11' },
+                    { key: 'xs max', value: 'xs max' },
+                    { key: 'xs', value: 'xs' },
+                    { key: 'xr', value: 'xr' },
+                    { key: 'x', value: 'x' },
+                    { key: '8 plus', value: '8 plus' },
+                    { key: '8', value: '8' },
+                  ],
+                  selectedTypeOneIndex: 0,
+                  typeOne: '手机',
+                  typeTwo: 'iphone',
+                  typeThree: '',
+                  isCustomTypeThree: false,
+                  nameInput: '',
+                  goodsNumber: 1,
+                  newAndOldDegree: '',
+                  mode: '',
+                  payForMePrice: 0,
+                  wantExchangeGoods: '',
+                  objectOfPayment: 'payForMe',
+                  payForOtherPrice: 0,
+                  describe: '',
+                  isRelease: true,
+                  isShowMessage: false,
+                  commonContentLoading: false,
+                  isSlectedFiles: false
+                })
+                let timer = setTimeout(() => {
+                  this.setState({ isRelease: false })
                   Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
                   Taro.navigateTo({ url: `/pages/goods-info/goods-info?orderId=${orderId}` })
-                }, 1000)
+                }, 1000, () => {
+                  clearTimeout(timer)
+                })
               } else {
-                // dispatch({ type: NOT_RELEASED })
+
               }
             }
           })
@@ -874,7 +935,8 @@ class ReleaseGoodsSteps extends Component {
           <View className='step'>
             <ClSelect
               multiSelector={{
-                range: muti
+                range: muti,
+                value: [this.state.selectedTypeOneIndex, 0]
               }}
               mode="multiSelector"
               title="选择一、二级分类："
@@ -888,7 +950,6 @@ class ReleaseGoodsSteps extends Component {
               type="form"
               title='三级分类:'
               radioGroup={this.state.typeThreeList}
-              checkedValue={this.state.typeThree}
               style={{
                 marginTop: '20px',
                 boxShadow: '0 0 10px #777'
@@ -928,7 +989,7 @@ class ReleaseGoodsSteps extends Component {
                 marginTop: '20px',
                 boxShadow: '0 0 10px #777'
               }}
-              value={this.state.nameInput}
+              defaultValue={this.state.nameInput}
               onChange={(value) => { this.onNameInputChange(value) }}
             />
             <ClButton shape='round' bgColor='gradualOrange'
@@ -958,7 +1019,6 @@ class ReleaseGoodsSteps extends Component {
               type="form"
               title='新旧程度:'
               radioGroup={this.newAndOldDegreeList}
-              checkedValue={this.state.newAndOldDegree}
               style={{
                 marginTop: '20px',
                 boxShadow: '0 0 10px #777'
@@ -970,7 +1030,6 @@ class ReleaseGoodsSteps extends Component {
               type="form"
               title='交易方式:'
               radioGroup={this.modeList}
-              checkedValue={this.state.mode}
               style={{
                 marginTop: '20px',
                 boxShadow: '0 0 10px #777'
@@ -1020,7 +1079,6 @@ class ReleaseGoodsSteps extends Component {
                   type="form"
                   title='支付对象:'
                   radioGroup={this.payForList}
-                  checkedValue={this.state.objectOfPayment}
                   style={{
                     marginTop: '20px',
                     boxShadow: '0 0 10px #777'
@@ -1077,6 +1135,11 @@ class ReleaseGoodsSteps extends Component {
 
         {this.state.step === 2 ? (
           <View>
+            <ClLoading
+              type="common"
+              show={this.state.commonContentLoading}
+              commonText="商品上传发布中..."
+            ></ClLoading>
             <View className='mode-text'>
               <Text>请填写您发布的物品的详细描述：</Text>
             </View>
@@ -1091,20 +1154,29 @@ class ReleaseGoodsSteps extends Component {
               <Text>请选择您发布的物品的照片：</Text>
             </View>
             <AtImagePicker
-              files={this.state.files}
+              files={this.files}
               onChange={(files: any) => {
                 this.onFilesChange(files)
               }}
             />
-            <ClButton shape='round' bgColor='gradualOrange'
-              long
-              onClick={() => {
-                this.onReleasedClick()
-              }}
-              size='large'
-              style={{ marginTop: '20px' }}
-            >发布</ClButton>
+            <View className='btn'>
+              <ClButton shape='round' bgColor='gradualBlue'
+                onClick={() => {
+                  this.onClickPrevStep()
+                }}
+                size='large'
+                style={{ marginTop: '20px' }}
+              >上一步</ClButton>
+              <ClButton shape='round' bgColor='gradualOrange'
+                onClick={() => {
+                  this.onReleasedClick()
+                }}
+                size='large'
+                style={{ marginTop: '20px' }}
+              >发布</ClButton>
+            </View>
           </View>) : null}
+        <AtToast isOpened={this.state.isRelease} text={this.state.isRelease ? '发布成功' : '发布失败！请检查后再提交！'} status={this.state.isRelease ? 'success' : 'error'} duration={1000}></AtToast>
       </View>
     )
   }
