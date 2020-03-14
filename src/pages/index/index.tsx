@@ -8,7 +8,8 @@ import HeaderTitle from '../../components/component-header-title'
 import IndexHeader from '../../floors/floor-index-header'
 import IndexGrid from '../../floors/floor-index-grid'
 import IndexWaterFall from '../../floors/floor-index-waterfall'
-import { AtToast, AtActivityIndicator, AtDivider } from "taro-ui"
+import { AtToast, AtActivityIndicator } from "taro-ui"
+import { ClDivider } from "mp-colorui";
 import getLocation from '../../utils/getLocation'
 import promiseApi from '../../utils/promiseApi'
 import getSystemInfo from '../../utils/getSystemInfo'
@@ -296,7 +297,7 @@ class Index extends PureComponent {
         {this.state.loadMore ? <View className='loading'>
           <AtActivityIndicator content='加载中...' color='#ffffff' mode='center' size={36}></AtActivityIndicator>
         </View> : null}
-        {this.state.hasMore ? null : <AtDivider content='没有更多了!' fontColor='#C41A16' lineColor='#C41A16' />}
+        {this.state.hasMore ? null : <ClDivider color='red'>没有更多了！</ClDivider>}
         <View className='block' style={{ height: tarBarHeight }}></View>
         <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={300}></AtToast>
       </View>

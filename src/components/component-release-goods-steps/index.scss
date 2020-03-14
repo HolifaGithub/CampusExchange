@@ -1,109 +1,153 @@
-$release-goods-steps-width:750px;
-$release-goods-steps-height:1300px;
-$step-margin-top:20px;
-$base-color:#C41A16;
-$step-text-font-color:#fff;
-$step-text-font-size:32px;
-$step-text-width:730px;
-$step-text-height:80px;
-$step-text-padding-left:20px;
-$step-text-border-radius:20px;
-$icon-width:50px;
-$icon-height:$icon-width;
-$icon-right:20px;
-$nameInput-margin-top:20px;
-$nameInput-margin-bottom:120px;
-$base-color:#C41A16;
-$mode-text-margin:30px;
-$mode-text-font-size:30px;
+// $release-goods-steps-width:750px;
+// $release-goods-steps-height:1300px;
+// $step-margin-top:20px;
+// $base-color:#C41A16;
+// $step-text-font-color:#fff;
+// $step-text-font-size:32px;
+// $step-text-width:730px;
+// $step-text-height:80px;
+// $step-text-padding-left:20px;
+// $step-text-border-radius:20px;
+// $icon-width:50px;
+// $icon-height:$icon-width;
+// $icon-right:20px;
+// $nameInput-margin-top:20px;
+// $nameInput-margin-bottom:120px;
+// $base-color:#C41A16;
+// $mode-text-margin:30px;
+// $mode-text-font-size:30px;
+// $tip-font-size:26px;
+// $tip-color:#DE8C17;
+// $tip-background-color:#FCF6ED;
+// $tip-width:750px;
+// $tip-height:80px;
+// .release-goods-steps{
+//     width:$release-goods-steps-width ;
+//     height: $release-goods-steps-height;
+//     .step-1{
+//         margin-top: $step-margin-top;
+//         .step-1-text{
+//             margin-top: $step-margin-top;
+//             display: flex;
+//             align-items: center;
+//             position: relative;
+//             background-color:$base-color;
+//             font-size: $step-text-font-size;
+//             color: $step-text-font-color;
+//             width: $step-text-width;
+//             height: $step-text-height;
+//             line-height: $step-text-height;
+//             padding-left: $step-text-padding-left;
+//             border-radius: $step-text-border-radius;
+//             .icon{
+//                 width: $icon-width;
+//                 height: $icon-height;
+//                 position: absolute;
+//                 right: $icon-right;
+//             }
+//         }
+//         .custom-type-three{
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
+//             .tip{
+//                 font-size: $tip-font-size;
+//                 color:$tip-color;
+//                 width: $tip-width;
+//                 height: $tip-height;
+//                 background-color: $tip-background-color;
+//                 text-align: center;
+//                 line-height: $tip-height;
+//                 border-radius: $step-text-border-radius;
+//             }
+//         }
+//         .name-input{
+//             margin-top: $nameInput-margin-top;
+//             margin-bottom: $nameInput-margin-bottom;
+//         }
+//     }
+//     .step-2{
+//         .step-2-text{
+//             margin-top: $step-margin-top;
+//             display: flex;
+//             align-items: center;
+//             position: relative;
+//             background-color:$base-color;
+//             font-size: $step-text-font-size;
+//             color: $step-text-font-color;
+//             width: $step-text-width;
+//             height: $step-text-height;
+//             line-height: $step-text-height;
+//             padding-left: $step-text-padding-left;
+//             border-radius: $step-text-border-radius;
+//         }
+//         .icon{
+//             width: $icon-width;
+//             height: $icon-height;
+//             position: absolute;
+//             right: $icon-right;
+//         }
+//     }
+//     .step-3{
+//         .step-3-text{
+//             margin-top: $step-margin-top;
+//             display: flex;
+//             align-items: center;
+//             position: relative;
+//             background-color:$base-color;
+//             font-size: $step-text-font-size;
+//             color: $step-text-font-color;
+//             width: $step-text-width;
+//             height: $step-text-height;
+//             line-height: $step-text-height;
+//             padding-left: $step-text-padding-left;
+//             border-radius: $step-text-border-radius;
+//         }
+//     }
+//     .mode-text{
+//         color:$base-color;
+//         margin-top: $mode-text-margin;
+//         margin-bottom: $mode-text-margin;
+//         margin-left: $mode-text-margin;
+//         font-size: $mode-text-font-size;
+//     }
+// }
+
+
 $tip-font-size:26px;
 $tip-color:#DE8C17;
 $tip-background-color:#FCF6ED;
 $tip-width:750px;
 $tip-height:80px;
-.release-goods-steps{
-    width:$release-goods-steps-width ;
-    height: $release-goods-steps-height;
-    .step-1{
-        margin-top: $step-margin-top;
-        .step-1-text{
-            margin-top: $step-margin-top;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background-color:$base-color;
-            font-size: $step-text-font-size;
-            color: $step-text-font-color;
-            width: $step-text-width;
-            height: $step-text-height;
-            line-height: $step-text-height;
-            padding-left: $step-text-padding-left;
-            border-radius: $step-text-border-radius;
-            .icon{
-                width: $icon-width;
-                height: $icon-height;
-                position: absolute;
-                right: $icon-right;
-            }
-        }
-        .custom-type-three{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .tip{
-                font-size: $tip-font-size;
-                color:$tip-color;
-                width: $tip-width;
-                height: $tip-height;
-                background-color: $tip-background-color;
-                text-align: center;
-                line-height: $tip-height;
-                border-radius: $step-text-border-radius;
-            }
-        }
-        .name-input{
-            margin-top: $nameInput-margin-top;
-            margin-bottom: $nameInput-margin-bottom;
-        }
-    }
-    .step-2{
-        .step-2-text{
-            margin-top: $step-margin-top;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background-color:$base-color;
-            font-size: $step-text-font-size;
-            color: $step-text-font-color;
-            width: $step-text-width;
-            height: $step-text-height;
-            line-height: $step-text-height;
-            padding-left: $step-text-padding-left;
-            border-radius: $step-text-border-radius;
-        }
-        .icon{
-            width: $icon-width;
-            height: $icon-height;
-            position: absolute;
-            right: $icon-right;
-        }
-    }
-    .step-3{
-        .step-3-text{
-            margin-top: $step-margin-top;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background-color:$base-color;
-            font-size: $step-text-font-size;
-            color: $step-text-font-color;
-            width: $step-text-width;
-            height: $step-text-height;
-            line-height: $step-text-height;
-            padding-left: $step-text-padding-left;
-            border-radius: $step-text-border-radius;
-        }
-    }
+$mode-text-margin:30px;
+$mode-text-font-size:30px;
+$base-color:#C41A16;
+.tip{
+    font-size: $tip-font-size;
+    color:$tip-color;
+    width: $tip-width;
+    height: $tip-height;
+    background-color: $tip-background-color;
+    text-align: center;
+    line-height: $tip-height;
+    border-radius: 20px;
+    margin-top: 20px;
+   }
+.step{
+    margin-top: 20px;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.goods-number{
+    width: 100%;
+    height: 150px;
+    line-height: 150px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #777;
+}
     .mode-text{
         color:$base-color;
         margin-top: $mode-text-margin;
@@ -111,4 +155,3 @@ $tip-height:80px;
         margin-left: $mode-text-margin;
         font-size: $mode-text-font-size;
     }
-}

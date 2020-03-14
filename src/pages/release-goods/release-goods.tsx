@@ -1,6 +1,6 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View} from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import ReleaseGoodsStepsContainer from '../../floors/floor-release-goods-steps-container'
 import './release-goods.scss'
@@ -30,19 +30,11 @@ interface ReleaseGoods {
 }))
 class ReleaseGoods extends Component {
   config: Config = {
-    navigationBarTitleText: '校园换-发布商品页'
+    navigationBarTitleText: '发布商品页',
+    enablePullDownRefresh:false,
+    navigationBarBackgroundColor: '#C41A16',
+    navigationBarTextStyle:'white'
   }
-
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props, nextProps)
-  }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   render() {
     return (
       <View className='release-goods'>
