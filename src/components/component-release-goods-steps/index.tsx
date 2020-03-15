@@ -550,12 +550,13 @@
 import Taro, { Component } from '@tarojs/taro'
 import { ComponentClass } from 'react'
 import promiseApi from '../../utils/promiseApi'
-import { ClStep, ClButton, ClSelect, ClInput, ClRadio, ClMessage, ClTip, ClLoading,ClCard } from "mp-colorui"
-import { AtImagePicker, AtTextarea, AtInputNumber, AtInput, AtToast } from 'taro-ui'
+import { ClStep, ClButton, ClSelect, ClInput, ClRadio, ClMessage, ClTip, ClLoading, ClTitleBar } from "mp-colorui"
+import { AtImagePicker, AtTextarea, AtInputNumber, AtInput, AtToast, AtRadio } from 'taro-ui'
 import { View, Image, Text } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import goodsTypeGridsDatas from '../../static-name/goods-sort'
 import typeOneName from '../../static-name/type-one'
+import mapNewAndOldDegree from '../../static-name/new-and-old-degree'
 import orderStatusObject from '../../static-name/order-status'
 import productOrderId from '../../utils/productOrderId'
 import { server, port, protocol } from '../../static-name/server'
@@ -572,7 +573,7 @@ type PageOwnProps = {
 }
 
 interface radioGroup {
-  key: string;
+  label: string;
   value: string;
 }
 interface Files {
@@ -590,15 +591,16 @@ type PageState = {
   typeTwo: string;
   typeThree: string;
   isCustomTypeThree: boolean;
-  nameInput: string;
+  // nameInput: string;
   goodsNumber: number;
   newAndOldDegree: string;
+  selectedNewAndOldDegreeIndex:number;
   mode: string;
-  payForMePrice: number;
-  wantExchangeGoods: string;
+  // payForMePrice: number;
+  // wantExchangeGoods: string;
   objectOfPayment: string;
-  payForOtherPrice: number;
-  describe: string;
+  // payForOtherPrice: number;
+  // describe: string;
   isRelease: boolean;
   isShowMessage: boolean;
   selectedTypeOneIndex: number;
@@ -629,36 +631,41 @@ class ReleaseGoodsSteps extends Component {
     step: 0,
     typeTwoList: ['iphone', '小米', '华为', 'oppo', 'vivo', '魅族'],
     typeThreeList: [
-      { key: '11pro max', value: '11pro max' },
-      { key: '11pro', value: '11pro' },
-      { key: '11', value: '11' },
-      { key: 'xs max', value: 'xs max' },
-      { key: 'xs', value: 'xs' },
-      { key: 'xr', value: 'xr' },
-      { key: 'x', value: 'x' },
-      { key: '8 plus', value: '8 plus' },
-      { key: '8', value: '8' },
+      { label: '11pro max', value: '11pro max' },
+      { label: '11pro', value: '11pro' },
+      { label: '11', value: '11' },
+      { label: 'xs max', value: 'xs max' },
+      { label: 'xs', value: 'xs' },
+      { label: 'xr', value: 'xr' },
+      { label: 'x', value: 'x' },
+      { label: '8 plus', value: '8 plus' },
+      { label: '8', value: '8' },
     ],
     selectedTypeOneIndex: 0,
     typeOne: '手机',
     typeTwo: 'iphone',
     typeThree: '',
     isCustomTypeThree: false,
-    nameInput: '',
+    // nameInput: '',
     goodsNumber: 1,
-    newAndOldDegree: '',
+    newAndOldDegree: '100',
+    selectedNewAndOldDegreeIndex:0,
     mode: '',
-    payForMePrice: 0,
-    wantExchangeGoods: '',
+    // payForMePrice: 0,
+    // wantExchangeGoods: '',
     objectOfPayment: 'payForMe',
-    payForOtherPrice: 0,
-    describe: '',
+    // payForOtherPrice: 0,
+    // describe: '',
     isRelease: false,
     isShowMessage: false,
     commonContentLoading: false,
     isSlectedFiles: false
   }
   nameInput = ''
+  payForMePrice = 0
+  payForOtherPrice = 0
+  wantExchangeGoods = ''
+  describe = ''
   files: Files[] = []
   message = ''
   messageType: MessageType = 'success'
@@ -671,21 +678,22 @@ class ReleaseGoodsSteps extends Component {
       title: '步骤3'
     }
   ]
-  newAndOldDegreeList = [
-    { key: '全新', value: '100' },
-    { key: '99新', value: '99' },
-    { key: '98新', value: '98' },
-    { key: '95新', value: '95' },
-    { key: '90新', value: '90' },
-    { key: '85新', value: '85' },
-    { key: '80新', value: '80' },
-    { key: '75新', value: '75' },
-    { key: '70新', value: '70' },
-    { key: '60新', value: '60' },
-    { key: '半新', value: '50' },
-    { key: '很旧', value: '30' },
-    { key: '伊拉克', value: '10' },
-  ]
+  newAndOldDegreeMap = {
+    '全新': '100',
+    '99新': '99',
+    '98新': '98',
+    '95新': '95',
+    '90新': '90',
+    '85新': '85',
+    '80新': '80',
+    '75新': '75',
+    '70新': '70',
+    '60新': '60',
+    '半新': '50',
+    '很旧': '30',
+    '伊拉克': '10'
+  }
+  newAndOldDegreeList = ['全新', '99新', '98新', '95新', '90新', '85新', '80新', '75新', '70新', '60新', '半新', '很旧', '伊拉克']
   modeList = [
     { key: '直接卖', value: 'directSale' },
     { key: '等价换', value: 'directExchange' },
@@ -714,7 +722,7 @@ class ReleaseGoodsSteps extends Component {
     const typeTwoDatas = goodsTypeGridsDatas[col1].typeOneDatas[col2].typeTwoDatas
     const _typeThreeList: radioGroup[] = []
     for (let i = 0; i < typeTwoDatas.length; i++) {
-      _typeThreeList.push({ key: typeTwoDatas[i].typeThree, value: typeTwoDatas[i].typeThree })
+      _typeThreeList.push({ label: typeTwoDatas[i].typeThree, value: typeTwoDatas[i].typeThree })
     }
     this.setState((prevState: PageState) => {
       return {
@@ -728,7 +736,7 @@ class ReleaseGoodsSteps extends Component {
     this.setState({ typeThree: value })
   }
   onCustomSortChange(value) {
-    this.setState({ typeTree: value })
+    this.setState({ typeThree: value })
   }
   onNameInputChange(value) {
     this.nameInput = value
@@ -737,13 +745,12 @@ class ReleaseGoodsSteps extends Component {
   onStepOneClick() {
     const { typeOne, typeTwo, typeThree } = this.state
     Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
-    // console.log(typeOne, typeTwo, typeThree, nameInput);
+    // console.log(typeOne, typeTwo, typeThree, this.nameInput);
     if (typeOne && typeTwo && typeThree && this.nameInput) {
       this.setState((prevState: PageState) => {
         return {
           step: prevState.step + 1,
           isShowMessage: false,
-          nameInput: this.nameInput
         }
       })
     } else {
@@ -762,27 +769,34 @@ class ReleaseGoodsSteps extends Component {
       }
     })
   }
-  onNewAndOldDegreeChange(value) {
-    this.setState({ newAndOldDegree: value })
+  onNewAndOldDegreeChange(e) {
+    const selectedName = this.newAndOldDegreeList[e]
+    this.setState({ 
+      newAndOldDegree: this.newAndOldDegreeMap[selectedName],
+      selectedNewAndOldDegreeIndex:e
+     })
   }
   onModeChange(value) {
     this.setState({ mode: value })
   }
   onDirectSaleChange(value) {
-    this.setState({ payForMePrice: value })
+    this.payForMePrice = value
+    // this.setState({ payForMePrice: value })
   }
   onDirectExchangeChange(value) {
-    this.setState({ wantExchangeGoods: value })
+    this.wantExchangeGoods = value
+    // this.setState({ wantExchangeGoods: value })
   }
   onPayForChange(value) {
     this.setState({ objectOfPayment: value })
   }
   onPayForOtherChange(value) {
-    this.setState({ payForOtherPrice: value })
+    this.payForOtherPrice = value
+    // this.setState({ payForOtherPrice: value })
   }
   onStepTwoClick() {
-    const { goodsNumber, newAndOldDegree, mode, objectOfPayment, payForMePrice, wantExchangeGoods, payForOtherPrice } = this.state
-    // console.log(goodsNumber, newAndOldDegree, mode, objectOfPayment, payForMePrice, wantExchangeGoods, payForOtherPrice);
+    const { goodsNumber, newAndOldDegree, mode, objectOfPayment } = this.state
+    console.log(goodsNumber, newAndOldDegree, mode, objectOfPayment);
     Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
     if (goodsNumber && newAndOldDegree && mode && objectOfPayment) {
       this.setState((prevState: PageState) => {
@@ -798,7 +812,8 @@ class ReleaseGoodsSteps extends Component {
     }
   }
   onDescribeChange(value) {
-    this.setState({ describe: value })
+    this.describe = value
+    // this.setState({ describe: value })
   }
   onFilesChange(value) {
     this.setState({ isSlectedFiles: true })
@@ -807,8 +822,8 @@ class ReleaseGoodsSteps extends Component {
   onReleasedClick() {
     this.setState((prevState: PageState) => {
       return {
-        step: prevState.step +1,
-        commonContentLoading:true
+        step: prevState.step + 1,
+        commonContentLoading: true
       }
     })
     Taro.login({
@@ -856,15 +871,15 @@ class ReleaseGoodsSteps extends Component {
               typeOne: this.state.typeOne,
               typeTwo: this.state.typeTwo,
               typeThree: this.state.typeThree,
-              nameInput: this.state.nameInput,
+              nameInput: this.nameInput,
               goodsNumber: this.state.goodsNumber,
               newAndOldDegree: this.state.newAndOldDegree,
               mode: this.state.mode,
               objectOfPayment: this.state.objectOfPayment,
-              payForMePrice: this.state.payForMePrice,
-              payForOtherPrice: this.state.payForOtherPrice,
-              wantExchangeGoods: this.state.wantExchangeGoods,
-              describe: this.state.describe,
+              payForMePrice: this.payForMePrice,
+              payForOtherPrice: this.payForOtherPrice,
+              wantExchangeGoods: this.wantExchangeGoods,
+              describe: this.describe,
               picsLocation: picsLocation,
               orderId: orderId,
               code: code,
@@ -891,20 +906,22 @@ class ReleaseGoodsSteps extends Component {
                   typeTwo: 'iphone',
                   typeThree: '',
                   isCustomTypeThree: false,
-                  nameInput: '',
                   goodsNumber: 1,
-                  newAndOldDegree: '',
+                  newAndOldDegree: '100',
                   mode: '',
-                  payForMePrice: 0,
-                  wantExchangeGoods: '',
                   objectOfPayment: 'payForMe',
-                  payForOtherPrice: 0,
-                  describe: '',
                   isRelease: true,
                   isShowMessage: false,
                   commonContentLoading: false,
-                  isSlectedFiles: false
+                  isSlectedFiles: false,
+                  selectedNewAndOldDegreeIndex:0
                 })
+                this.nameInput = ''
+                this.payForMePrice = 0
+                this.payForOtherPrice = 0
+                this.wantExchangeGoods = ''
+                this.describe = ''
+                this.files = []
                 let timer = setTimeout(() => {
                   this.setState({ isRelease: false })
                   Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
@@ -933,28 +950,27 @@ class ReleaseGoodsSteps extends Component {
         />
         {this.state.step === 0 ? (
           <View className='step'>
+            <ClTitleBar bgColor='gradualOrange' title='请选择一、分类二级:' textColor='white' borderColor='white' type='border-title' />
             <ClSelect
               multiSelector={{
                 range: muti,
                 value: [this.state.selectedTypeOneIndex, 0]
               }}
               mode="multiSelector"
-              title="选择一、二级分类："
+              title="一、二级分类："
               onChange={(e) => { this.onChange(e) }}
               onColumnChange={(e) => { this.onColumnChange(e) }}
               style={{
                 boxShadow: '0 0 10px #777'
               }}
             />
-            {!this.state.isCustomTypeThree ? <ClRadio
-              type="form"
-              title='三级分类:'
-              radioGroup={this.state.typeThreeList}
-              style={{
-                marginTop: '20px',
-                boxShadow: '0 0 10px #777'
+            <ClTitleBar bgColor='gradualOrange' title='请选择三级分类:' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
+            {!this.state.isCustomTypeThree ? <AtRadio
+              options={this.state.typeThreeList}
+              value={this.state.typeThree}
+              onClick={(value) => {
+                this.onTypeThreeChange(value)
               }}
-              onChange={(value) => { this.onTypeThreeChange(value) }}
             /> : null}
             {!this.state.isCustomTypeThree ? <View className='tip' onClick={() => {
               this.setState((prevState: PageState) => {
@@ -962,34 +978,27 @@ class ReleaseGoodsSteps extends Component {
               })
             }}>没有想要的?点击我自定义分类!</View> : null}
 
-            {this.state.isCustomTypeThree ? <ClInput
-              title="自定义三级分类："
-              placeholder="请输入自定义三级分类"
-              type="text"
-              titleWidth={300}
-              style={{
-                marginTop: '20px',
-                boxShadow: '0 0 10px #777'
-              }}
+            {this.state.isCustomTypeThree ? <AtInput placeholder='在此输入物品的三级分类名'
+              type='string'
+              name='typeThreeInput'
               value={this.state.typeThree}
-              onChange={(value) => { this.onCustomSortChange(value) }}
-            /> : null}
+              onChange={(value) => {
+                this.onCustomSortChange(value)
+              }}
+            ></AtInput> : null}
             {this.state.isCustomTypeThree ? <View className='tip' onClick={() => {
               this.setState((prevState: PageState) => {
                 return { isCustomTypeThree: false }
               })
             }}>点我恢复推荐三级分类！</View> : null}
-
+            <ClTitleBar bgColor='gradualOrange' title='请输入具体名称、型号:' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
             <ClInput
-              title="具体名称、型号:"
               placeholder="请输入具体名称、型号"
               type="text"
-              titleWidth={260}
               style={{
-                marginTop: '20px',
                 boxShadow: '0 0 10px #777'
               }}
-              defaultValue={this.state.nameInput}
+              defaultValue={this.nameInput}
               onChange={(value) => { this.onNameInputChange(value) }}
             />
             <ClButton shape='round' bgColor='gradualOrange'
@@ -1004,8 +1013,9 @@ class ReleaseGoodsSteps extends Component {
 
         {this.state.step === 1 ? (
           <View className='step'>
+            <ClTitleBar bgColor='gradualOrange' title='请选择物品的数量：' textColor='white' borderColor='white' type='border-title' />
             <View className='goods-number'>
-              <Text>请选择物品的数量：</Text>
+              <Text className='num'>数量：</Text>
               <AtInputNumber
                 type='number'
                 min={1}
@@ -1015,23 +1025,33 @@ class ReleaseGoodsSteps extends Component {
                 onChange={(value) => { this.onGoodsNumberChange(value) }}
               />
             </View>
-            <ClRadio
-              type="form"
-              title='新旧程度:'
-              radioGroup={this.newAndOldDegreeList}
+            <ClTitleBar bgColor='gradualOrange' title='请选择物品的新旧程度：' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
+            <ClSelect
+              selector={{
+                range: this.newAndOldDegreeList,
+                value: this.state.selectedNewAndOldDegreeIndex
+              }}
+              mode="selector"
+              title="新旧程度："
+              onChange={(e) => { this.onNewAndOldDegreeChange(e) }}
               style={{
-                marginTop: '20px',
                 boxShadow: '0 0 10px #777'
               }}
-              onChange={(value) => { this.onNewAndOldDegreeChange(value) }}
             />
+            {/* <AtRadio
+              options={this.newAndOldDegreeList}
+              value={this.state.newAndOldDegree}
+              onClick={(value) => {
+                this.onNewAndOldDegreeChange(value) 
+              }}
+            /> */}
 
+            <ClTitleBar bgColor='gradualOrange' title='请选择交易方式：' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
             <ClRadio
               type="form"
               title='交易方式:'
               radioGroup={this.modeList}
               style={{
-                marginTop: '20px',
                 boxShadow: '0 0 10px #777'
               }}
               onChange={(value) => { this.onModeChange(value) }}
@@ -1042,7 +1062,7 @@ class ReleaseGoodsSteps extends Component {
                 <AtInput placeholder='在此输入您想要卖的价格'
                   type='number'
                   name='parForMePrice'
-                  value={this.state.payForMePrice}
+                  value={this.payForMePrice}
                   onChange={(value) => {
                     this.onDirectSaleChange(value)
                   }}
@@ -1055,7 +1075,7 @@ class ReleaseGoodsSteps extends Component {
                 <AtInput placeholder='在此输入您想要换的物品的名称'
                   type='string'
                   name='wantExchangeGoods'
-                  value={this.state.wantExchangeGoods}
+                  value={this.wantExchangeGoods}
                   onChange={(value) => {
                     this.onDirectExchangeChange(value)
                   }}
@@ -1069,7 +1089,7 @@ class ReleaseGoodsSteps extends Component {
                 <AtInput placeholder='在此输入您想要换的物品'
                   type='string'
                   name='wantExchangeGoods'
-                  value={this.state.wantExchangeGoods}
+                  value={this.wantExchangeGoods}
                   onChange={(value) => {
                     this.onDirectExchangeChange(value)
                   }}
@@ -1091,7 +1111,7 @@ class ReleaseGoodsSteps extends Component {
                     <AtInput placeholder='在此输入差价'
                       type='digit'
                       name='parForMePrice'
-                      value={this.state.payForMePrice}
+                      value={this.payForMePrice}
                       onChange={(value) => {
                         this.onDirectSaleChange(value)
                       }}
@@ -1104,7 +1124,7 @@ class ReleaseGoodsSteps extends Component {
                     <AtInput placeholder='在此输入差价'
                       type='digit'
                       name='payForOtherPrice'
-                      value={this.state.payForOtherPrice}
+                      value={this.payForOtherPrice}
                       onChange={(value) => {
                         this.onPayForOtherChange(value)
                       }}
@@ -1133,32 +1153,30 @@ class ReleaseGoodsSteps extends Component {
             </View>
           </View>) : null}
 
-        {this.state.step === 2 ? (
+        {(this.state.step === 2 || this.state.step === 3) ? (
           <View>
             <ClLoading
               type="common"
               show={this.state.commonContentLoading}
               commonText="商品上传发布中..."
             ></ClLoading>
-            <View className='mode-text'>
-              <Text>请填写您发布的物品的详细描述：</Text>
-            </View>
+            <ClTitleBar bgColor='gradualOrange' title='请填写您发布的物品的详细描述：' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
             <AtTextarea
-              value={this.state.describe}
+              value={this.describe}
               onChange={(event: any) => { this.onDescribeChange(event.detail.value) }}
               maxLength={200}
               placeholder='请您输入对物品的详细描述！'
               height={300}
             />
-            <View className='mode-text'>
-              <Text>请选择您发布的物品的照片：</Text>
+            <ClTitleBar bgColor='gradualOrange' title='请选择商品的图片描述：' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
+            <View className='image-picker'>
+              <AtImagePicker
+                files={this.files}
+                onChange={(files: any) => {
+                  this.onFilesChange(files)
+                }}
+              />
             </View>
-            <AtImagePicker
-              files={this.files}
-              onChange={(files: any) => {
-                this.onFilesChange(files)
-              }}
-            />
             <View className='btn'>
               <ClButton shape='round' bgColor='gradualBlue'
                 onClick={() => {
@@ -1173,7 +1191,7 @@ class ReleaseGoodsSteps extends Component {
                 }}
                 size='large'
                 style={{ marginTop: '20px' }}
-              >发布</ClButton>
+              >发 布</ClButton>
             </View>
           </View>) : null}
         <AtToast isOpened={this.state.isRelease} text={this.state.isRelease ? '发布成功' : '发布失败！请检查后再提交！'} status={this.state.isRelease ? 'success' : 'error'} duration={1000}></AtToast>

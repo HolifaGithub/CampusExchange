@@ -1,5 +1,5 @@
 import Taro, { useState, useEffect, useReducer } from '@tarojs/taro'
-import {View, Image } from '@tarojs/components'
+import { View, Image } from '@tarojs/components'
 import Skeleton from 'taro-skeleton'
 import promiseApi from '../../utils/promiseApi'
 import { server, port } from '../../static-name/server'
@@ -32,7 +32,7 @@ interface InitState {
     school: string;
     isCare: boolean;
     isCollect: boolean;
-    isMe:boolean;
+    isMe: boolean;
 }
 const initState: InitState = {
     orderId: '',
@@ -56,7 +56,7 @@ const initState: InitState = {
     school: '',
     isCare: false,
     isCollect: false,
-    isMe:false
+    isMe: false
 }
 const SET_DATA = 'SET_DATA'
 function reducer(state = initState, action) {
@@ -82,9 +82,9 @@ function reducer(state = initState, action) {
                 nickName: action.data.nickName,
                 avatarUrl: action.data.avatarUrl,
                 school: action.data.school,
-                isCare:action.data.isCare,
-                isCollect:action.data.isCollect,
-                isMe:action.data.isMe
+                isCare: action.data.isCare,
+                isCollect: action.data.isCollect,
+                isMe: action.data.isMe
             })
         default:
             return state
@@ -111,7 +111,7 @@ function GooodsInfoContent(props: Props) {
                     title={state.nameInput}
                     border
                 />
-                <GoodsInfoHeader datas={state}/>
+                <GoodsInfoHeader datas={state} />
                 <View className='body'>
                     <View className='price'>
                         {state.payForMePrice === 0 ? null : <View className='price-icon'>
@@ -133,21 +133,23 @@ function GooodsInfoContent(props: Props) {
                         {state.describe.length > 0 ? state.describe : <View>此商品无文字介绍!</View>}
                     </View>
                     <AtDivider content='图片详情' fontColor='#C41A16' lineColor='#C41A16' />
-                    {state.picsLocation&&state.picsLocation.length > 0 ? state.picsLocation.map((pic, index) => {
+                    {state.picsLocation && state.picsLocation.length > 0 ? state.picsLocation.map((pic, index) => {
                         return (
-                            <Image className='goods-img' src={pic} key={pic}></Image>
+                            <View className='goods-img' key={pic}>
+                                <Image src={pic}  mode={'aspectFit'}></Image>
+                            </View>
                         )
                     }) : <View>此商品无图片详情!</View>
                     }
                 </View>
-               { state.isMe?null:(<GoodsInfoFooter datas={state}/>)}
+                {state.isMe ? null : (<GoodsInfoFooter datas={state} />)}
             </View>
         </Skeleton>
     )
 }
 GooodsInfoContent.defaultProps = {
     data: {
-        status:'',
+        status: '',
         orderId: '',
         orderTime: '',
         orderStatus: '',

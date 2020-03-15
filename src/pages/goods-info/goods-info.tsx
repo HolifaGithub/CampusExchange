@@ -1,10 +1,11 @@
 import { ComponentClass } from 'react'
 import Taro, { PureComponent, Config } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text,ScrollView } from '@tarojs/components'
 import { server, port, protocol } from '../../static-name/server'
 import formatDate from '../../utils/formatDate'
 import promiseApi from '../../utils/promiseApi'
 import { connect } from '@tarojs/redux'
+import getSystemInfo from '../../utils/getSystemInfo'
 import GooodsInfoContainer from '../../floors/floor-goods-info-container'
 import './goods-info.scss'
 
@@ -99,10 +100,11 @@ class GoodsInfo extends PureComponent {
     })
   }
   render() {
+    const windowHeight = getSystemInfo().windowHeight+'px'
     return (
-      <View className='goods-info'>
+      <ScrollView className='goods-info' enableFlex scrollY style={{height:windowHeight}}>
         <GooodsInfoContainer data={this.state} />
-      </View>
+      </ScrollView>
     )
   }
 }

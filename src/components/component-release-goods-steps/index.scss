@@ -148,10 +148,18 @@ $base-color:#C41A16;
     background-color: #fff;
     box-shadow: 0 0 10px #777;
 }
-    .mode-text{
-        color:$base-color;
-        margin-top: $mode-text-margin;
-        margin-bottom: $mode-text-margin;
-        margin-left: $mode-text-margin;
-        font-size: $mode-text-font-size;
-    }
+.mode-text{
+    color:$base-color;
+    margin-top: $mode-text-margin;
+    margin-bottom: $mode-text-margin;
+    margin-left: $mode-text-margin;
+    font-size: $mode-text-font-size;
+}
+.num{
+    margin-left: 20px;
+}
+.image-picker{
+    width:100%;
+    height:400px;
+    background-color: #fff;
+}
