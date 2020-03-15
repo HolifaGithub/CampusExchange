@@ -594,7 +594,7 @@ type PageState = {
   // nameInput: string;
   goodsNumber: number;
   newAndOldDegree: string;
-  selectedNewAndOldDegreeIndex:number;
+  selectedNewAndOldDegreeIndex: number;
   mode: string;
   // payForMePrice: number;
   // wantExchangeGoods: string;
@@ -606,6 +606,7 @@ type PageState = {
   selectedTypeOneIndex: number;
   commonContentLoading: boolean;
   isSlectedFiles: boolean;
+  isFail: boolean;
   // files:Files[];
 }
 type MessageType = "success" | "error" | "warn" | "info" | "custom"
@@ -624,7 +625,7 @@ class ReleaseGoodsSteps extends Component {
   constructor(props) {
     super(props)
   }
-  componentDidUpdate() {
+  componentWillUpdate() {
     this.setState({ isShowMessage: false })
   }
   state = {
@@ -649,7 +650,7 @@ class ReleaseGoodsSteps extends Component {
     // nameInput: '',
     goodsNumber: 1,
     newAndOldDegree: '100',
-    selectedNewAndOldDegreeIndex:0,
+    selectedNewAndOldDegreeIndex: 0,
     mode: '',
     // payForMePrice: 0,
     // wantExchangeGoods: '',
@@ -657,6 +658,7 @@ class ReleaseGoodsSteps extends Component {
     // payForOtherPrice: 0,
     // describe: '',
     isRelease: false,
+    isFail: false,
     isShowMessage: false,
     commonContentLoading: false,
     isSlectedFiles: false
@@ -695,13 +697,13 @@ class ReleaseGoodsSteps extends Component {
   }
   newAndOldDegreeList = ['全新', '99新', '98新', '95新', '90新', '85新', '80新', '75新', '70新', '60新', '半新', '很旧', '伊拉克']
   modeList = [
-    { key: '直接卖', value: 'directSale' },
-    { key: '等价换', value: 'directExchange' },
-    { key: '差价换', value: 'priceDifference' },
+    { label: '直接卖', value: 'directSale' },
+    { label: '等价换', value: 'directExchange' },
+    { label: '差价换', value: 'priceDifference' },
   ]
   payForList = [
-    { key: 'TA向我支付', value: 'payForMe' },
-    { key: '我向TA支付', value: 'payForOther' },
+    { label: 'TA向我支付', value: 'payForMe' },
+    { label: '我向TA支付', value: 'payForOther' },
   ]
   onColumnChange(e) {
     const { column, value } = e
@@ -771,10 +773,10 @@ class ReleaseGoodsSteps extends Component {
   }
   onNewAndOldDegreeChange(e) {
     const selectedName = this.newAndOldDegreeList[e]
-    this.setState({ 
+    this.setState({
       newAndOldDegree: this.newAndOldDegreeMap[selectedName],
-      selectedNewAndOldDegreeIndex:e
-     })
+      selectedNewAndOldDegreeIndex: e
+    })
   }
   onModeChange(value) {
     this.setState({ mode: value })
@@ -887,50 +889,55 @@ class ReleaseGoodsSteps extends Component {
             },
             success: (res) => {
               if (res.statusCode === 200 && res.data.status === 'success') {
-                this.setState({
-                  step: 0,
-                  typeTwoList: ['iphone', '小米', '华为', 'oppo', 'vivo', '魅族'],
-                  typeThreeList: [
-                    { key: '11pro max', value: '11pro max' },
-                    { key: '11pro', value: '11pro' },
-                    { key: '11', value: '11' },
-                    { key: 'xs max', value: 'xs max' },
-                    { key: 'xs', value: 'xs' },
-                    { key: 'xr', value: 'xr' },
-                    { key: 'x', value: 'x' },
-                    { key: '8 plus', value: '8 plus' },
-                    { key: '8', value: '8' },
-                  ],
-                  selectedTypeOneIndex: 0,
-                  typeOne: '手机',
-                  typeTwo: 'iphone',
-                  typeThree: '',
-                  isCustomTypeThree: false,
-                  goodsNumber: 1,
-                  newAndOldDegree: '100',
-                  mode: '',
-                  objectOfPayment: 'payForMe',
-                  isRelease: true,
-                  isShowMessage: false,
-                  commonContentLoading: false,
-                  isSlectedFiles: false,
-                  selectedNewAndOldDegreeIndex:0
+                let timer0 = setTimeout(() => {
+                  this.setState({
+                    step: 0,
+                    typeTwoList: ['iphone', '小米', '华为', 'oppo', 'vivo', '魅族'],
+                    typeThreeList: [
+                      { label: '11pro max', value: '11pro max' },
+                      { label: '11pro', value: '11pro' },
+                      { label: '11', value: '11' },
+                      { label: 'xs max', value: 'xs max' },
+                      { label: 'xs', value: 'xs' },
+                      { label: 'xr', value: 'xr' },
+                      { label: 'x', value: 'x' },
+                      { label: '8 plus', value: '8 plus' },
+                      { label: '8', value: '8' },
+                    ],
+                    selectedTypeOneIndex: 0,
+                    typeOne: '手机',
+                    typeTwo: 'iphone',
+                    typeThree: '',
+                    isCustomTypeThree: false,
+                    goodsNumber: 1,
+                    newAndOldDegree: '100',
+                    mode: '',
+                    objectOfPayment: 'payForMe',
+                    isRelease: true,
+                    isFail: false,
+                    isShowMessage: false,
+                    commonContentLoading: false,
+                    isSlectedFiles: false,
+                    selectedNewAndOldDegreeIndex: 0
+                  })
+                  this.nameInput = ''
+                  this.payForMePrice = 0
+                  this.payForOtherPrice = 0
+                  this.wantExchangeGoods = ''
+                  this.describe = ''
+                  this.files = []
+                }, 2000, () => {
+                  clearTimeout(timer0)
                 })
-                this.nameInput = ''
-                this.payForMePrice = 0
-                this.payForOtherPrice = 0
-                this.wantExchangeGoods = ''
-                this.describe = ''
-                this.files = []
                 let timer = setTimeout(() => {
                   this.setState({ isRelease: false })
                   Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
                   Taro.navigateTo({ url: `/pages/goods-info/goods-info?orderId=${orderId}` })
-                }, 1000, () => {
+                }, 3000, () => {
                   clearTimeout(timer)
                 })
               } else {
-
+                this.setState({ isFail: true })
               }
             }
           })
@@ -1047,14 +1054,12 @@ class ReleaseGoodsSteps extends Component {
             /> */}
 
             <ClTitleBar bgColor='gradualOrange' title='请选择交易方式：' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
-            <ClRadio
-              type="form"
-              title='交易方式:'
-              radioGroup={this.modeList}
-              style={{
-                boxShadow: '0 0 10px #777'
+            <AtRadio
+              options={this.modeList}
+              value={this.state.mode}
+              onClick={(value) => {
+                this.onModeChange(value)
               }}
-              onChange={(value) => { this.onModeChange(value) }}
             />
             {this.state.mode === 'directSale' ? (
               <View>
@@ -1095,15 +1100,15 @@ class ReleaseGoodsSteps extends Component {
                   }}
                 ></AtInput>
                 <View className='mode-text'>换了上面物品后要补的差价是(元)：</View>
-                <ClRadio
-                  type="form"
-                  title='支付对象:'
-                  radioGroup={this.payForList}
-                  style={{
-                    marginTop: '20px',
-                    boxShadow: '0 0 10px #777'
-                  }}
-                  onChange={(value) => { this.onPayForChange(value) }}
+                <AtRadio
+                  options={this.payForList}
+                  value={this.state.objectOfPayment}
+                  onClick={(value) => {
+                    (value) => {
+                      this.onPayForChange(value)
+                    }
+                  }
+                  }
                 />
                 {this.state.objectOfPayment === 'payForMe' ?
                   <View>
@@ -1156,9 +1161,9 @@ class ReleaseGoodsSteps extends Component {
         {(this.state.step === 2 || this.state.step === 3) ? (
           <View>
             <ClLoading
-              type="common"
+              type="modal"
               show={this.state.commonContentLoading}
-              commonText="商品上传发布中..."
+              modalText="商品上传中..."
             ></ClLoading>
             <ClTitleBar bgColor='gradualOrange' title='请填写您发布的物品的详细描述：' textColor='white' borderColor='white' type='border-title' style={{ marginTop: '20px' }} />
             <AtTextarea
@@ -1191,10 +1196,11 @@ class ReleaseGoodsSteps extends Component {
                 }}
                 size='large'
                 style={{ marginTop: '20px' }}
-              >发 布</ClButton>
+              >发布商品</ClButton>
             </View>
           </View>) : null}
-        <AtToast isOpened={this.state.isRelease} text={this.state.isRelease ? '发布成功' : '发布失败！请检查后再提交！'} status={this.state.isRelease ? 'success' : 'error'} duration={1000}></AtToast>
+        <AtToast isOpened={this.state.isRelease} text={'发布成功'} status={'success'} duration={1000}></AtToast>
+        <AtToast isOpened={this.state.isFail} text={'发布失败！请检查后再提交！'} status={'error'} duration={1000}></AtToast>
       </View>
     )
   }

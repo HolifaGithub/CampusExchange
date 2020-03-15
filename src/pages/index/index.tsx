@@ -17,6 +17,7 @@ import { server, port, protocol } from '../../static-name/server'
 import isNullOrUndefined from '../../utils/isNullOrUndefined'
 import isStringLengthEqualZero from '../../utils/isStringLengthEqualZero'
 import { switchTabPerson } from '../../actions/switchTabBar'
+import {addItem,addMessageNum} from '../../actions/chatListMessageNum'
 import { needRelogin, notNeedRelogin } from '../../actions/checkIsNeedRelogin'
 
 type PageStateProps = {
@@ -29,7 +30,8 @@ type PageStateProps = {
   },
   checkIsNeedRelogin: {
     isNeedRelogin: boolean;
-  }
+  },
+  chatListMessageNum:any
 }
 
 type PageDispatchProps = {
@@ -37,6 +39,8 @@ type PageDispatchProps = {
   switchTabPerson: () => any;
   dispatchNeedRelogin: () => any;
   dispatchNotNeedRelogin: () => any;
+  dispatchAddItem:(id)=>any;
+  dispatchAddMessageSum:(id,notViewMessageNum)=>any;
 }
 
 type PageOwnProps = {}
@@ -76,10 +80,11 @@ interface LocationResult {
   result: any,
   request_id: string
 }
-@connect(({ fetchPageData, switchTarBar, checkIsNeedRelogin }) => ({
+@connect(({ fetchPageData, switchTarBar, checkIsNeedRelogin,chatListMessageNum }) => ({
   fetchPageData,
   switchTarBar,
-  checkIsNeedRelogin
+  checkIsNeedRelogin,
+  chatListMessageNum
 }), (dispatch) => ({
   dispatchFetchPageData() {
     dispatch(dispatchFetchPageData())
@@ -92,6 +97,12 @@ interface LocationResult {
   },
   dispatchNotNeedRelogin() {
     dispatch(notNeedRelogin())
+  },
+  dispatchAddItem(id){
+    dispatch(addItem(id))
+  },
+  dispatchAddMessageSum(id,notViewMessageNum){
+    dispatch(addMessageNum(id,notViewMessageNum))
   }
 }))
 class Index extends PureComponent {
@@ -103,8 +114,39 @@ class Index extends PureComponent {
     page: 1,
     hasMore: true
   }
+  fetchNotViewMessageNum(){
+    promiseApi(Taro.login)().then((loginResult) => {
+      if (loginResult.code) {
+        promiseApi(Taro.request)({
+          url: `${protocol}://${server}:${port}/getnotviewmessagenum`,
+          method: 'GET',
+          data: {
+            code: loginResult.code,
+          }
+        }).then(res => {
+          console.log( res);
+          if (res.statusCode === 200 && res.data.status === 'success') {
+                const len =res.data.returnDatas.datas.length 
+                const datas = res.data.returnDatas.datas
+                 if(len>0){
+                    for(let i =0;i<len;i++){
+                      const {id,notViewMessageNum} = datas[i]
+                      this.props.dispatchAddItem(id)
+                      this.props.dispatchAddMessageSum(id,notViewMessageNum)
+                    }
+                 }
+          } else {
+            console.log('获取未读消息失败！')
+          }
+        }).catch(()=>{
+          console.log('获取未读消息请求失败！');
+        })
+      }
+    })
+  }
   componentWillMount() {
     this.fetchWaterFallData()
+    this.fetchNotViewMessageNum()
     getLocation().then((res: LocationResult) => {
       if (!isNullOrUndefined(res.result.address_component)) {
         const address_component = res.result.address_component

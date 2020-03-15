@@ -82,7 +82,6 @@ class Search extends Component {
     })
   }
   fetchMore() {
-    if (this.state.hasMore) {
       this.setState({ loadMore: true })
       promiseApi(Taro.request)({
         url: `${protocol}://${server}:${port}/search`,
@@ -116,7 +115,6 @@ class Search extends Component {
           })
         }
       })
-    }
   }
   componentWillPreload(params) {
     return this.fetchSearchData(params.value,params.searchStart)
@@ -128,12 +126,10 @@ class Search extends Component {
           if (res.data.returnDatas.length < this.pageSize) {
             this.setState({
               hasMore: false,
-              loadMore: false,
               waterFallDatas: [res.data.returnDatas]
             })
           } else {
             this.setState({
-              loadMore: false,
               waterFallDatas: [res.data.returnDatas]
             })
           }

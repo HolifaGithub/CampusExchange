@@ -1,8 +1,13 @@
-import Taro, { useReducer } from '@tarojs/taro'
+import Taro, { useReducer, useEffect } from '@tarojs/taro'
 import { View, Text, Image, OpenData, Picker } from '@tarojs/components'
 import { AtNoticebar, AtInput, AtForm, AtButton, AtToast } from 'taro-ui'
 import { CDNWebSite } from '../../../static-name/web-site'
-import { server, port,protocol } from '../../../static-name/server'
+import { ClTip } from "mp-colorui";
+import isNullOrUndefined from '../../../utils/isNullOrUndefined'
+import isStringLengthEqualZero from '../../../utils/isStringLengthEqualZero'
+import getLocation from '../../../utils/getLocation'
+import { server, port, protocol } from '../../../static-name/server'
+import {phone,idCard} from '../../../utils/regularTest'
 import './index.scss'
 
 interface InitState {
@@ -20,6 +25,15 @@ interface InitState {
   phone: string;
   address: string;
   isSubmited: boolean;
+  location: string;
+  showTip:boolean;
+  message:string;
+}
+interface LocationResult {
+  status: number,
+  message: string,
+  result: any,
+  request_id: string
 }
 const SET_SELECTED_SCHOOL = 'SET_SELECTED_SCHOOL'
 const SET_STUDENT_ID = 'SET_STUDENT_ID'
@@ -33,6 +47,7 @@ const SET_PHONE = 'SET_PHONE'
 const SET_ADDRESS = 'SET_ADDRESS'
 const SUBMITED = 'SUBMITED'
 const NOT_SUBMITED = 'NOT_SUBMITED'
+const SET_LOCATION = 'SET_LOCATION'
 function reducer(state, action) {
   switch (action.type) {
     case SET_SELECTED_SCHOOL:
@@ -58,14 +73,16 @@ function reducer(state, action) {
     case SUBMITED:
       return Object.assign({}, state, { isSubmited: true })
     case NOT_SUBMITED:
-      return Object.assign({}, state, { isSubmited: false })
+      return Object.assign({}, state, { showTip: true,message:action.message })
+    case SET_LOCATION:
+      return Object.assign({}, state, { location: action.data })
     default:
       return state
   }
 }
 function UserRegister() {
   const initState: InitState = {
-    schoolList: ['广州大学', '广东工业大学', '广东美术学院'],
+    schoolList: ['广州大学', '广东工业大学', '广东美术学院', '中山大学', '华南理工大学', '华南师范大学', '广州中医药大学', '广东外语外贸大学'],
     selectedSchool: '请点我选择大学',
     studentId: '',
     educationList: ['专科', '本科', '硕士', '博士'],
@@ -79,20 +96,34 @@ function UserRegister() {
     phone: '',
     address: '',
     isSubmited: false,
+    location: '',
+    showTip:false,
+    message:''
   }
+  useEffect(() => {
+    getLocation().then((res: LocationResult) => {
+      if (!isNullOrUndefined(res.result.address_component)) {
+        const address_component = res.result.address_component
+        if (!isNullOrUndefined(address_component)) {
+          const province = address_component.province
+          const city = address_component.city
+          const district = address_component.district
+          if (!isStringLengthEqualZero(province) || !isStringLengthEqualZero(city) || !isStringLengthEqualZero(district)) {
+            dispatch({ type: SET_LOCATION, data: `${province}${city}${district}` })
+          } else {
+            dispatch({ type: SET_LOCATION, data: '无法获取当前位置！' })
+          }
+        }
+      }
+    })
+  }, [])
   const [state, dispatch] = useReducer(reducer, initState)
   return (
     <View className='user-register-conatiner'>
-      <View className='location'>
-        <Image src={`${CDNWebSite}/icon/register/location.png`} className='icon'></Image>
-        <OpenData type='userCountry' lang='zh_CN'></OpenData>
-        <OpenData type='userProvince' lang='zh_CN'></OpenData>
-        <OpenData type='userCity' lang='zh_CN'></OpenData>
-      </View>
       <View className='register-content'>
         <View className='step'>
           <View className='title'>1.请选择您的大学名称:</View>
-          <AtNoticebar>以下大学列表由系统根据您目前所在地查找</AtNoticebar>
+          <AtNoticebar>您目前所在的位置为：{state.location}</AtNoticebar>
           <Picker mode='selector' range={state.schoolList} onChange={(e) => {
             dispatch({ type: SET_SELECTED_SCHOOL, data: state.schoolList[e.detail.value] })
           }}
@@ -189,7 +220,7 @@ function UserRegister() {
           <View className='title'>8.请输入您的身份证:</View>
           <AtInput
             name='idcard'
-            type='text'
+            type='idcard'
             placeholder='请在此输入您的身份证'
             value={state.idCard}
             onChange={(value) => {
@@ -225,43 +256,53 @@ function UserRegister() {
         </View>
       </View>
       <View className='submit'>
+      <ClTip message={state.message} direction='top'  bgColor='gradualRed' show={state.showTip}>
         <AtButton type='primary' full onClick={() => {
-          Taro.login({
-            success(loginResult) {
-              if (loginResult.code) {
-                Taro.request({
-                  url: `${protocol}://${server}:${port}/register`,
-                  method: 'POST',
-                  data: {
-                    code: loginResult.code,
-                    selectedSchool: state.selectedSchool,
-                    studentId: state.studentId,
-                    education: state.education,
-                    grade: state.grade,
-                    collage: state.collage,
-                    userClass: state.userClass,
-                    name: state.name,
-                    idCard: state.idCard,
-                    phone: state.phone,
-                    address: state.address
-                  },
-                  success(res) {
-                    if (res.statusCode === 200 && res.data.status === 'success') {
-                      dispatch({ type: SUBMITED })
-                      setTimeout(() => {
-                        Taro.navigateBack()
-                      }, 1000);
+          const checkIdCardResult = idCard(state.idCard)
+          const checkPhoneResult = phone(state.phone)
+          if (checkIdCardResult && checkPhoneResult) {
+            Taro.login({
+              success(loginResult) {
+                if (loginResult.code) {
+                  Taro.request({
+                    url: `${protocol}://${server}:${port}/register`,
+                    method: 'POST',
+                    data: {
+                      code: loginResult.code,
+                      selectedSchool: state.selectedSchool,
+                      studentId: state.studentId,
+                      education: state.education,
+                      grade: state.grade,
+                      collage: state.collage,
+                      userClass: state.userClass,
+                      name: state.name,
+                      idCard: state.idCard,
+                      phone: state.phone,
+                      address: state.address
+                    },
+                    success(res) {
+                      if (res.statusCode === 200 && res.data.status === 'success') {
+                        dispatch({ type: SUBMITED })
+                        setTimeout(() => {
+                          Taro.navigateBack()
+                        }, 1000);
+                      }
                     }
-                  },
-                  fail() {
-                    dispatch({ type: NOT_SUBMITED })
-                  }
-                })
+                  })
+                }
               }
+            })
+          }else{
+            let message=''
+            if(checkIdCardResult&&!checkPhoneResult){
+              message='电话号码格式错误，请重新填写！'
+            }else{
+              message='身份证号码格式错误，请重新填写！'
             }
-          })
-
+            dispatch({ type: NOT_SUBMITED ,message:message})
+          }
         }}>确认无误，提交以上信息注册!</AtButton>
+        </ClTip>
       </View>
       <AtToast isOpened={state.isSubmited} text={state.isSubmited ? '提交成功！' : '提交失败！请重新提交！'} status={state.isSubmited ? 'success' : 'error'} duration={1000}></AtToast>
     </View>

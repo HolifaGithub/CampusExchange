@@ -24,23 +24,6 @@ $picker-height:80px;
 .user-register-conatiner{
     height: $container-height;
     background-color: $container-background-color;
-    .location{
-        display: flex;
-        justify-content: start;
-        align-items: center;
-        color: $location-color;
-        padding-top: $location-padding-top;
-        padding-left: $location-padding-left;
-        background-color: $location-background-color;
-        border-bottom-left-radius: $location-border-radius;
-        border-bottom-right-radius: $location-border-radius;
-        margin-bottom: $location-margin-bottom;
-        .icon{
-            width: $icon-width;
-            height: $icon-height;
-            margin-right: $icon-margin-right;
-        }
-    }
  .register-content{
      .title{
         color: $title-color;
@@ -51,7 +34,8 @@ $picker-height:80px;
         line-height: $title-height;
      }
      .step{
-         margin-bottom: $step-margin;       
+         margin-bottom: $step-margin;
+         height: 190px;       
          .picker-container{
              display:flex;
              justify-content:start;
@@ -70,4 +54,11 @@ $picker-height:80px;
          }
      }
  }
+}
+.submit{
+    margin-top: 95px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+
 }

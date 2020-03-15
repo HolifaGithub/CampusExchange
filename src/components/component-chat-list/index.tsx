@@ -71,6 +71,13 @@ class ChatList extends Component {
             otherOpenId
         })
         this.props.dispatchResetItemMessageNum(id)
+        promiseApi(Taro.request)({
+            url: `${protocol}://${server}:${port}/subnotviewmessagenum`,
+            method: 'GET',
+            data: {
+              id:id
+            }
+          })
         promiseApi(Taro.navigateTo)({
             url: '/pages/chat-info/chat-info'
         })

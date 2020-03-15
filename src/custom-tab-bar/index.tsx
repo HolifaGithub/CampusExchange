@@ -84,37 +84,7 @@ class TabBar extends PureComponent {
   state = {
     isSessionEffective: true
   }
-  defaultTabs:Tab[] = [
-    {
-      badge: false,
-      icon:'home',
-      title: '首页',
-      action: false
-    },
-    {
-      badge: false,
-      icon:'sort',
-      title: '分类',
-      action: false
-    },
-    {
-      badge: false,
-      icon:'add',
-      title: '发布',
-      action: true
-    }, {
-      badge: false,
-      icon:'community',
-      title: '聊天',
-      action: false
-    },
-    {
-      badge: false,
-      icon:'my',
-      title: '个人中心',
-      action: false
-    },
-  ]
+
 
   componentWillMount() {
     promiseApi(Taro.checkSession)().then(() => {
@@ -178,6 +148,37 @@ class TabBar extends PureComponent {
   }
   render() {
     const { sumMessage } = this.props.chatListMessageNum
+    const defaultTabs:Tab[] = [
+      {
+        badge: false,
+        icon:'home',
+        title: '首页',
+        action: false
+      },
+      {
+        badge: false,
+        icon:'sort',
+        title: '分类',
+        action: false
+      },
+      {
+        badge: false,
+        icon:'add',
+        title: '发布',
+        action: true
+      }, {
+        badge: sumMessage,
+        icon:'community',
+        title: '聊天',
+        action: false
+      },
+      {
+        badge: false,
+        icon:'my',
+        title: '个人中心',
+        action: false
+      },
+    ]
     return (
       <View>
         <AtToast isOpened={this.props.checkIsNeedRelogin.isNeedRelogin || !this.state.isSessionEffective} text="您好,请先登录！即将跳转到登录页..." status='loading' duration={200}></AtToast>
@@ -246,7 +247,7 @@ class TabBar extends PureComponent {
           active={this.props.switchTarBar.current}
           bgColor={'white'}
           activeColor={'red'}
-          tabs={this.defaultTabs}
+          tabs={defaultTabs}
           safeArea
           onClick={(current) => {
             console.log(this.state.isSessionEffective);
