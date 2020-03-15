@@ -798,7 +798,7 @@ class ReleaseGoodsSteps extends Component {
   }
   onStepTwoClick() {
     const { goodsNumber, newAndOldDegree, mode, objectOfPayment } = this.state
-    console.log(goodsNumber, newAndOldDegree, mode, objectOfPayment);
+    // console.log(goodsNumber, newAndOldDegree, mode, objectOfPayment);
     Taro.pageScrollTo({ scrollTop: 0, duration: 1000 })
     if (goodsNumber && newAndOldDegree && mode && objectOfPayment) {
       this.setState((prevState: PageState) => {

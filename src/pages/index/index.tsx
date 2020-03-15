@@ -124,7 +124,6 @@ class Index extends PureComponent {
             code: loginResult.code,
           }
         }).then(res => {
-          console.log( res);
           if (res.statusCode === 200 && res.data.status === 'success') {
                 const len =res.data.returnDatas.datas.length 
                 const datas = res.data.returnDatas.datas

@@ -158,7 +158,9 @@ class ChatContent extends Component {
         })
     }
     componentWillUnmount(){
+        if(this.task){
         this.task.close({})
+        }
     }
     render() {
         const windowHeight = (getSystemInfo().windowHeight - 70) + 'px'

@@ -174,7 +174,9 @@ class Chat extends Component {
   }
 
   componentDidHide() {
-    this.task.close({})
+    if(this.task){
+      this.task.close({})
+    }
    }
 
   render() {
