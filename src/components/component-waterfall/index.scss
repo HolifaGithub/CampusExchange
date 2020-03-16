@@ -1,5 +1,5 @@
 $screen-width:750px;
-$base-color: #C41A16;
+$base-color: #e54d42;
 $exchange-color:#efb336;
 $exchange-icon-width:40px;
 $exchange-icon-height:$exchange-icon-width;
@@ -18,7 +18,7 @@ $water-fall-item-avater-image-marigin-right:10px;
 .no-data{
   width: 750px;
   height: 300px;
-  background-color: #C41A16;
+  background-color: #e54d42;
   color: #ffffff;
   text-align: center;
   padding-top: 80px;
@@ -67,6 +67,8 @@ $water-fall-item-avater-image-marigin-right:10px;
       padding: $water-fall-item-interval;
       .price-tag{
         display: flex;
+        position: relative;
+        width: $water-fall-item-width;
         height: $price-tag-height;
         .price-bar{
           display: flex;
@@ -83,8 +85,14 @@ $water-fall-item-avater-image-marigin-right:10px;
             color: rgb(24, 184, 24);
           }
           .water-fall-price-exchange{
+            position: absolute;
+            left: 0;
             display: flex;
-            width: $price-width;
+            align-items: center;
+            top: 40px;
+            font-size: 22px;
+            display: flex;
+            width: 340px;
             font-weight: bold;
             color: $exchange-color;
             overflow: hidden;

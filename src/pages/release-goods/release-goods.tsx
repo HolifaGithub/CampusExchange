@@ -32,7 +32,7 @@ class ReleaseGoods extends Component {
   config: Config = {
     navigationBarTitleText: '发布商品页',
     enablePullDownRefresh:false,
-    navigationBarBackgroundColor: '#C41A16',
+    navigationBarBackgroundColor: '#e54d42',
     navigationBarTextStyle:'white'
   }
   render() {

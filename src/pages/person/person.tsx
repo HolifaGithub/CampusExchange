@@ -43,7 +43,7 @@ class Person extends PureComponent {
   config: Config = {
     navigationBarTitleText: '个人中心',
     enablePullDownRefresh: false,
-    navigationBarBackgroundColor: '#C41A16',
+    navigationBarBackgroundColor: '#e54d42',
     navigationBarTextStyle: 'white',
     backgroundColor: '#eeeeee'
   }

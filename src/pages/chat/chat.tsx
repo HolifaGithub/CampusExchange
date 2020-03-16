@@ -58,7 +58,7 @@ class Chat extends Component {
   }
   config: Config = {
     navigationBarTitleText: '聊天列表',
-    navigationBarBackgroundColor: '#C41A16',
+    navigationBarBackgroundColor: '#e54d42',
     navigationBarTextStyle: 'white',
     enablePullDownRefresh:false
   }

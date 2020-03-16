@@ -31,7 +31,7 @@ interface Register {
 class Register extends Component {
     config: Config = {
     navigationBarTitleText: '新用户注册页',
-    navigationBarBackgroundColor:'#C41A16',
+    navigationBarBackgroundColor:'#e54d42',
     navigationBarTextStyle:"white",
     enablePullDownRefresh:false
   }

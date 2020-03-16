@@ -54,7 +54,7 @@ interface ChatInfo {
 class ChatInfo extends Component {
   config: Config = {
     navigationBarTitleText: '聊天内容',
-    navigationBarBackgroundColor: '#C41A16',
+    navigationBarBackgroundColor: '#e54d42',
     navigationBarTextStyle: 'white',
     enablePullDownRefresh: false
   }

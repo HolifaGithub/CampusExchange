@@ -109,12 +109,12 @@ class RechargeContent extends Component {
                         isFull
                     >
                         <View className='reacharge-bar-container'>
-                            <View className='recharge-bar' onClick={() => { this.onClick(0, 10) }} style={{ backgroundColor: current === 0 ? '#C41A16' : '', color: current === 0 ? '#fff' : '' }}>10元</View>
-                            <View className='recharge-bar' onClick={() => { this.onClick(1, 20) }} style={{ backgroundColor: current === 1 ? '#C41A16' : '', color: current === 1 ? '#fff' : '' }}>20元</View>
-                            <View className='recharge-bar' onClick={() => { this.onClick(2, 50) }} style={{ backgroundColor: current === 2 ? '#C41A16' : '', color: current === 2 ? '#fff' : '' }}>50元</View>
-                            <View className='recharge-bar' onClick={() => { this.onClick(3, 100) }} style={{ backgroundColor: current === 3 ? '#C41A16' : '', color: current === 3 ? '#fff' : '' }}>100元</View>
-                            <View className='recharge-bar' onClick={() => { this.onClick(4, 500) }} style={{ backgroundColor: current === 4 ? '#C41A16' : '', color: current === 4 ? '#fff' : '' }}>500元</View>
-                            <View className='recharge-bar' onClick={() => { this.onClick(5, '') }} style={{ backgroundColor: current === 5 ? '#C41A16' : '', color: current === 5 ? '#fff' : '' }}>其他金额</View>
+                            <View className='recharge-bar' onClick={() => { this.onClick(0, 10) }} style={{ backgroundColor: current === 0 ? '#e54d42' : '', color: current === 0 ? '#fff' : '' }}>10元</View>
+                            <View className='recharge-bar' onClick={() => { this.onClick(1, 20) }} style={{ backgroundColor: current === 1 ? '#e54d42' : '', color: current === 1 ? '#fff' : '' }}>20元</View>
+                            <View className='recharge-bar' onClick={() => { this.onClick(2, 50) }} style={{ backgroundColor: current === 2 ? '#e54d42' : '', color: current === 2 ? '#fff' : '' }}>50元</View>
+                            <View className='recharge-bar' onClick={() => { this.onClick(3, 100) }} style={{ backgroundColor: current === 3 ? '#e54d42' : '', color: current === 3 ? '#fff' : '' }}>100元</View>
+                            <View className='recharge-bar' onClick={() => { this.onClick(4, 500) }} style={{ backgroundColor: current === 4 ? '#e54d42' : '', color: current === 4 ? '#fff' : '' }}>500元</View>
+                            <View className='recharge-bar' onClick={() => { this.onClick(5, '') }} style={{ backgroundColor: current === 5 ? '#e54d42' : '', color: current === 5 ? '#fff' : '' }}>其他金额</View>
                             {this.state.current === 5 ? <AtInput
                                 name='value'
                                 type='text'

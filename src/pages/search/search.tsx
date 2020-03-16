@@ -34,6 +34,8 @@ type PageState = {
   loadMore: boolean;
   page: number;
   hasMore: boolean;
+  searchStart:string;
+  value:string;
 }
 type PageOwnProps = {}
 
@@ -58,7 +60,8 @@ class Search extends Component {
     page: 1,
     hasMore: true,
     waterFallDatas: [],
-    value: ''
+    value: '',
+    searchStart:''
   }
   pageSize = 6
   // componentWillReceiveProps (nextProps) {
@@ -66,7 +69,10 @@ class Search extends Component {
   // }
 
   fetchSearchData(value,searchStart) {
-    this.setState({ value: value })
+    this.setState({ 
+      value: value,
+      searchStart:searchStart
+    })
     return new Promise((resolve, reject) => {
       promiseApi(Taro.request)({
         url: `${protocol}://${server}:${port}/search`,
@@ -88,7 +94,8 @@ class Search extends Component {
         method: 'GET',
         data: {
           value: this.state.value,
-          page: ++this.state.page
+          page: ++this.state.page,
+          searchStart:this.state.searchStart
         }
       }).then(res => {
         if (res.statusCode === 200 && res.data.status === 'success') {
@@ -138,11 +145,6 @@ class Search extends Component {
         }
       })
   }
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
   render() {
     const windowHeight = getSystemInfo().windowHeight+'px'
     return (

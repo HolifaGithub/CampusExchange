@@ -162,6 +162,11 @@ class ChatContent extends Component {
         this.task.close({})
         }
     }
+    onGoodsInfoClick(orderId){
+        promiseApi(Taro.navigateTo)({
+            url: `/pages/goods-info/goods-info?orderId=${orderId}`
+        })
+    }
     render() {
         const windowHeight = (getSystemInfo().windowHeight - 70) + 'px'
         const { payForMePrice, payForOtherPrice, goodsNumber, newAndOldDegree, wantExchangeGoods, nameInput, topPicSrc, orderId } = this.props.goodsInfo
@@ -175,7 +180,7 @@ class ChatContent extends Component {
             >
                 <View>
                     <ScrollView className='chat-content' scrollY enableFlex style={{ height: windowHeight }} scrollIntoView={this.state.toLast}>
-                        <View className='goods-introduction'>
+                        <View className='goods-introduction' onClick={()=>{this.onGoodsInfoClick(orderId)}}>
                             <View className='order-id'>
                                 订单编号：{orderId}
                             </View>

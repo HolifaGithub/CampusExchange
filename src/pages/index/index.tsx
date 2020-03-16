@@ -296,9 +296,9 @@ class Index extends PureComponent {
 
   config: Config = {
     navigationBarTitleText: '校园换-首页',
-    backgroundColor: '#C41A16',
+    backgroundColor: '#e54d42',
     enablePullDownRefresh: true,
-    navigationBarBackgroundColor: '#C41A16',
+    navigationBarBackgroundColor: '#e54d42',
     navigationBarTextStyle: 'white'
   }
 
@@ -326,7 +326,7 @@ class Index extends PureComponent {
   // }
   render() {
     // console.log(this.state.page, this.state.waterFallDatas)
-    const tarBarHeight = (getSystemInfo().tabBarHeight + 35) + 'px'
+    const tarBarHeight = (getSystemInfo().tabBarHeight +15) + 'px'
     return (
       <View
         className='index'

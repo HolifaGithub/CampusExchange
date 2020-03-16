@@ -128,11 +128,11 @@ function GooodsInfoContent(props: Props) {
                             <View className='want-exchange'>我想换：{state.wantExchangeGoods}</View>
                         </View>}
                     </View>
-                    <AtDivider content='文字介绍' fontColor='#C41A16' lineColor='#C41A16' />
+                    <AtDivider content='文字介绍' fontColor='#e54d42' lineColor='#e54d42' />
                     <View className='.at-article__p article'>
                         {state.describe.length > 0 ? state.describe : <View>此商品无文字介绍!</View>}
                     </View>
-                    <AtDivider content='图片详情' fontColor='#C41A16' lineColor='#C41A16' />
+                    <AtDivider content='图片详情' fontColor='#e54d42' lineColor='#e54d42' />
                     {state.picsLocation && state.picsLocation.length > 0 ? state.picsLocation.map((pic, index) => {
                         return (
                             <View className='goods-img' key={pic}>

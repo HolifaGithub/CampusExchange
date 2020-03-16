@@ -245,8 +245,8 @@ class TabBar extends PureComponent {
 
         <ClTabBar
           active={this.props.switchTarBar.current}
-          bgColor={'white'}
-          activeColor={'red'}
+          bgColor={'red'}
+          activeColor={'blue'}
           tabs={defaultTabs}
           safeArea
           onClick={(current) => {

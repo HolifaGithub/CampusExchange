@@ -33,7 +33,7 @@ interface Trading {
 class Trading extends Component {
   config: Config = {
     navigationBarTitleText: '交易页',
-    navigationBarBackgroundColor: '#C41A16',
+    navigationBarBackgroundColor: '#e54d42',
     navigationBarTextStyle: 'white',
     enablePullDownRefresh: false
   }

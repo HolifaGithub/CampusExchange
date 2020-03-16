@@ -126,7 +126,7 @@ class SearchContent extends Component {
                     <View className='water-fall'>
                         {(this.props.datas && this.props.datas.length > 0) ? (<WaterFall datas={this.props.datas} />) : (<NotFound />)}
                         {this.props.loadMore ? <View className='loading'>
-                            <AtActivityIndicator content='加载中...' color='#C41A16' mode='center' size={36}></AtActivityIndicator>
+                            <AtActivityIndicator content='加载中...' color='#e54d42' mode='center' size={36}></AtActivityIndicator>
                         </View> : null}
                         {this.props.hasMore ? null : <View className='not-more'>----------- 没有更多了！-----------</View>}
                     </View>

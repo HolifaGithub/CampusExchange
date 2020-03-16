@@ -24,7 +24,7 @@ function SearchBar() {
     >
       <View className='container'>
         <View className='search-bar-container'>
-          <Icon className='search-bar-icon' type='search' color='#C41A16' size='18px'></Icon>
+          <Icon className='search-bar-icon' type='search' color='#e54d42' size='18px'></Icon>
           <Input placeholder={placeholder}
             className='search-bar'
             placeholderClass='input-placeholder'

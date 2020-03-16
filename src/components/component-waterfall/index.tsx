@@ -88,8 +88,7 @@ function Waterfall(props: Props) {
                                                         {payForMePrice !== 0 || mode === 'directSale' ? <View className='water-fall-price-red'><Text>&yen;{payForMePrice}</Text></View> : null}
                                                         {payForOtherPrice !== 0 ? <View className='water-fall-price-green'><Text>&yen;{payForOtherPrice}</Text></View> : null}
                                                         {wantExchangeGoods !== '' || mode === 'directExchange' ? < View className='water-fall-price-exchange'>
-                                                            <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/exchange.png' className='exchange-image'></Image>
-                                                            <Text>{wantExchangeGoods}</Text>
+                                                            <Image src='https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/water-fall/exchange.png' className='exchange-image'></Image><Text>{wantExchangeGoods}</Text>
                                                         </View> : null}
                                                     </View>
                                                     <Tag title={mapMode[mode]} fontSize={'11px'} backgroundColor={'#efb336'}></Tag>

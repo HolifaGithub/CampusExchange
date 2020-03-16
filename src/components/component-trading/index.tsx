@@ -155,6 +155,11 @@ class TradingContent extends Component {
             })
         })
     }
+    onGoodsInfoClick(orderId){
+        promiseApi(Taro.navigateTo)({
+            url: `/pages/goods-info/goods-info?orderId=${orderId}`
+        })
+    }
     render() {
         const { avatarUrl, nickName, nameInput, goodsNumber, newAndOldDegree, payForMePrice, payForOtherPrice, wantExchangeGoods, topPic, orderId, school, salederPhone, salederAddress, buierPhone, buierAddress, buierAvatarUrl, orderCode, buierNickName } = this.props.datas
         return (
@@ -165,7 +170,7 @@ class TradingContent extends Component {
                 loading={this.state.loading}
             >
                 <View className='trading-container'>
-                    <View className='goods-introduction'>
+                    <View className='goods-introduction' onClick={()=>{this.onGoodsInfoClick(orderId)}}>
                         <View className='order-id'>
                             订单编号：{orderId}
                         </View>
