@@ -1,0 +1,30 @@
+.publish-item-container{
+    position: relative;
+    .publish-item{
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        border-bottom-width: 2px;
+        border-bottom-style: solid;
+        border-bottom-color: #fff;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        .avatar{
+            width: 90px;
+            height: 90px;
+            border-radius: 10px;
+            margin-right: 30px;
+        }
+        .nick-name{
+            font-weight: bold;
+        }
+    }
+    .publish-content{
+        font-size: 23px;
+    }
+    .time{
+        color:#333;
+        font-size: 21px;
+        margin-left: 530px;
+    }
+}

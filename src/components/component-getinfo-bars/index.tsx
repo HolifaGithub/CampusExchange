@@ -21,9 +21,9 @@ function onClickCollection(){
   })
 }
 
-function onClickCardTicket(){
+function onClickSchoolfellowZoom(){
   promiseApi(Taro.navigateTo)({
-    url:'/pages/not-found/not-found'
+    url:'/packageA/pages/schoolfellow-zoom/schoolfellow-zoom'
   })
 }
 function GetInfoBars(props) {
@@ -60,10 +60,10 @@ function GetInfoBars(props) {
           </Image>
         </View>
         <View className='get-info-bar-container' hoverClass='hover' hoverStayTime={500}
-        onClick={()=>{onClickCardTicket()}}
+        onClick={()=>{onClickSchoolfellowZoom()}}
         >
-          <Image className='icon' src={`${CDNWebSite}/icon/user-info/card-ticket.png`}></Image>
-          <Text>卡券</Text>
+          <Image className='icon' src={`${CDNWebSite}/icon/user-info/zoom.png`}></Image>
+          <Text>校友圈</Text>
           <Image className='icon arrow' src={`${CDNWebSite}/icon/user-info/arrow.png`}>
           </Image>
         </View>

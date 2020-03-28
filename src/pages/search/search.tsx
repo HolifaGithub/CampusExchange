@@ -89,6 +89,7 @@ class Search extends Component {
   }
   fetchMore() {
       this.setState({ loadMore: true })
+      console.log('more');
       promiseApi(Taro.request)({
         url: `${protocol}://${server}:${port}/search`,
         method: 'GET',
@@ -98,6 +99,7 @@ class Search extends Component {
           searchStart:this.state.searchStart
         }
       }).then(res => {
+        // console.log('aaa',res);
         if (res.statusCode === 200 && res.data.status === 'success') {
           if (res.data.returnDatas.length < this.pageSize) {
             this.setState((prevState: PageState) => {

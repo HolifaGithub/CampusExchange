@@ -86,7 +86,8 @@ class App extends Component {
           'pages/register/register',
           'pages/show_user_info/show_user_info',
           'pages/care-people/care-people',
-          'pages/collect-goods/collect-goods'
+          'pages/collect-goods/collect-goods',
+          'pages/schoolfellow-zoom/schoolfellow-zoom'
         ]
       }
     ],
