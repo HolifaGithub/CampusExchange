@@ -36,7 +36,7 @@ function IndexGrid() {
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/fuzhuang.png',
             value: '服装',
-            bgColor:'#E34C26'
+            bgColor:'#BCE879'
         },
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/meizhuang.png',
@@ -51,7 +51,7 @@ function IndexGrid() {
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/sushe.png',
             value: '宿舍',
-            bgColor:'#DC4E42'
+            bgColor:'#1D48A6'
         }
     ]
     return (

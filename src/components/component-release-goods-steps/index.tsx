@@ -604,6 +604,7 @@ type PageState = {
   isRelease: boolean;
   isShowMessage: boolean;
   selectedTypeOneIndex: number;
+  selectedTypeTwoIndex:number;
   commonContentLoading: boolean;
   isSlectedFiles: boolean;
   isFail: boolean;
@@ -661,7 +662,8 @@ class ReleaseGoodsSteps extends Component {
     isFail: false,
     isShowMessage: false,
     commonContentLoading: false,
-    isSlectedFiles: false
+    isSlectedFiles: false,
+    selectedTypeTwoIndex:0
   }
   nameInput = ''
   payForMePrice = 0
@@ -717,6 +719,9 @@ class ReleaseGoodsSteps extends Component {
         selectedTypeOneIndex: value,
         typeTwoList: _typeTwoList,
       })
+    }
+    if(column ===1){
+      this.setState({selectedTypeTwoIndex:value})
     }
   }
   onChange(e) {
@@ -918,7 +923,8 @@ class ReleaseGoodsSteps extends Component {
                     isShowMessage: false,
                     commonContentLoading: false,
                     isSlectedFiles: false,
-                    selectedNewAndOldDegreeIndex: 0
+                    selectedNewAndOldDegreeIndex: 0,
+                    selectedTypeTwoIndex:0
                   })
                   this.nameInput = ''
                   this.payForMePrice = 0
@@ -961,7 +967,7 @@ class ReleaseGoodsSteps extends Component {
             <ClSelect
               multiSelector={{
                 range: muti,
-                value: [this.state.selectedTypeOneIndex, 0]
+                value: [this.state.selectedTypeOneIndex, this.state.selectedTypeTwoIndex]
               }}
               mode="multiSelector"
               title="一、二级分类："
