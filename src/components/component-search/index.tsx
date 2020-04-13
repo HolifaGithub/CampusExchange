@@ -41,7 +41,6 @@ type PageOwnProps = {
 }
 
 type PageState = {
-    loading: boolean;
     value: string;
 }
 
@@ -61,7 +60,6 @@ class SearchContent extends Component {
         super(props)
     }
     state = {
-        loading: true,
         value: '',
     }
     pageSize = 6
@@ -98,29 +96,10 @@ class SearchContent extends Component {
         loadMore: false,
         hasMore: true
     }
-    componentDidMount() {
-        this.setState({ loading: false })
-    }
-    componentWillReceiveProps(nextProps) {
 
-    }
-
-    componentWillUnmount() { }
-
-    componentDidShow() {
-
-    }
-
-    componentDidHide() { }
 
     render() {
         return (
-            <Skeleton
-                row={1}
-                rowHeight={60}
-                animate
-                loading={this.state.loading}
-            >
                 <View className='search-container'>
                     <AtSearchBarComponent />
                     <View className='water-fall'>
@@ -131,7 +110,6 @@ class SearchContent extends Component {
                         {this.props.hasMore ? null : <View className='not-more'>----------- 没有更多了！-----------</View>}
                     </View>
                 </View>
-            </Skeleton>
         )
     }
 }

@@ -66,7 +66,6 @@ class TradingContent extends Component {
         super(props)
     }
     state = {
-        loading: true,
         tradeSuccess:false,
         tradeFail:false
     }
@@ -99,7 +98,6 @@ class TradingContent extends Component {
         }
     }
     componentDidMount() {
-        this.setState({ loading: false })
         promiseApi(Taro.login)().then(loginResult => {
             if (loginResult.code) {
                 Taro.connectSocket({
@@ -163,12 +161,6 @@ class TradingContent extends Component {
     render() {
         const { avatarUrl, nickName, nameInput, goodsNumber, newAndOldDegree, payForMePrice, payForOtherPrice, wantExchangeGoods, topPic, orderId, school, salederPhone, salederAddress, buierPhone, buierAddress, buierAvatarUrl, orderCode, buierNickName } = this.props.datas
         return (
-            <Skeleton
-                row={1}
-                rowHeight={60}
-                animate
-                loading={this.state.loading}
-            >
                 <View className='trading-container'>
                     <View className='goods-introduction' onClick={()=>{this.onGoodsInfoClick(orderId)}}>
                         <View className='order-id'>
@@ -235,7 +227,6 @@ class TradingContent extends Component {
                         <AtToast isOpened={this.state.tradeFail} text="交易失败！" icon="close"></AtToast>
                     </View>
                 </View>
-            </Skeleton>
         )
     }
 }

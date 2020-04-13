@@ -666,7 +666,7 @@ class ReleaseGoodsSteps extends Component {
     selectedTypeTwoIndex:0
   }
   nameInput = ''
-  payForMePrice = 0
+  payForMePrice = 1
   payForOtherPrice = 0
   wantExchangeGoods = ''
   describe = ''

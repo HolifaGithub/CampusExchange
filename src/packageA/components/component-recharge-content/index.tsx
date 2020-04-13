@@ -33,7 +33,6 @@ class RechargeContent extends Component {
     }
     state = {
         balance:0,
-        loading: true,
         current: -1,
         value: 0,
         isOpened:false
@@ -42,13 +41,8 @@ class RechargeContent extends Component {
         promiseApi( Taro.getStorage)({key:'balance'}).then(res=>{
             if(res.data){
                 this.setState({ 
-                    loading: false,
                     balance:res.data
                  })
-            }else{
-                this.setState({
-                    loading:false
-                })
             }
         })
     }
@@ -91,12 +85,6 @@ class RechargeContent extends Component {
     render() {
         const current = this.state.current
         return (
-            <Skeleton
-                row={1}
-                rowHeight={60}
-                animate
-                loading={this.state.loading}
-            >
                 <View className='recharge-container'>
                     <View className='balance'>
                         <Image src={`${CDNWebSite}/icon/user-info/balance.png`} className='balance-icon'></Image>
@@ -129,7 +117,6 @@ class RechargeContent extends Component {
                     <Button className='button' hoverClass='hover' 	hoverStayTime={200} onClick={()=>{this.confirmPay()}}>确认充值({this.state.value})元</Button>
                     <AtToast isOpened={this.state.isOpened} text="充值成功！" icon="check"></AtToast>
                 </View>
-            </Skeleton>
         )
     }
 }
