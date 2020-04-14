@@ -72,6 +72,7 @@ class SchoolfellowZoom extends Component {
           }).then(res => {
             if (res.statusCode === 200 && res.data.status === 'success') {
               this.setState({ isShowToast: true,publishedContent:''})
+              this.fetchSchoolfellowListDatas()
             }
           })
         }
@@ -172,7 +173,7 @@ class SchoolfellowZoom extends Component {
             const transformDate = transformDateToBefore(time)
             return (<View className='publish-item-container' key={id}>
               <ClCard
-                bgColor="red"
+                bgColor="white"
               >
                 <View className='publish-item'>
                   <Image src={avatarUrl} className='avatar'></Image>
@@ -190,7 +191,7 @@ class SchoolfellowZoom extends Component {
         {loadMore ? <View className='loading'>
           <AtActivityIndicator content='加载中...' color='#e54d42' mode='center' size={36}></AtActivityIndicator>
         </View> : null}
-        {hasMore ? null : <ClDivider color='red'>没有更多了！</ClDivider>}
+        {hasMore ? null : <ClDivider color='gray'>没有更多了！</ClDivider>}
       </ScrollView>
     )
   }

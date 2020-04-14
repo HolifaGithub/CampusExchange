@@ -51,7 +51,7 @@ function IndexGrid() {
         {
             image: 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/grid/sushe.png',
             value: '宿舍',
-            bgColor:'#1D48A6'
+            bgColor:'#6739b6'
         }
     ]
     return (

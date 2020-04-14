@@ -927,7 +927,7 @@ class ReleaseGoodsSteps extends Component {
                     selectedTypeTwoIndex:0
                   })
                   this.nameInput = ''
-                  this.payForMePrice = 0
+                  this.payForMePrice = 1
                   this.payForOtherPrice = 0
                   this.wantExchangeGoods = ''
                   this.describe = ''
@@ -1110,9 +1110,7 @@ class ReleaseGoodsSteps extends Component {
                   options={this.payForList}
                   value={this.state.objectOfPayment}
                   onClick={(value) => {
-                    (value) => {
                       this.onPayForChange(value)
-                    }
                   }
                   }
                 />

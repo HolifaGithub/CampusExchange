@@ -74,6 +74,8 @@ $water-fall-item-avater-image-marigin-right:10px;
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
+          padding-left: 10px;
+          font-size: 33px;
           .water-fall-price-red {
             width: $price-width;
             font-weight: bold;

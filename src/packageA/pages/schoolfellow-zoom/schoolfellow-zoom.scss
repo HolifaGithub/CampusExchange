@@ -6,7 +6,7 @@
         align-items: flex-end;
         border-bottom-width: 2px;
         border-bottom-style: solid;
-        border-bottom-color: #fff;
+        border-bottom-color: #888;
         padding-bottom: 10px;
         margin-bottom: 10px;
         .avatar{
@@ -17,10 +17,11 @@
         }
         .nick-name{
             font-weight: bold;
+            font-size: 35px;
         }
     }
     .publish-content{
-        font-size: 23px;
+        font-size: 28px;
     }
     .time{
         color:#333;

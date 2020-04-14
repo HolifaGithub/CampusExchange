@@ -58,7 +58,6 @@ class ConfirmOrderContent extends Component {
         super(props)
     }
     state = {
-        loading: true,
         isSuccessOpened: false,
         isFlaseOpened: false
     }
@@ -86,12 +85,6 @@ class ConfirmOrderContent extends Component {
             school: '',
         }
     }
-    componentDidMount() {
-        this.setState({ loading: false })
-    }
-    componentWillUnmount() { }
-
-    componentDidShow() { }
 
     componentDidHide() { }
     handlePay(orderId, payForMePrice, payForOtherPrice) {
@@ -129,12 +122,6 @@ class ConfirmOrderContent extends Component {
         const datas = this.props.datas
         const { avatarUrl, nickName, typeOne, typeTwo, typeThree, orderTime, nameInput, goodsNumber, newAndOldDegree, mode, objectOfPayment, payForMePrice, payForOtherPrice, wantExchangeGoods, topPic, orderId, school } = datas
         return (
-            <Skeleton
-                row={1}
-                rowHeight={60}
-                animate
-                loading={this.state.loading}
-            >
                 <View className='confirm-order-content'>
                     <View className='header'>
                         <View className='goods-order-header'>
@@ -181,7 +168,6 @@ class ConfirmOrderContent extends Component {
                     }}></AtToast>
                     <AtToast isOpened={this.state.isFlaseOpened} text={this.text} status='error' duration={1200} hasMask ></AtToast>
                 </View>
-            </Skeleton >
         )
     }
 }

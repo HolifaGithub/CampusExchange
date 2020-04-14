@@ -75,9 +75,9 @@ class ChatList extends Component {
             url: `${protocol}://${server}:${port}/subnotviewmessagenum`,
             method: 'GET',
             data: {
-              id:id
+                id: id
             }
-          })
+        })
         promiseApi(Taro.navigateTo)({
             url: '/pages/chat-info/chat-info'
         })
@@ -85,17 +85,11 @@ class ChatList extends Component {
     render() {
         const { datas, chatListMessageNum } = this.props
         return (
-            <Skeleton
-                row={1}
-                rowHeight={60}
-                animate
-                loading={this.state.loading}
-            >
-                <View>
-                    {(datas && datas.length > 0) ? datas.map((data, index) => {
-                        const { avatarUrl, orderId, nickName, lastChatContent, lastChatTime, topPicSrc, otherOpenId, id } = data
-                        const transformDate = transformDateToBefore(lastChatTime)
-                        return (
+            <View>
+                {(datas && datas.length > 0) ? datas.map((data, index) => {
+                    const { avatarUrl, orderId, nickName, lastChatContent, lastChatTime, topPicSrc, otherOpenId, id } = data
+                    const transformDate = transformDateToBefore(lastChatTime)
+                    return (
                             <View className='chat-list' key={id} onClick={() => { this.onClick(orderId, otherOpenId, id) }}>
                                 {chatListMessageNum[id] !== 0 ? (<AtBadge value={chatListMessageNum[id]} maxValue={99}>
                                     <Image className='avatar' src={avatarUrl}></Image>
@@ -106,11 +100,11 @@ class ChatList extends Component {
                                     <View className='date'>{transformDate}</View>
                                 </View>
                                 <Image className='top-pic' src={topPicSrc}></Image>
-                            </View>)
-                    }) : null}
+                            </View>
+                    )
+                }) : null}
 
-                </View>
-            </Skeleton>
+            </View>
         )
     }
 }
