@@ -95,17 +95,11 @@ class ChatInfo extends Component {
           if (res.statusCode === 200 && res.data.status === 'success') {
             const allChatInfo = this.ChatInfoInStorage.concat(res.data.chatInfo)
             promiseApi(Taro.getStorageInfo)().then((storageInfoRes) => {
-              if (storageInfoRes.currentSize < storageInfoRes.limitSize) {
-                promiseApi(Taro.setStorage)({
+              if (storageInfoRes.currentSize < storageInfoRes.limitSize) {  //如果大小小于storage限制的大小
+                promiseApi(Taro.setStorage)({  //将请求的数据保存到本地storage中
                   key: orderId,
                   data: allChatInfo
                 }).then(() => {
-                  // Taro.getStorage({
-                  //   key:orderId,
-                  //   success(res){
-                  //     console.log('sss',res.data);
-                  //   }
-                  // })
                   this.setState({
                     chatInfo: allChatInfo,
                     goodsInfo: res.data.goodsInfo,

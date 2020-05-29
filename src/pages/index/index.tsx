@@ -305,9 +305,11 @@ class Index extends PureComponent {
   onPullDownRefresh() {
     console.log("onPullDownRefresh")
     this.fetchWaterFallData()
-    setTimeout(() => {
+    let timer1=setTimeout(() => {
       Taro.stopPullDownRefresh()
-    }, 1000);
+    }, 1000,()=>{
+        clearTimeout(timer1)
+    });
   }
   onReachBottom() {
     console.log("onReachBottom");

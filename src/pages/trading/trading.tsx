@@ -76,13 +76,27 @@ class Trading extends Component {
         // console.log('res: ', res)
         this.setState({datas:res})
       })
+
+    // const orderId = this.$router.params.orderId
+    // // console.log('aaaaaa',orderId);
+    // if (orderId) {
+    //   promiseApi(Taro.request)({
+    //     url: `${protocol}://${server}:${port}/trading`,
+    //     method: 'GET',
+    //     data: {
+    //       orderId: orderId
+    //     }
+    //   }).then((res) => {
+    //     if (res.statusCode = 200 && res.data.status === 'success') {
+    //       const datas = Object.assign({}, this.$router.params, res.data)
+    //       this.setState({datas:datas})
+    //     } 
+    //   })
+    // }
   }
-  componentWillUnmount() { }
 
-  componentDidShow() { }
-
-  componentDidHide() { }
   componentWillPreload(params) {
+    console.log('preload params:',params.orderId);
     return new Promise((resolve, reject) => {
       const orderId = params.orderId
       if (orderId) {

@@ -122,52 +122,52 @@ class ConfirmOrderContent extends Component {
         const datas = this.props.datas
         const { avatarUrl, nickName, typeOne, typeTwo, typeThree, orderTime, nameInput, goodsNumber, newAndOldDegree, mode, objectOfPayment, payForMePrice, payForOtherPrice, wantExchangeGoods, topPic, orderId, school } = datas
         return (
-                <View className='confirm-order-content'>
-                    <View className='header'>
-                        <View className='goods-order-header'>
-                            <Image src={avatarUrl} className='avatar'></Image>
-                            <View>{nickName}</View>
-                        </View>
-                        <View className='goods-order-content'>
-                            <Image src={topPic} className='goods-pic'></Image>
-                            <View className='goods-title'>
-                                <View>{nameInput}</View>
-                                <View className='degree-and-count'>
-                                    <View className='degree'>成色：{mapNewAndOldDegree[newAndOldDegree]}</View>
-                                    <View className='count'>X {goodsNumber}</View>
-                                </View>
+            <View className='confirm-order-content'>
+                <View className='header'>
+                    <View className='goods-order-header'>
+                        <Image src={avatarUrl} className='avatar'></Image>
+                        <View>{nickName}</View>
+                    </View>
+                    <View className='goods-order-content'>
+                        <Image src={topPic} className='goods-pic'></Image>
+                        <View className='goods-title'>
+                            <View>{nameInput}</View>
+                            <View className='degree-and-count'>
+                                <View className='degree'>成色：{mapNewAndOldDegree[newAndOldDegree]}</View>
+                                <View className='count'>X {goodsNumber}</View>
                             </View>
                         </View>
                     </View>
-                    <View className='body'>
-                        <View>订单编号：{orderId}</View>
-                        <View>商品发布时间：{orderTime}</View>
-                        <View>分类信息：{`${typeOne}/${typeTwo}/${typeThree}`}</View>
-                        <View>交易学校：{school}</View>
-                        <View>交易方式：{mapMode[mode]}</View>
-                    </View>
-                    <View className='footer'>
-                        <View className='footer-header'>
-                            价格/交换详情：
-                        </View>
-                        <View className='footer-content'>
-                            {mode === 'directExchange' || mode === 'priceDifference' ? < View className='want-exchange'>您需要给卖家：{wantExchangeGoods}</View> : null}
-                            {payForMePrice === 0 || mode === 'directSale' || (mode === 'priceDifference' && objectOfPayment === 'payForMe') ? <View className='pay-for-me'>您需要支付：&yen; {payForMePrice}</View> : null}
-                            {(mode === 'priceDifference' && objectOfPayment === 'payForOther') ? <View className='pay-for-other'>您将要收入：&yen; {payForOtherPrice}</View> : null}
-                        </View>
-                    </View>
-                    <View className='confirm-button' onClick={() => { this.handlePay(orderId, payForMePrice, payForOtherPrice) }}>
-                        确认交易
-                    </View>
-                    <AtToast isOpened={this.state.isSuccessOpened} text={this.text} image={this.isSuccess ? '' : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/confirm-order/wechat-pay-white.png'} status={this.isSuccess ? 'success' : undefined} duration={1200} hasMask onClose={() => {
-                        if (this.isSuccess) {
-                            promiseApi(Taro.navigateTo)({
-                                url: `/pages/trading/trading?avatarUrl=${avatarUrl}&orderTime=${orderTime}&typeOne=${typeOne}&typeTwo=${typeTwo}&typeThree=${typeThree}&nameInput=${nameInput}&goodsNumber=${goodsNumber}&newAndOldDegree=${newAndOldDegree}&mode=${mode}&objectOfPayment=${objectOfPayment}&payForMePrice=${payForMePrice}&payForOtherPrice=${payForOtherPrice}&wantExchangeGoods=${wantExchangeGoods}&topPic=${topPic}&nickName=${nickName}&orderId=${orderId}&school=${school}`
-                            })
-                        }
-                    }}></AtToast>
-                    <AtToast isOpened={this.state.isFlaseOpened} text={this.text} status='error' duration={1200} hasMask ></AtToast>
                 </View>
+                <View className='body'>
+                    <View>订单编号：{orderId}</View>
+                    <View>商品发布时间：{orderTime}</View>
+                    <View>分类信息：{`${typeOne}/${typeTwo}/${typeThree}`}</View>
+                    <View>交易学校：{school}</View>
+                    <View>交易方式：{mapMode[mode]}</View>
+                </View>
+                <View className='footer'>
+                    <View className='footer-header'>
+                        价格/交换详情：
+                        </View>
+                    <View className='footer-content'>
+                        {mode === 'directExchange' || mode === 'priceDifference' ? < View className='want-exchange'>您需要给卖家：{wantExchangeGoods}</View> : null}
+                        {payForMePrice === 0 || mode === 'directSale' || (mode === 'priceDifference' && objectOfPayment === 'payForMe') ? <View className='pay-for-me'>您需要支付：&yen; {payForMePrice}</View> : null}
+                        {(mode === 'priceDifference' && objectOfPayment === 'payForOther') ? <View className='pay-for-other'>您将要收入：&yen; {payForOtherPrice}</View> : null}
+                    </View>
+                </View>
+                <View className='confirm-button' onClick={() => { this.handlePay(orderId, payForMePrice, payForOtherPrice) }}>
+                    确认交易
+                    </View>
+                <AtToast isOpened={this.state.isSuccessOpened} text={this.text} image={this.isSuccess ? '' : 'https://xiaoyuanhuan-1301020050.cos.ap-guangzhou.myqcloud.com/icon/confirm-order/wechat-pay-white.png'} status={this.isSuccess ? 'success' : undefined} duration={1200} hasMask onClose={() => {
+                    if (this.isSuccess) {
+                        promiseApi(Taro.navigateTo)({
+                            url: `/pages/trading/trading?avatarUrl=${avatarUrl}&orderTime=${orderTime}&typeOne=${typeOne}&typeTwo=${typeTwo}&typeThree=${typeThree}&nameInput=${nameInput}&goodsNumber=${goodsNumber}&newAndOldDegree=${newAndOldDegree}&mode=${mode}&objectOfPayment=${objectOfPayment}&payForMePrice=${payForMePrice}&payForOtherPrice=${payForOtherPrice}&wantExchangeGoods=${wantExchangeGoods}&topPic=${topPic}&nickName=${nickName}&orderId=${orderId}&school=${school}`
+                        })
+                    }
+                }}></AtToast>
+                <AtToast isOpened={this.state.isFlaseOpened} text={this.text} status='error' duration={1200} hasMask ></AtToast>
+            </View>
         )
     }
 }

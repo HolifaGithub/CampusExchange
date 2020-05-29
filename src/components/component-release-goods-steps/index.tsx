@@ -839,6 +839,7 @@ class ReleaseGoodsSteps extends Component {
         const orderId = productOrderId()
         const orderStatus = orderStatusObject.released
         let picsLocation = ''
+        let rate = 0
         new Promise((resolve, reject) => {
           if (this.files.length > 0) {
             for (let i = 0; i < this.files.length; i++) {
@@ -856,9 +857,10 @@ class ReleaseGoodsSteps extends Component {
                   const data = JSON.parse(res.data)
                   if (res.statusCode === 200 && data.status === 'success') {
                     picsLocation += `${data.location};`
-                    if (i === this.files.length - 1) {
+                    if (rate === this.files.length - 1) {
                       resolve(picsLocation)
                     }
+                    rate = rate + 1
                   }
                 },
                 fail() {
